@@ -737,100 +737,6 @@
 
   /* Leonardo button CSS removed */
 
-  /* â”€â”€ LOGO INSTRUCTION MODAL â”€â”€ */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    backdrop-filter: blur(4px);
-  }
-  .modal-overlay.visible { display: flex; }
-  .modal-box {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    max-width: 480px;
-    width: 100%;
-    padding: 36px;
-    position: relative;
-    animation: modalIn 0.25s ease;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-  .modal-box::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #6C3CE1, #9B6DFF, transparent);
-    border-radius: 20px 20px 0 0;
-  }
-  .modal-close {
-    position: absolute;
-    top: 16px; right: 16px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--muted);
-    width: 28px; height: 28px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .modal-close:hover { border-color: var(--gold); color: var(--gold); }
-  .modal-step {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 20px;
-    align-items: flex-start;
-  }
-  .modal-step-num {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6C3CE1, #9B6DFF);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: #fff;
-    flex-shrink: 0; margin-top: 2px;
-  }
-  .modal-step-text { font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300; }
-  .modal-step-text strong { color: var(--gold-light); font-weight: 500; }
-  .modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--gold-light);
-    margin-bottom: 6px;
-  }
-  .modal-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 24px; letter-spacing: 0.3px; }
-  .modal-cta {
-    width: 100%;
-    background: linear-gradient(135deg, #6C3CE1, #9B6DFF);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    margin-top: 8px;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    letter-spacing: 0.3px;
-  }
-  .modal-cta:hover { opacity: 0.88; }
-
-  
-
   /* â”€â”€ RUN ALL QUEUE MODAL â”€â”€ */
   .runall-overlay {
     position: fixed;
@@ -1144,15 +1050,6 @@
       <div class="runall-done-sub">Each prompt was copied and opened in Gemini separately.<br>Upload your logo in each tab and generate.</div>
       <button class="runall-next-btn" onclick="closeRunAll()" style="max-width:200px;margin:0 auto;">Done</button>
     </div>
-  </div>
-</div>
-
-    <div class="modal-subtitle">Follow these steps to generate with your brand logo as reference</div>
-    <div class="modal-step"><div class="modal-step-num">1</div><div class="modal-step-text"><strong>Download your logo</strong> - scroll up to Prompt 1, click Run, then save the generated logo image to your device.</div></div>
-    <div class="modal-step"><div class="modal-step-num">2</div><div class="modal-step-text"><strong>Open Leonardo.ai</strong> - click the button below. You get <strong>150 free credits daily</strong>, no payment needed.</div></div>
-    <div class="modal-step"><div class="modal-step-num">3</div><div class="modal-step-text"><strong>Upload your logo as Image Reference</strong> - in Leonardo's generation panel, click "Image Reference" and upload the logo you saved in Step 1.</div></div>
-    <div class="modal-step"><div class="modal-step-num">4</div><div class="modal-step-text"><strong>Paste the prompt</strong> - your prompt has been copied automatically. Just paste it into Leonardo's prompt box and generate.</div></div>
-    <a id="modalLeonardoLink" href="https://app.leonardo.ai/ai-generations" target="_blank" class="modal-cta" onclick="closeModal()">Open Leonardo.ai - Free 150 Credits Daily</a>
   </div>
 </div>
 
