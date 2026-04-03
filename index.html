@@ -109,7 +109,7 @@
   }
 
   .input-card h2::before {
-    content: '✦';
+    content: '*';
     font-size: 12px;
     color: var(--gold);
   }
@@ -478,16 +478,561 @@
     table { font-size: 12px; }
     th, td { padding: 10px 12px; }
   }
+
+  /* â”€â”€ THEME SELECTOR â”€â”€ */
+  .theme-section {
+    margin-bottom: 20px;
+  }
+
+  .theme-section label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .theme-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .theme-btn {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    overflow: hidden;
+    width: calc(20% - 10px);
+    min-width: 100px;
+  }
+
+  @media (max-width: 600px) {
+    .theme-btn { width: calc(50% - 6px); }
+  }
+
+  .theme-btn:hover {
+    border-color: rgba(201,168,76,0.6);
+    color: var(--text);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(201,168,76,0.1);
+  }
+
+  .theme-btn.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    color: var(--gold-light);
+    font-weight: 500;
+    box-shadow: 0 0 0 2px rgba(201,168,76,0.3);
+  }
+
+  .theme-preview-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    border-radius: 10px 10px 0 0;
+    pointer-events: none;
+  }
+
+  .theme-label {
+    display: block;
+    padding: 8px 6px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.3;
+    color: inherit;
+    width: 100%;
+  }
+
+  .theme-btn.selected .theme-label {
+    color: var(--gold-light);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn:disabled:hover {
+    opacity: 0.4;
+    transform: none;
+  }
+
+  .theme-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .theme-hint.hidden { display: none; }
+  /* â”€â”€ RUN BUTTON & IMAGE PREVIEW â”€â”€ */
+  .run-btn {
+    margin-left: 8px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 8px;
+    color: var(--gold);
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  .run-btn:hover {
+    background: linear-gradient(135deg, var(--gold), #A07830);
+    color: var(--dark);
+    border-color: var(--gold);
+  }
+
+  .run-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .run-btn .run-icon { font-size: 11px; }
+
+  .image-preview-area {
+    margin-top: 16px;
+    display: none;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--dark3);
+    position: relative;
+  }
+
+  .image-preview-area.visible { display: block; }
+
+  .image-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 14px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  .image-loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(201,168,76,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .preview-img {
+    width: 100%;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .preview-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .preview-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  .preview-label span {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .preview-action-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .preview-action-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .preview-error {
+    padding: 20px;
+    text-align: center;
+    color: #ff6b6b;
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  .preview-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(201,168,76,0.05);
+    border-radius: 8px;
+    border-left: 2px solid rgba(201,168,76,0.3);
+    letter-spacing: 0.2px;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .preview-note.visible { display: block; }
+
+  /* â”€â”€ LOGO LOCK SYSTEM REMOVED â”€â”€ */
+
+  /* Leonardo button CSS removed */
+
+  /* â”€â”€ LOGO INSTRUCTION MODAL â”€â”€ */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal-box {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    max-width: 480px;
+    width: 100%;
+    padding: 36px;
+    position: relative;
+    animation: modalIn 0.25s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #6C3CE1, #9B6DFF, transparent);
+    border-radius: 20px 20px 0 0;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    width: 28px; height: 28px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--gold); color: var(--gold); }
+  .modal-step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .modal-step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6C3CE1, #9B6DFF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .modal-step-text { font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300; }
+  .modal-step-text strong { color: var(--gold-light); font-weight: 500; }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .modal-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 24px; letter-spacing: 0.3px; }
+  .modal-cta {
+    width: 100%;
+    background: linear-gradient(135deg, #6C3CE1, #9B6DFF);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .modal-cta:hover { opacity: 0.88; }
+
+  
+
+  /* â”€â”€ RUN ALL QUEUE MODAL â”€â”€ */
+  .runall-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 2000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 0 0 0;
+    backdrop-filter: blur(6px);
+  }
+  .runall-overlay.visible { display: flex; }
+
+  .runall-panel {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    padding: 32px 28px 36px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .runall-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    border-radius: 24px 24px 0 0;
+  }
+
+  .runall-progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .runall-pip {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(201,168,76,0.15);
+    transition: background 0.3s;
+  }
+
+  .runall-pip.done { background: var(--gold); }
+  .runall-pip.active { background: var(--gold-light); animation: pipPulse 1s ease infinite; }
+
+  @keyframes pipPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .runall-step-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .runall-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+
+  .runall-instruction {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .runall-instruction strong { color: var(--text); font-weight: 500; }
+
+  .runall-prompt-preview {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 12px;
+    color: #A0A0C0;
+    line-height: 1.6;
+    max-height: 80px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .runall-prompt-preview::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 30px;
+    background: linear-gradient(transparent, var(--dark3));
+  }
+
+  .runall-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .runall-next-btn {
+    flex: 1;
+    background: linear-gradient(135deg, var(--gold) 0%, #A07830 100%);
+    color: #0A0A0F;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.5px;
+  }
+
+  .runall-next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .runall-skip-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    padding: 14px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .runall-skip-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .runall-close-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    width: 28px; height: 28px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .runall-close-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .runall-reminder {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin: 6px 24px 18px;
+    letter-spacing: 0.2px;
+  }
+
+  .runall-done-state {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .runall-done-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .runall-done-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .runall-done-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <div class="eyebrow">AI Branding Suite · 8 Premium Prompts</div>
+    <div class="header">
+    <div class="eyebrow">AI Branding Suite &middot; 8 Premium Prompts</div>
     <h1>Brand Prompt<br>Generator</h1>
-    <p>Enter your name & business — get 8 intelligent branding prompts, tailored to your identity</p>
+    <p>Enter your name & business - get 8 intelligent branding prompts, tailored to your identity</p>
   </div>
 
   <div class="input-card">
@@ -502,11 +1047,37 @@
         <input type="text" id="bizInput" placeholder="e.g. Coffee Cafe, Cricket Coach, Makeup Artist" />
       </div>
     </div>
-    <button class="btn" onclick="generate()">✦ Generate 8 Brand Prompts</button>
+    <div class="theme-section">
+      <label>Select Your Brand Theme</label>
+      <div class="theme-options">
+        <button class="theme-btn" onclick="selectTheme('professional-classic')" id="theme-professional-classic">
+          <img src="data:image/jpeg;base64,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" alt="Professional Classic" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
+          Professional Classic
+        </button>
+        <button class="theme-btn" onclick="selectTheme('bold-energetic')" id="theme-bold-energetic">
+          <img src="data:image/jpeg;base64,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" alt="Bold Energetic" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
+          Bold Energetic
+        </button>
+        <button class="theme-btn" onclick="selectTheme('minimal-modern')" id="theme-minimal-modern">
+          <img src="data:image/jpeg;base64,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" alt="Minimal Modern" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
+          Minimal Modern
+        </button>
+        <button class="theme-btn" onclick="selectTheme('vintage-cozy')" id="theme-vintage-cozy">
+          <img src="data:image/jpeg;base64,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" alt="Vintage Cozy" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
+          Vintage Cozy
+        </button>
+        <button class="theme-btn" onclick="selectTheme('multicolor-vibrant')" id="theme-multicolor-vibrant">
+          <img src="data:image/jpeg;base64,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" alt="Multi-color Vibrant" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
+          Multi-color Vibrant
+        </button>
+      </div>
+      <div class="theme-hint" id="themeHint">Choose a theme above to personalise your brand prompts</div>
+    </div>
+    <button class="btn" id="generateBtn" onclick="generate()">Generate 8 Brand Prompts</button>
   </div>
 
   <div id="output">
-    <div class="section-label">✦ Your 8 Signature Brand Prompts</div>
+    <div class="section-label">Your 8 Signature Brand Prompts</div>
     <div id="promptsContainer"></div>
 
     <div class="table-card">
@@ -526,28 +1097,157 @@
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
-      <button class="copy-all-btn" onclick="copyAll()">⊕ Copy All 8 Prompts</button>
+      <button class="copy-all-btn" onclick="runAll()">Run All - Copy 7 Prompts and Open Gemini</button>
+      <div class="runall-reminder">Reminder: Upload your logo image in Gemini before generating.</div>
     </div>
   </div>
 
   <!-- Instagram Follow Section -->
   <div class="instagram-section">
-    <div class="ig-eyebrow">✦ Follow for More Content</div>
+    <div class="ig-eyebrow">Follow for More Content</div>
     <h3>Want More AI Branding Tips & Tools?</h3>
-    <p>Follow along for daily AI content, prompt guides, branding tutorials<br>and creative tools like this one — all for free.</p>
+    <p>Follow along for daily AI content, prompt guides, branding tutorials<br>and creative tools like this one - all for free.</p>
     <a href="https://www.instagram.com/shivri005?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="ig-btn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      @shivri005 — Follow on Instagram
+      @shivri005 - Follow on Instagram
     </a>
   </div>
 
+</div>
+
+<!-- Run All Queue Modal -->
+<div class="runall-overlay" id="runallOverlay">
+  <div class="runall-panel">
+    <button class="runall-close-btn" onclick="closeRunAll()">X</button>
+
+    <!-- Progress pips -->
+    <div class="runall-progress" id="runallProgress"></div>
+
+    <!-- Active step content -->
+    <div id="runallContent">
+      <div class="runall-step-label" id="runallStepLabel">Step 1 of 7</div>
+      <div class="runall-title" id="runallStepTitle">Business Card Design</div>
+      <div class="runall-instruction" id="runallInstruction"></div>
+      <div class="runall-prompt-preview" id="runallPromptPreview"></div>
+      <div class="runall-actions">
+        <button class="runall-next-btn" id="runallNextBtn" onclick="runAllNext()">
+          Copy &amp; Open Gemini -&gt;
+        </button>
+        <button class="runall-skip-btn" onclick="runAllSkip()">Skip</button>
+      </div>
+    </div>
+
+    <!-- Done state -->
+    <div class="runall-done-state" id="runallDone" style="display:none;">
+      <div class="runall-done-icon">*</div>
+      <div class="runall-done-title">All 7 Prompts Sent!</div>
+      <div class="runall-done-sub">Each prompt was copied and opened in Gemini separately.<br>Upload your logo in each tab and generate.</div>
+      <button class="runall-next-btn" onclick="closeRunAll()" style="max-width:200px;margin:0 auto;">Done</button>
+    </div>
+  </div>
+</div>
+
+    <div class="modal-subtitle">Follow these steps to generate with your brand logo as reference</div>
+    <div class="modal-step"><div class="modal-step-num">1</div><div class="modal-step-text"><strong>Download your logo</strong> - scroll up to Prompt 1, click Run, then save the generated logo image to your device.</div></div>
+    <div class="modal-step"><div class="modal-step-num">2</div><div class="modal-step-text"><strong>Open Leonardo.ai</strong> - click the button below. You get <strong>150 free credits daily</strong>, no payment needed.</div></div>
+    <div class="modal-step"><div class="modal-step-num">3</div><div class="modal-step-text"><strong>Upload your logo as Image Reference</strong> - in Leonardo's generation panel, click "Image Reference" and upload the logo you saved in Step 1.</div></div>
+    <div class="modal-step"><div class="modal-step-num">4</div><div class="modal-step-text"><strong>Paste the prompt</strong> - your prompt has been copied automatically. Just paste it into Leonardo's prompt box and generate.</div></div>
+    <a id="modalLeonardoLink" href="https://app.leonardo.ai/ai-generations" target="_blank" class="modal-cta" onclick="closeModal()">Open Leonardo.ai - Free 150 Credits Daily</a>
+  </div>
 </div>
 
 <div class="toast" id="toast">Copied!</div>
 
 <script>
 
-// ─── BUSINESS INTELLIGENCE ENGINE ───────────────────────────────────────────
+// â”€â”€â”€ THEME SELECTOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+let selectedTheme = null;
+
+const themeDefinitions = {
+  'professional-classic': {
+    label: 'Professional Classic',
+    colorStyle: 'deep navy, slate, warm neutral, and crisp white with refined metallic accents',
+    accentStyle: 'soft gold and brushed silver with neutral support tones',
+    mood: 'authoritative, trustworthy, timeless, corporate premium',
+    logoModifier: 'classic serif typography, clean geometric forms, traditional corporate identity',
+    designStyle: 'clean grid layout, conservative typography hierarchy, formal and structured',
+    lightingStyle: 'soft natural window light, clean studio lighting, even and professional',
+    atmosphereModifier: 'polished, refined, establishment-quality, boardroom-worthy',
+    typographyStyle: 'classic serif headings with clean sans-serif body text',
+    finishStyle: 'matte, understated, premium stock feel'
+  },
+  'bold-energetic': {
+    label: 'Bold Energetic',
+    colorStyle: 'high-contrast palette with 2-3 bold colors (crimson, electric orange, vivid cyan) balanced with dark and light neutrals',
+    accentStyle: 'neon highlights and bright secondary pops',
+    mood: 'powerful, dynamic, high-impact, adrenaline-charged',
+    logoModifier: 'bold geometric shapes, strong angular forms, high-contrast lettermarks',
+    designStyle: 'asymmetric layouts, oversized typography, strong diagonal elements',
+    lightingStyle: 'dramatic high-contrast lighting, strong shadows, dynamic angles',
+    atmosphereModifier: 'energetic, striking, impossible to ignore, maximum visual impact',
+    typographyStyle: 'ultra-bold condensed sans-serif, strong weight contrast',
+    finishStyle: 'glossy, high-contrast, vivid and punchy'
+  },
+  'minimal-modern': {
+    label: 'Minimal Modern',
+    colorStyle: 'pure white, light grey, and soft black',
+    accentStyle: 'single-tone muted accent - dusty sage or warm stone',
+    mood: 'clean, refined, effortless, quietly confident',
+    logoModifier: 'geometric minimalism, negative space usage, single-line mark, ultra-clean letterform',
+    designStyle: 'generous whitespace, sparse layout, no unnecessary elements, every element intentional',
+    lightingStyle: 'diffused soft light, airy and open, clean shadows',
+    atmosphereModifier: 'serene, uncluttered, high-end minimal, Scandinavian-influenced',
+    typographyStyle: 'light-weight geometric sans-serif, wide tracking, minimal hierarchy',
+    finishStyle: 'matte white, clean paper texture, no gloss'
+  },
+  'vintage-cozy': {
+    label: 'Vintage Cozy',
+    colorStyle: 'warm caramel, dusty terracotta, and aged cream',
+    accentStyle: 'forest green and burnt sienna',
+    mood: 'nostalgic, warm, handcrafted, soulful, timeless comfort',
+    logoModifier: 'hand-drawn badge, worn distressed texture, artisan stamp aesthetic, vintage woodblock print style',
+    designStyle: 'layered badge layouts, hand-crafted imperfections, textured backgrounds, warm paper grain',
+    lightingStyle: 'warm amber golden hour light, candle-like warmth, soft vignette edges',
+    atmosphereModifier: 'cozy, nostalgic, heritage-inspired, feels like a beloved old brand',
+    typographyStyle: 'slab serif or hand-lettered style, slightly imperfect, warm and characterful',
+    finishStyle: 'aged paper, worn textures, slight grain, weathered and loved'
+  },
+  'multicolor-vibrant': {
+    label: 'Multi-color Vibrant',
+    colorStyle: 'full spectrum rainbow palette - coral red, golden yellow, emerald green, electric blue, and violet',
+    accentStyle: 'bright complementary pops across the full color wheel',
+    mood: 'joyful, celebratory, inclusive, expressive, full of life and energy',
+    logoModifier: 'gradient multi-color fills, playful rounded forms, rainbow spectrum mark',
+    designStyle: 'colour-blocked sections, gradient transitions, maximalist joyful composition',
+    lightingStyle: 'bright, saturated, vibrant natural light, colourful reflections and shadows',
+    atmosphereModifier: 'festive, inclusive, diverse, exuberant - like a celebration brand',
+    typographyStyle: 'bold rounded sans-serif, friendly weight, playful but clear',
+    finishStyle: 'vivid gradient finish, glossy, saturated and joyful'
+  }
+};
+
+function selectTheme(themeKey) {
+  selectedTheme = themeKey;
+
+  // Mark selected button
+  document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('selected'); });
+  const activeBtn = document.getElementById('theme-' + themeKey);
+  if (activeBtn) activeBtn.classList.add('selected');
+
+  // Hide hint text
+  const hint = document.getElementById('themeHint');
+  if (hint) hint.style.display = 'none';
+
+  showToast('Theme selected: ' + themeDefinitions[themeKey].label);
+}
+
+function getThemeOverride() {
+  if (!selectedTheme) return null;
+  return themeDefinitions[selectedTheme];
+}
+
+// â”€â”€â”€ BUSINESS INTELLIGENCE ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function detectBusinessType(biz) {
   const b = biz.toLowerCase();
@@ -557,6 +1257,9 @@ function detectBusinessType(biz) {
 
   // Fashion & Beauty
   if (/fashion|clothing|apparel|boutique|wear|outfit|dress|saree|kurta|makeup|beauty|salon|spa|nail|hair|skin|cosmetic|grooming|bridal|mehendi|parlour/.test(b)) return 'beauty';
+
+  // Gaming & Esports
+  if (/gaming|gamer|esports|e-sports|gameplay|game stream|streamer|twitch|youtube gaming|gaming channel/.test(b)) return 'gaming';
 
   // Sports & Fitness
   if (/cricket|football|soccer|basketball|tennis|badminton|gym|fitness|yoga|trainer|coach|sports|athlete|boxing|wrestling|kabaddi|swimming|cycling|running|marathon/.test(b)) return 'sports';
@@ -590,6 +1293,7 @@ function getBrandColors(type) {
     food:         { primary: 'warm brown and forest green', accent: 'cream and burnt orange', mood: 'warm, appetizing, inviting' },
     beauty:       { primary: 'rose gold and blush pink', accent: 'ivory and champagne', mood: 'elegant, glamorous, luxurious' },
     sports:       { primary: 'electric blue and bold black', accent: 'neon yellow and white', mood: 'dynamic, powerful, energetic' },
+    gaming:       { primary: 'deep charcoal and electric cyan', accent: 'vivid magenta and bright white', mood: 'competitive, bold, high-energy' },
     tech:         { primary: 'deep navy and electric indigo', accent: 'cyan and white', mood: 'modern, innovative, futuristic' },
     education:    { primary: 'royal blue and deep teal', accent: 'gold and white', mood: 'trustworthy, intellectual, inspiring' },
     retail:       { primary: 'vibrant coral and warm yellow', accent: 'white and charcoal', mood: 'friendly, energetic, welcoming' },
@@ -607,6 +1311,7 @@ function getLogoStyle(type, biz) {
     food:         ['artisan badge emblem with hand-crafted feel', 'circular seal with botanical elements', 'vintage-inspired wordmark with illustrated icon'],
     beauty:       ['elegant monogram with floral accent', 'minimalist serif wordmark with delicate linework', 'luxurious emblem with decorative frame'],
     sports:       ['bold dynamic lettermark with motion lines', 'athletic emblem with sharp geometric angles', 'strong shield badge with energetic typography'],
+    gaming:       ['aggressive esports-style lettermark', 'angular mascot emblem with sharp edges', 'tech-inspired shield logo with neon accents'],
     tech:         ['clean geometric symbol mark', 'modern abstract letterform with digital precision', 'minimal wordmark with tech-inspired icon'],
     education:    ['classic crest emblem with academic symbols', 'open book icon with clean wordmark', 'institutional badge with serif typography'],
     retail:       ['friendly rounded wordmark with playful icon', 'bold shopping-inspired emblem', 'colorful badge mark with inviting typography'],
@@ -625,6 +1330,7 @@ function getMerchandiseItems(type) {
     food:         'branded paper cups, kraft paper bags, food packaging boxes, cafe apron, loyalty card, napkin holder, takeaway containers with logo, menu card',
     beauty:       'makeup pouch, mirror compact, branded cosmetic packaging, tissue box, product bottle, loyalty card, tote bag, branded apron for stylist',
     sports:       'sports jersey, water bottle, gym bag, wristband, cap, protein shaker, stopwatch, training notebook',
+    gaming:       'gaming mouse pad, headset, controller skin, hoodie, desk mat, sticker pack, energy drink can, stream overlay card',
     tech:         'laptop sleeve, mouse pad, USB drive, branded notebook, pen, tote bag, coffee mug, ID card lanyard',
     education:    'notebook, pen set, folder, ID card, tote bag, mug, wall calendar, certificate frame',
     retail:       'shopping bag, gift box, tissue paper, sticker seal, hang tag, product packaging, thank you card, branded wrapper',
@@ -642,6 +1348,7 @@ function getBillboardSetting(type) {
     food:         { location: 'busy Indian highway roadside billboard near a dhaba junction in Rajasthan, warm dusty atmosphere, golden hour sky, dry trees in background, NH route signage visible nearby', type: '3D creative billboard with product bursting out' },
     beauty:       { location: 'upscale mall facade in Mumbai or Delhi, glass building exterior, evening city lights, luxury retail environment, cars on road below', type: 'large LED screen on premium building' },
     sports:       { location: 'stadium outer wall in India, floodlights visible, green field glimpse in background, evening atmosphere, Indian crowd barriers visible', type: 'bold wall-mounted hoarding' },
+    gaming:       { location: 'esports arena exterior or gaming event venue in an Indian metro, LED screens visible, night lighting, energetic crowd atmosphere', type: 'giant LED tournament billboard' },
     tech:         { location: 'Delhi Metro station indoor corridor, clean tiles, escalators in background, metro branding elements, fluorescent lighting', type: 'indoor metro station billboard' },
     education:    { location: 'Indian city main road, near a college area, morning light, trees lining the street, auto-rickshaws parked nearby', type: 'standard highway billboard' },
     retail:       { location: 'busy Indian market street, colourful shop fronts in background, afternoon sun, typical Indian commercial area, two-wheeler parked below', type: 'shop-front hoarding above stores' },
@@ -658,12 +1365,13 @@ function getWebpageSections(type, biz, name) {
   const sections = {
     food:         `Navigation bar with logo, "Menu", "About Us", "Order Online", "Contact". Hero section with stunning food photography of ${biz} dishes, bold headline and "Order Now" CTA button. Featured menu items grid with food photos and prices. "Our Story" section with warm narrative and cafe interior imagery. Location and hours section with map pin. Customer testimonials. Footer with social links and delivery app buttons.`,
     beauty:       `Navigation with logo, "Services", "Portfolio", "Book Now", "About". Hero with glamorous visuals of beauty work, headline and "Book Appointment" CTA. Services grid with pricing. Before/after portfolio gallery. About ${name} section with credentials. Client testimonials with photos. Instagram feed integration section. Footer with booking link.`,
-    sports:       `Navigation with logo, "About", "Coaching", "Achievements", "Book Session". Hero with dynamic action shot, powerful headline and "Start Training" CTA. Stats section — years of experience, students trained, tournaments won. Coaching programs/packages with details and pricing. Achievements and trophies section. Student success stories. Schedule and batch timings. Contact and booking form.`,
-    tech:         `Navigation with logo, "Services", "Portfolio", "About", "Contact". Hero with modern abstract visual, bold headline and "Get a Quote" CTA. Services offered grid with icons. Portfolio/case studies section. Tech stack or tools section. Client logos trust bar. Team section. Process flow — how we work. Testimonials. Contact section.`,
+    sports:       `Navigation with logo, "About", "Coaching", "Achievements", "Book Session". Hero with dynamic action shot, powerful headline and "Start Training" CTA. Stats section - years of experience, students trained, tournaments won. Coaching programs/packages with details and pricing. Achievements and trophies section. Student success stories. Schedule and batch timings. Contact and booking form.`,
+    gaming:       `Navigation with logo, "Streams", "Team", "Tournaments", "Merch", "Contact". Hero with bold esports visual, headline and "Watch Live" CTA. Upcoming matches and tournament schedule. Team roster with player cards. Highlights and clips grid. Sponsor/partner logos. Community section with Discord callout. Merch section. Contact and booking form.`,
+    tech:         `Navigation with logo, "Services", "Portfolio", "About", "Contact". Hero with modern abstract visual, bold headline and "Get a Quote" CTA. Services offered grid with icons. Portfolio/case studies section. Tech stack or tools section. Client logos trust bar. Team section. Process flow - how we work. Testimonials. Contact section.`,
     education:    `Navigation with logo, "Courses", "About", "Results", "Enroll". Hero with inspiring visual, headline and "Start Learning" CTA. Courses offered grid with details. Results and achievements section with stats. Faculty/mentor profiles. Student testimonials and success stories. Batch schedule and fee structure. Enrollment form.`,
     retail:       `Navigation with logo, "Shop", "Categories", "Offers", "Contact". Hero with product showcase and "Shop Now" CTA. Featured products grid with images and prices. Category navigation section. Special offers banner. About the store section. Customer reviews. Store location with map. Footer with social and contact.`,
     travel:       `Navigation with logo, "Packages", "Destinations", "About", "Book Now". Hero with breathtaking travel photography and "Explore Now" CTA. Featured tour packages with pricing. Popular destinations grid. Why choose us section. Customer travel stories. Travel tips blog section. Contact and custom tour inquiry form.`,
-    professional: `Navigation with logo, "Services", "About", "Case Studies", "Contact". Hero with authoritative imagery and trust-building headline, "Get Consultation" CTA. Services offered with descriptions. About ${name} with credentials and experience. Stats section — clients served, years experience, success rate. Case studies/portfolio. Client testimonials. Contact form.`,
+    professional: `Navigation with logo, "Services", "About", "Case Studies", "Contact". Hero with authoritative imagery and trust-building headline, "Get Consultation" CTA. Services offered with descriptions. About ${name} with credentials and experience. Stats section - clients served, years experience, success rate. Case studies/portfolio. Client testimonials. Contact form.`,
     health:       `Navigation with logo, "Services", "Doctors", "Book Appointment", "Contact". Hero with clean health imagery and "Book Now" CTA. Services/treatments grid. Doctor/practitioner profile. Why choose us with trust signals. Patient testimonials. Health tips blog section. Appointment booking form. Location and timing.`,
     photography:  `Navigation with logo, "Portfolio", "Services", "About", "Book". Hero with stunning portfolio image and "View Portfolio" CTA. Full-bleed portfolio gallery grid. Services and packages with pricing. About ${name} with photography style and experience. Client testimonials with wedding/event photos. Behind the scenes section. Booking inquiry form.`,
     general:      `Navigation with logo, "About", "Services", "Portfolio", "Contact". Hero section with strong visuals and compelling headline, "Get Started" CTA. Services or products section. About section with story. Testimonials. Contact form. Footer.`
@@ -676,6 +1384,7 @@ function getAppContent(type, biz, name) {
     food:         { style: 'lifestyle', content: `${biz} app showing menu categories, food item cards with prices, "Order Now" buttons, delivery tracking screen, loyalty points dashboard, user profile` },
     beauty:       { style: 'lifestyle', content: `${biz} app showing appointment booking calendar, services menu, before/after gallery, stylist profiles, loyalty rewards, booking confirmation screen` },
     sports:       { style: 'tech', content: `${biz} coaching app showing training schedule, session booking, performance stats dashboard, video lesson library, achievement badges, batch timings` },
+    gaming:       { style: 'tech', content: `${biz} gaming hub showing live streams, tournament brackets, player profiles, match highlights, team chat, achievements, shop and rewards` },
     tech:         { style: 'tech', content: `${biz} app showing project dashboard, task management, analytics charts, client portal, notification center, dark mode UI` },
     education:    { style: 'ecosystem', content: `${biz} learning app showing course catalog, video lessons, progress tracker, quiz results, certificates, live class schedule, leaderboard` },
     retail:       { style: 'lifestyle', content: `${biz} shopping app showing product grid, categories, cart, wishlist, offers banner, order tracking, ratings and reviews` },
@@ -690,17 +1399,18 @@ function getAppContent(type, biz, name) {
 
 function getAtmosphereScene(type, biz, name) {
   const scenes = {
-    food:         [`A hyper-realistic cozy Indian cafe interior at golden hour — worn wooden tables, hanging Edison bulbs, chai cups steaming, brick walls, rain-speckled window with Mumbai street visible outside, warm amber light filling the frame`, `A bustling authentic Indian street food market scene — tandoor glowing, spice sacks, old Delhi lane architecture, marigold garlands, warm smoky atmosphere, sunset light through narrow lanes`],
-    beauty:       [`A luxurious Indian bridal preparation scene — marigold flowers, diyas glowing, rich silk fabric draped, gold jewellery laid out, rose petals, warm golden hour light streaming through carved wooden window`, `A premium Indian vanity setup — marble counter, ornate mirror, fresh flowers, kajal and bindi, warm candlelight, elegant and feminine atmosphere`],
-    sports:       [`A dramatic dawn at a legendary Indian cricket ground — dew on the pitch, empty stands, floodlights still glowing against a violet sky, morning mist on the outfield, Eden Gardens or Wankhede atmosphere`, `Marine Drive Mumbai at 5am — empty promenade, sea waves, orange horizon, a lone pair of running shoes on the railing, golden sunrise reflecting on wet ground`],
-    tech:         [`A sleek modern Indian co-working space interior — glass walls, city skyline of Bangalore or Hyderabad visible, neon accent lights, multiple screens glowing, minimalist desks, evening blue hour light`, `A dark atmospheric developer workspace — multiple monitors glowing with code, city lights through rain-streaked window, coffee cup, Indian tech hub ambiance`],
-    education:    [`The iconic College Street book market in Kolkata — rows of colourful book stalls, old colonial architecture, warm afternoon light, paper and ink atmosphere, scholarly and nostalgic feel`, `A grand old Indian library interior — tall wooden shelves, vintage books, arch windows with dust particles in sunlight, heritage architecture, quiet and intellectual atmosphere`],
-    retail:       [`A vibrant Indian bazaar street — colourful shop fronts, hanging lanterns, warm afternoon sun, old city architecture, fabric and goods displayed, rich textures and colors, Jaipur or Chandni Chowk vibe`, `A clean modern Indian mall interior — marble floors, brand stores, natural skylight from glass ceiling, contemporary retail architecture, Indian shoppers implied by environment`],
-    travel:       [`The Taj Mahal at golden hour — perfect symmetry, reflecting pool, dramatic sky with warm light, no people, mist on the horizon, India's most iconic landmark in cinematic glory`, `Rajasthan desert sand dunes at sunrise — golden sand waves, camel footprints, enormous sun rising on horizon, ancient fort silhouette in distance, pure Indian landscape`],
-    professional: [`Connaught Place New Delhi at blue hour — circular colonial architecture, clean wide road, India Gate visible in distance, professional urban landscape, no people, atmospheric evening light`, `Bandra Kurla Complex Mumbai skyline at dusk — glass corporate towers, city lights beginning to glow, Indian financial district power and authority`],
-    health:       [`Rishikesh Ganges river at sunrise — sacred ghats, marigold floating on water, temple bells implied by atmosphere, Himalayan foothills in morning mist, pure and healing Indian landscape`, `A serene Kerala backwater scene — green palm trees, still water reflections, traditional boat dock, golden morning light, lush tropical Indian nature`],
-    photography:  [`The ghats of Varanasi at dawn — ancient stone steps descending to holy Ganga, morning mist, soft golden light, old temple architecture, deeply atmospheric and cinematic`, `A heritage haveli courtyard in Rajasthan — ornate carved pillars, coloured glass windows casting rainbow light, old stone textures, artistic and architectural beauty`],
-    general:      [`India Gate New Delhi at twilight — majestic monument, perfectly manicured lawns, blue hour sky, dramatic and powerful Indian landmark with no people`, `A classic Indian royal palace exterior at golden hour — Mysore or Udaipur palace architecture, perfect symmetry, dramatic sky, reflection in fountain pool`]
+    food:         [`A hyper-realistic cozy Indian cafe interior at golden hour - worn wooden tables, hanging Edison bulbs, chai cups steaming, brick walls, rain-speckled window with Mumbai street visible outside, warm amber light filling the frame`, `A bustling authentic Indian street food market scene - tandoor glowing, spice sacks, old Delhi lane architecture, marigold garlands, warm smoky atmosphere, sunset light through narrow lanes`],
+    beauty:       [`A luxurious Indian bridal preparation scene - marigold flowers, diyas glowing, rich silk fabric draped, gold jewellery laid out, rose petals, warm golden hour light streaming through carved wooden window`, `A premium Indian vanity setup - marble counter, ornate mirror, fresh flowers, kajal and bindi, warm candlelight, elegant and feminine atmosphere`],
+    sports:       [`A dramatic dawn at a legendary Indian cricket ground - dew on the pitch, empty stands, floodlights still glowing against a violet sky, morning mist on the outfield, Eden Gardens or Wankhede atmosphere`, `Marine Drive Mumbai at 5am - empty promenade, sea waves, orange horizon, a lone pair of running shoes on the railing, golden sunrise reflecting on wet ground`],
+    gaming:       [`A neon-lit esports arena interior - massive LED screens, dramatic stage lighting, gaming rigs glowing, dark ambient atmosphere, cinematic haze, high-energy competitive vibe`, `A premium gaming studio setup - RGB lighting, multiple monitors with game UI, sleek desk, headset and controller details, moody cinematic lighting, modern tech aesthetic`],
+    tech:         [`A sleek modern Indian co-working space interior - glass walls, city skyline of Bangalore or Hyderabad visible, neon accent lights, multiple screens glowing, minimalist desks, evening blue hour light`, `A dark atmospheric developer workspace - multiple monitors glowing with code, city lights through rain-streaked window, coffee cup, Indian tech hub ambiance`],
+    education:    [`The iconic College Street book market in Kolkata - rows of colourful book stalls, old colonial architecture, warm afternoon light, paper and ink atmosphere, scholarly and nostalgic feel`, `A grand old Indian library interior - tall wooden shelves, vintage books, arch windows with dust particles in sunlight, heritage architecture, quiet and intellectual atmosphere`],
+    retail:       [`A vibrant Indian bazaar street - colourful shop fronts, hanging lanterns, warm afternoon sun, old city architecture, fabric and goods displayed, rich textures and colors, Jaipur or Chandni Chowk vibe`, `A clean modern Indian mall interior - marble floors, brand stores, natural skylight from glass ceiling, contemporary retail architecture, Indian shoppers implied by environment`],
+    travel:       [`The Taj Mahal at golden hour - perfect symmetry, reflecting pool, dramatic sky with warm light, no people, mist on the horizon, India's most iconic landmark in cinematic glory`, `Rajasthan desert sand dunes at sunrise - golden sand waves, camel footprints, enormous sun rising on horizon, ancient fort silhouette in distance, pure Indian landscape`],
+    professional: [`Connaught Place New Delhi at blue hour - circular colonial architecture, clean wide road, India Gate visible in distance, professional urban landscape, no people, atmospheric evening light`, `Bandra Kurla Complex Mumbai skyline at dusk - glass corporate towers, city lights beginning to glow, Indian financial district power and authority`],
+    health:       [`Rishikesh Ganges river at sunrise - sacred ghats, marigold floating on water, temple bells implied by atmosphere, Himalayan foothills in morning mist, pure and healing Indian landscape`, `A serene Kerala backwater scene - green palm trees, still water reflections, traditional boat dock, golden morning light, lush tropical Indian nature`],
+    photography:  [`The ghats of Varanasi at dawn - ancient stone steps descending to holy Ganga, morning mist, soft golden light, old temple architecture, deeply atmospheric and cinematic`, `A heritage haveli courtyard in Rajasthan - ornate carved pillars, coloured glass windows casting rainbow light, old stone textures, artistic and architectural beauty`],
+    general:      [`India Gate New Delhi at twilight - majestic monument, perfectly manicured lawns, blue hour sky, dramatic and powerful Indian landmark with no people`, `A classic Indian royal palace exterior at golden hour - Mysore or Udaipur palace architecture, perfect symmetry, dramatic sky, reflection in fountain pool`]
   };
   const arr = scenes[type] || scenes.general;
   return arr[Math.floor(Math.random() * arr.length)];
@@ -711,6 +1421,7 @@ function getTagline(type, biz, name) {
     food:         [`Where Every Sip Tells a Story`, `Crafted with Love. Served with Soul.`, `Taste the Difference`],
     beauty:       [`Redefining Beauty, One Look at a Time`, `Your Beauty. Our Art.`, `Glow Different`],
     sports:       [`Train Hard. Win Harder.`, `Champions Are Made Here`, `Beyond Limits`],
+    gaming:       [`Play Bold. Win Loud.`, `Level Up Every Match`, `Built for the Clutch`],
     tech:         [`Building Tomorrow, Today`, `Code. Create. Conquer.`, `Innovation Starts Here`],
     education:    [`Shaping Minds. Building Futures.`, `Knowledge is Your Superpower`, `Learn Today. Lead Tomorrow.`],
     retail:       [`Find Everything You Love`, `Shop Smart. Live Better.`, `Quality You Can Trust`],
@@ -724,7 +1435,59 @@ function getTagline(type, biz, name) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// ─── PROMPT TEMPLATES ────────────────────────────────────────────────────────
+function getImageQualityTail() {
+  return ' Output: single image only, no collage, no grid. Ultra high-resolution 4k, razor sharp, clean edges, no blur, no noise. Ensure visuals align to the brand and business category. Avoid unrelated landmarks or extra text not specified.';
+}
+
+function getLogoUsageTail() {
+  return ' Logo: use the uploaded brand logo image as-is, unmodified, clearly visible. Do not recreate the logo using text; do not replace it with the brand name wordmark. Use the actual uploaded logo image.';
+}
+
+// â”€â”€â”€ SMART BRAND NAME LOGIC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+function getSmartBrandName(name, biz, type) {
+  const n = name.trim();
+  const b = biz.trim();
+
+  // Check if name is generic/weak for branding
+  // A name works well if it's short, punchy, or already brand-like
+  const words = n.split(' ');
+  const bizWords = b.toLowerCase().split(/\s+/);
+
+  // Detect weak combos - generic first name + generic business category
+  const genericBiz = /^(restaurant|cafe|shop|store|studio|academy|clinic|gym|salon|agency|photography|travels|classes|coaching|services|works|enterprises|solutions)$/i;
+  const lastBizWord = bizWords[bizWords.length - 1];
+  const isWeakCombo = words.length >= 2 && genericBiz.test(lastBizWord);
+
+  if (!isWeakCombo) {
+    // Name works - use it as-is
+    return { brandName: n, useGenerated: false };
+  }
+
+  // Generate a strong brand name from initials + essence
+  const initials = words.map(w => w[0].toUpperCase()).join('');
+  const essenceMap = {
+    food:         ['FEAST', 'FLAVOUR', 'CRAFT', 'NEST', 'BITE', 'TABLE'],
+    beauty:       ['GLOW', 'LUXE', 'BLOOM', 'AURA', 'GRACE', 'PETAL'],
+    sports:       ['EDGE', 'SURGE', 'PEAK', 'STRIDE', 'FORGE', 'VOLT'],
+    gaming:       ['LEVEL', 'CLUTCH', 'NEXUS', 'PIXEL', 'SPARK', 'VOLT'],
+    tech:         ['FORGE', 'NEXUS', 'GRID', 'CORE', 'FLUX', 'SPARK'],
+    education:    ['MINDS', 'CREST', 'SPARK', 'RISE', 'APEX', 'VISTA'],
+    retail:       ['MART', 'DEPOT', 'HUB', 'FINDS', 'PICKS', 'VAULT'],
+    travel:       ['ROAM', 'DRIFT', 'ATLAS', 'QUEST', 'VISTA', 'TRAIL'],
+    professional: ['AXIS', 'CREST', 'PEAK', 'TRUST', 'PRIME', 'VAULT'],
+    health:       ['HEAL', 'BLOOM', 'PURE', 'VITA', 'CALM', 'RENEW'],
+    photography:  ['LENS', 'FRAME', 'STILL', 'VISION', 'SHOT', 'FOCUS'],
+    general:      ['MARK', 'CREST', 'FORGE', 'PRIME', 'APEX', 'BOLD']
+  };
+  const pool = essenceMap[type] || essenceMap.general;
+  const suffix = pool[Math.floor(Math.random() * pool.length)];
+  const generatedBrand = initials + suffix;
+
+  return { brandName: generatedBrand, useGenerated: true, originalName: n };
+}
+
+// â”€â”€â”€ PROMPT TEMPLATES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const promptTemplates = [
   {
@@ -732,13 +1495,20 @@ const promptTemplates = [
     ratio: "1:1",
     model: "Nano Banana 2",
     credits: 333,
-    note: "Use this as your master logo. Upload the generated logo as Image Reference in all subsequent prompts (2–8) for brand consistency.",
-    prompt: (n, b, type, colors, firstLetter) => {
+    note: "Use this as your master logo. Upload the generated logo as Image Reference in all subsequent prompts (2-8) for brand consistency.",
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
       const logoStyle = getLogoStyle(type, b);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tm = theme ? theme.mood : colors.mood;
+      const tl = theme ? theme.logoModifier : logoStyle;
+      const tf = theme ? theme.finishStyle : 'vector-sharp precision';
+      const qualityTail = getImageQualityTail();
       const variations = [
-        `Design a professional brand logo for a ${b} business. The logo must incorporate the letter "${firstLetter}" as a central design element — crafted as an artistic, well-designed letterform that reflects the brand personality. Logo style: ${logoStyle}. Color palette: ${colors.primary} with ${colors.accent} accents. The brand name should complement the lettermark in clean, well-spaced typography below or beside. Mood: ${colors.mood}. Isolated on pure white background, vector-sharp precision, no gradients unless intentional, professional brand identity quality suitable for print and digital. No photographic elements — pure graphic logo design.`,
-        `Create a distinctive logo mark for "${b}" — a ${type === 'food' ? 'product' : 'service'}-based brand. The initial letter "${firstLetter}" must be artistically integrated into the logo as a signature design element — not just a letter but a crafted visual identity piece. Employ the ${logoStyle} approach. Use ${colors.primary} as dominant colors with ${colors.accent} as supporting tones. Typography for brand name: clean, modern, well-kerned. Overall brand feel: ${colors.mood}. Pure white background, high-contrast, scalable vector aesthetic, print-ready quality.`,
-        `Craft a premium logo identity for a ${b} brand. Feature the letter "${firstLetter}" prominently as a designed logo element — geometric, stylized, and memorable. Style direction: ${logoStyle}. Color story: ${colors.primary} with ${colors.accent} highlights. Brand name in refined typography that matches the visual weight of the mark. The logo should communicate: ${colors.mood}. Clean white isolated background, sharp vector precision, professional enough for business cards, signage, and digital platforms simultaneously.`
+        `Design a professional brand logo for "${bn}" - a ${b} business. The logo must incorporate the letter "${bn[0].toUpperCase()}" as a central design element - crafted as an artistic, well-designed letterform that reflects the brand personality. The logo should visually communicate the essence of ${b} without being too literal. Logo style: ${tl}. Color palette: ${tc} with ${ta} accents. The brand name "${bn}" should complement the lettermark in clean, well-spaced typography. Mood: ${tm}. Isolated on pure white background, ${tf}, professional brand identity quality suitable for print and digital. No photographic elements - pure graphic logo design.${qualityTail}`,
+        `Create a distinctive logo mark for "${bn}" - a ${b} brand. The initial letter "${bn[0].toUpperCase()}" must be artistically integrated as a signature design element that subtly reflects the brand's core purpose. Employ the ${tl} approach. Use ${tc} as dominant colors with ${ta} as supporting tones. Typography for brand name "${bn}": clean, modern, well-kerned. Overall brand feel: ${tm}. Pure white background, high-contrast, ${tf}, print-ready quality.${qualityTail}`,
+        `Craft a premium logo identity for "${bn}" - a ${b} brand. Feature the letter "${bn[0].toUpperCase()}" prominently as a designed logo element - geometric, stylized, and memorable - that captures the spirit of ${b} within its form. Style direction: ${tl}. Color story: ${tc} with ${ta} highlights. Brand name "${bn}" in refined typography that matches the visual weight of the mark. The logo communicates: ${tm}. Clean white isolated background, ${tf}, professional enough for business cards, signage, and digital platforms.${qualityTail}`
       ];
       return variations[Math.floor(Math.random() * variations.length)];
     }
@@ -749,8 +1519,15 @@ const promptTemplates = [
     model: "GPT Image 1.5",
     credits: 145,
     note: "Attach your generated logo (Prompt 1) as Image Reference before running this prompt.",
-    prompt: (n, b, type, colors, firstLetter) => {
-      const isPersonalBrand = ['beauty', 'sports', 'photography', 'tech', 'education', 'health'].includes(type);
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
+      const isPersonalBrand = ['beauty', 'sports', 'gaming', 'photography', 'tech', 'education', 'health'].includes(type);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tf = theme ? theme.finishStyle : 'natural photography lighting, depth of field';
+      const tl = theme ? theme.lightingStyle : 'natural photography lighting, depth of field';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
       const surfaces = {
         food: 'rustic wooden cafe table with coffee ring stains and warm ambient light',
         beauty: 'marble vanity surface with soft studio lighting and a dried rose petal nearby',
@@ -767,9 +1544,9 @@ const promptTemplates = [
       const surface = surfaces[type] || surfaces.general;
 
       if (isPersonalBrand) {
-        return `A hyper-realistic photograph of a premium business card for ${n}, ${b} — designed as an Instagram profile-style card. Front side: styled exactly like an Instagram profile page — circular profile placeholder at top, username "${n.replace(/\s+/g, '').toLowerCase()}" displayed, services listed as Instagram highlights, a 3x3 grid of branded content thumbnails showing ${b}-related imagery, professional bio text. Back side: large QR code placeholder centered with "Scan to Connect" text, social media handles (@${n.replace(/\s+/g, '').toLowerCase()}), phone and email placeholders, "Keep in Touch" heading. Card colors: ${colors.primary} with ${colors.accent} accents. Both sides of card clearly visible, slightly angled and stacked. Realistic photographed on ${surface}. Ultra-sharp, looks like a real clicked photograph — not AI generated. No people in frame.`;
+        return `A hyper-realistic photograph of a premium business card for "${bn}" - a ${b} brand, designed as an Instagram profile-style card. Front side: circular profile placeholder at top, brand name "${bn}" displayed prominently, services listed as Instagram highlights, a 3x3 grid of branded content thumbnails showing ${b}-related imagery, professional bio text. Back side: large QR code placeholder with "Scan to Connect", social handle (@${bn.replace(/\s+/g, '').toLowerCase()}), phone and email placeholders. Card colors: ${tc} with ${ta} accents. Design style: ${tf}. Both sides clearly visible, slightly angled and stacked. Photographed on ${surface}. ${tl}. Ultra-sharp, looks like a real photograph. No people.${logoTail}${qualityTail}`;
       } else {
-        return `A hyper-realistic photograph of a creative business card for ${n}'s ${b} business — the card design itself visually represents the business (for example, a photographer's card shaped like a camera, a chef's card designed like a menu, a bookstore card designed like a mini book). The design should make someone immediately understand the profession from the card shape or graphic alone. Front: business name "${b}", owner name "${n}", phone and email placeholders, logo mark visible. Back: QR code placeholder, tagline, social handles. Card color scheme: ${colors.primary} and ${colors.accent}. Multiple cards shown — front and back visible, slight stack with shadow. Photographed on ${surface} surface. Ultra-realistic, natural photography lighting, depth of field. Looks like a real product photography shot. No people.`;
+        return `A hyper-realistic photograph of a creative business card for "${bn}" - ${b} business. The card design visually represents the business nature. Front: brand name "${bn}", owner "${n}", phone and email placeholders, logo mark visible. Back: QR code placeholder, tagline, social handles. Card color scheme: ${tc} and ${ta}. Design finish: ${tf}. Multiple cards shown - front and back visible, slight stack with shadow. Photographed on ${surface} surface. ${tl}. Looks like a real product photography shot. No people.${logoTail}${qualityTail}`;
       }
     }
   },
@@ -779,13 +1556,21 @@ const promptTemplates = [
     model: "Seedream 4.5",
     credits: 243,
     note: "Attach your generated logo (Prompt 1) as Image Reference. This generates a full-page website mockup.",
-    prompt: (n, b, type, colors) => {
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
       const isProduct = ['food', 'retail', 'travel'].includes(type);
-      const sections = getWebpageSections(type, b, n);
+      const sections = getWebpageSections(type, b, bn);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tm = theme ? theme.mood : colors.mood;
+      const td = theme ? theme.designStyle : 'modern, professional, visually rich';
+      const ty = theme ? theme.typographyStyle : 'professional typography hierarchy';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
       if (isProduct) {
-        return `A full-length product-business website homepage design mockup for "${b}" by ${n}. Show the complete scrollable page from top to bottom in a single vertical image. Design style: modern, professional, visually rich. Color palette: ${colors.primary} with ${colors.accent} accents, ${colors.mood} feel. Include all these sections clearly designed: ${sections}. The logo "${n}" appears in the navigation header. High-fidelity UI design — real typography, real button styles, real image placeholders showing relevant ${b} visuals. Professional web design quality similar to top-tier agency websites. Pure UI design — no device frame, just the full webpage layout.`;
+        return `A full-length product-business website homepage design mockup for "${bn}" - a ${b} brand. Show the complete scrollable page from top to bottom in a single vertical image. Design style: ${td}. Color palette: ${tc} with ${ta} accents, ${tm} feel. Typography: ${ty}. Include all these sections: ${sections}. The logo "${bn}" appears in the navigation header. High-fidelity UI design - real typography, real button styles, real image placeholders. Professional web design quality. Pure UI design - no device frame.${logoTail}${qualityTail}`;
       } else {
-        return `A full-length service-business website homepage design for "${b}" — ${n}'s professional brand. Complete vertical page layout showing the full scroll from hero to footer. Color theme: ${colors.primary} and ${colors.accent}, conveying ${colors.mood}. Sections to include: ${sections}. Logo "${n}" in navigation. Bold hero headline, clear service sections, credibility-building elements. Modern, conversion-optimised web design. Clean grid layout, professional typography hierarchy, realistic UI components — buttons, cards, forms. Service business website quality like top professional agencies. Full-page design — no device mockup, pure web design layout.`;
+        return `A full-length service-business website homepage design for "${bn}" - ${b} brand by ${n}. Complete vertical page layout from hero to footer. Color theme: ${tc} and ${ta}, conveying ${tm}. Design approach: ${td}. Typography: ${ty}. Sections: ${sections}. Logo "${bn}" in navigation. Bold hero headline, clear service sections. Modern, conversion-optimised web design. Realistic UI components. Full-page design - no device mockup.${logoTail}${qualityTail}`;
       }
     }
   },
@@ -795,14 +1580,21 @@ const promptTemplates = [
     model: "Gen-4 Image",
     credits: 248,
     note: "Attach your generated logo (Prompt 1) as Image Reference for brand integration in the app UI.",
-    prompt: (n, b, type, colors) => {
-      const appData = getAppContent(type, b, n);
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
+      const appData = getAppContent(type, b, bn);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tm = theme ? theme.atmosphereModifier : colors.mood;
+      const tl = theme ? theme.lightingStyle : 'warm natural light from large windows';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
       const styleTemplates = {
-        lifestyle: `A stunning lifestyle app marketing visual for "${b}" by ${n}. An oversized iPhone 15 Pro mockup placed on an elevated wooden pedestal in the center. The phone screen shows: ${appData.content}. App UI color scheme matches brand: ${colors.primary} and ${colors.accent}. The logo "${n}" appears in the app header. Environment: bright, airy, modern interior space with indoor plants, warm natural light from large windows, clean architectural background. Brand name and tagline elegantly placed above the phone. No people in the image. Photorealistic 3D render quality, advertising campaign standard.`,
-        tech: `A sleek tech-product app showcase image for "${b}" by ${n}. A premium iPhone 15 Pro displayed on a modern dark desk surface. The phone screen displays: ${appData.content}. UI elements and app cards appear to float out of the screen in 3D perspective. App design: ${colors.primary} color scheme with ${colors.accent} accents. Brand logo "${n}" visible in app UI. Background: moody atmospheric desk setup — laptop glimpse, ambient desk lamp glow, city lights through rain-speckled window at night. Brand name and logo at bottom of image. No people. Cinematic product photography quality.`,
-        ecosystem: `A powerful multi-device brand ecosystem visual for "${b}" by ${n}. Shows iPhone and iPad together displaying the app interface. Screens show: ${appData.content}. UI designed in ${colors.primary} with ${colors.accent}. Brand logo in app header. Floating UI cards emerge from screens showing key features with connecting lines. Background: dark sophisticated gradient. Brand name prominently displayed at top. Tagline below. No people. High-end tech advertising campaign quality, dramatic lighting on devices.`
+        lifestyle: `A stunning lifestyle app marketing visual for "${bn}" - a ${b} brand. An oversized iPhone 15 Pro mockup on an elevated wooden pedestal. The phone screen shows: ${appData.content}. App UI color scheme: ${tc} and ${ta}. The logo "${bn}" appears in the app header. Environment: bright, airy, modern interior space with indoor plants, ${tl}, clean architectural background. Brand name "${bn}" and tagline placed above the phone. No people. Atmosphere: ${tm}. Photorealistic 3D render quality.`,
+        tech: `A sleek tech-product app showcase for "${bn}" - ${b} brand. A premium iPhone 15 Pro on a modern dark desk. The phone screen displays: ${appData.content}. UI elements float out in 3D. App design: ${tc} with ${ta} accents. Brand logo "${bn}" visible in app UI. Background: moody desk setup - laptop, ambient lamp, city lights at night. Atmosphere: ${tm}. Brand name "${bn}" at bottom. No people. Cinematic product photography quality.`,
+        ecosystem: `A powerful multi-device brand ecosystem visual for "${bn}" - ${b}. Shows iPhone and iPad displaying the app. Screens show: ${appData.content}. UI in ${tc} with ${ta}. Brand logo "${bn}" in app header. Floating UI cards emerge from screens. Background: dark gradient. Atmosphere: ${tm}. Brand name "${bn}" prominently at top. No people. High-end advertising quality.`
       };
-      return styleTemplates[appData.style] || styleTemplates.tech;
+      return (styleTemplates[appData.style] || styleTemplates.tech) + logoTail + qualityTail;
     }
   },
   {
@@ -811,10 +1603,16 @@ const promptTemplates = [
     model: "FLUX.2 [Pro]",
     credits: 182,
     note: "Attach your generated logo (Prompt 1) as Image Reference to maintain brand identity on the billboard.",
-    prompt: (n, b, type, colors) => {
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
       const setting = getBillboardSetting(type, b);
-      const tagline = getTagline(type, b, n);
-      return `A hyper-realistic photograph of a ${setting.type} displaying an advertisement for "${b}" by ${n}. Billboard location: ${setting.location}. The billboard displays: Brand name "${b}" in bold, well-designed typography — dominant and clear. Tagline: "${tagline}". Brand colors: ${colors.primary} and ${colors.accent}. A visually compelling graphic relevant to ${b} — product or service imagery — integrated into the billboard design. The surrounding Indian environment is fully realistic — authentic Indian city atmosphere, Indian road infrastructure, Indian signage and architecture visible in background. Natural outdoor lighting appropriate to time of day. No people anywhere in the image. Photographed from a realistic human eye-level angle looking up at the billboard. Ultra-photorealistic — this must look like a real photograph taken by a person, not AI generated. Shot on DSLR, natural depth of field, real environmental imperfections.`;
+      const tagline = getTagline(type, b, bn);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tm = theme ? theme.atmosphereModifier : colors.mood;
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
+      return `A hyper-realistic photograph of a ${setting.type} for "${bn}" - ${b}. Billboard location: ${setting.location}. The billboard displays: Brand name "${bn}" in bold, well-designed typography - dominant and clear. Tagline: "${tagline}". Brand colors: ${tc} and ${ta}. Visual style: ${tm}. A visually compelling graphic relevant to ${b} integrated into the billboard design. The surrounding Indian environment is fully realistic - authentic atmosphere, Indian road infrastructure, signage and architecture visible. Natural outdoor lighting. No people. Photographed from eye-level looking up at the billboard. Ultra-photorealistic, shot on DSLR, natural depth of field.${logoTail}${qualityTail}`;
     }
   },
   {
@@ -823,8 +1621,16 @@ const promptTemplates = [
     model: "Seedream 5 Lite",
     credits: 213,
     note: "Attach your generated logo (Prompt 1) as Image Reference to place the logo correctly on all merchandise items.",
-    prompt: (n, b, type, colors) => {
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
       const items = getMerchandiseItems(type, b);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const ta = theme ? theme.accentStyle : colors.accent;
+      const tm = theme ? theme.mood : colors.mood;
+      const tl = theme ? theme.lightingStyle : 'soft natural light with gentle shadows';
+      const tf = theme ? theme.finishStyle : 'ultra-realistic product photography';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
       const surfaces = {
         food: 'warm wooden cafe counter surface, scattered coffee beans and cinnamon sticks as props',
         beauty: 'white marble surface with soft pink rose petals and golden light',
@@ -839,7 +1645,7 @@ const promptTemplates = [
         general: 'clean wooden surface with soft natural window light'
       };
       const surface = surfaces[type] || surfaces.general;
-      return `A premium brand merchandise and stationery flatlay photography for "${b}" — ${n}'s brand. Arrange these branded items in an aesthetically pleasing composition: ${items}. Every single item must prominently display the brand logo and name "${b}" clearly and correctly. Brand colors: ${colors.primary} with ${colors.accent} accents — consistently applied across all items. Surface: ${surface}. Photography style: professional product flatlay, shot from directly above or slight angle. Lighting: soft natural light with gentle shadows giving depth and dimension. Items arranged with intentional spacing — not cluttered, each item clearly visible. The overall image should feel: ${colors.mood}. Ultra-realistic product photography — looks like a professional brand identity photographer took this. No people. No AI-looking elements. Clean, sharp, editorial quality.`;
+      return `A premium brand merchandise flatlay for "${bn}" - ${b} brand. Items: ${items}. Every item prominently displays the brand logo and name "${bn}". Brand colors: ${tc} with ${ta} accents. Surface: ${surface}. Lighting: ${tl}. Items arranged with intentional spacing. Feel: ${tm}. Finish: ${tf}. No people. Clean, sharp, editorial quality.${logoTail}${qualityTail}`;
     }
   },
   {
@@ -848,22 +1654,29 @@ const promptTemplates = [
     model: "GPT Image 1.5",
     credits: 145,
     note: "Attach your generated logo (Prompt 1) as Image Reference for accurate logo placement in the post design.",
-    prompt: (n, b, type, colors) => {
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const tm = theme ? theme.mood : colors.mood;
+      const td = theme ? theme.designStyle : 'warm, authentic, real';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
       const postStyles = {
-        food: `A mouthwatering product showcase Instagram post — hero ${b} product centered and beautifully lit, price or "Order Now" CTA, brand colors ${colors.primary}, logo at top, warm and appetizing`,
-        beauty: `A glamorous service highlight Instagram post — before/after split or single stunning transformation visual, services listed elegantly, "Book Now" CTA, ${colors.primary} color palette, luxurious feel`,
-        sports: `A high-energy motivational Instagram post — bold power quote about training/winning, dynamic background graphic, strong typography, ${colors.primary} color scheme, "Join Now" CTA`,
-        tech: `A clean modern service showcase Instagram post — feature highlights with icons, sleek UI-inspired design, ${colors.primary} color palette, "Get Started" CTA, minimal and premium`,
-        education: `An informative knowledge-share Instagram post — key learning point or tip highlighted, clean educational layout, ${colors.primary} colors, "Enroll Now" CTA, trustworthy and inspiring`,
-        retail: `A vibrant product offer Instagram post — featured product hero image, sale or offer callout, price visible, ${colors.primary} colors, "Shop Now" CTA, energetic and inviting`,
-        travel: `A wanderlust-inspiring destination Instagram post — breathtaking Indian travel visual, package or offer details, ${colors.primary} color overlay, "Book Now" CTA, adventurous and exciting`,
-        professional: `A professional credibility-building Instagram post — expertise quote or service highlight, clean corporate design, ${colors.primary} colors, "Consult Now" CTA, authoritative and trustworthy`,
-        health: `A wellness-focused Instagram post — health tip or service highlight, clean and calming design, ${colors.primary} colors, "Book Now" CTA, fresh and trustworthy`,
-        photography: `A stunning portfolio showcase Instagram post — dramatic photography sample or behind-the-scenes, ${colors.primary} color grade, "Book Your Session" CTA, artistic and premium`,
-        general: `A professional brand announcement Instagram post — service or product highlight, bold headline, ${colors.primary} colors, CTA button, clean and impactful`
+        food: `A mouthwatering product showcase Instagram post - hero ${b} product centered and beautifully lit, "Order Now" CTA, brand colors ${tc}, logo "${bn}" at top`,
+        beauty: `A glamorous service highlight Instagram post - stunning transformation visual, "Book Now" CTA, ${tc} palette, logo "${bn}" visible, luxurious feel`,
+        sports: `A high-energy motivational Instagram post - bold power quote, dynamic background, strong typography, ${tc} scheme, "Join Now" CTA, logo "${bn}"`,
+        gaming: `A competitive esports-style Instagram post - match highlight, bold headline, dynamic gaming visuals, ${tc} palette, "Watch Live" CTA, logo "${bn}"`,
+        tech: `A clean modern service showcase Instagram post - feature highlights with icons, ${tc} palette, "Get Started" CTA, logo "${bn}", minimal and premium`,
+        education: `An informative knowledge-share Instagram post - key learning point, ${tc} colors, "Enroll Now" CTA, logo "${bn}", trustworthy and inspiring`,
+        retail: `A vibrant product offer Instagram post - featured product hero, sale callout, ${tc} colors, "Shop Now" CTA, logo "${bn}"`,
+        travel: `A wanderlust-inspiring destination Instagram post - breathtaking Indian travel visual, ${tc} overlay, "Book Now" CTA, logo "${bn}"`,
+        professional: `A professional credibility-building Instagram post - expertise quote, ${tc} colors, "Consult Now" CTA, logo "${bn}", authoritative`,
+        health: `A wellness-focused Instagram post - health tip highlight, ${tc} colors, "Book Now" CTA, logo "${bn}", fresh and trustworthy`,
+        photography: `A stunning portfolio showcase Instagram post - dramatic photography sample, ${tc} grade, "Book Your Session" CTA, logo "${bn}"`,
+        general: `A professional brand announcement Instagram post - service highlight, bold headline, ${tc} colors, CTA, logo "${bn}"`
       };
       const postContent = postStyles[type] || postStyles.general;
-      return `A hyper-realistic photograph of an iPhone 15 Pro displaying an Instagram post for "${b}" by ${n}. The Instagram app UI is fully visible — status bar, Instagram header with profile picture showing brand logo, username "@${b.replace(/\s+/g, '').toLowerCase()}", the post image, and below it: like button, comment, share icons, likes count, caption text. The post design inside the phone screen: ${postContent}. The brand logo "${n}" is clearly visible within the post design. Phone held naturally or placed flat on a stylish surface relevant to ${type} business. Background environment matches brand aesthetic: ${colors.mood}. No people's faces visible — only hands if phone is held, otherwise flat lay. Photographed in natural lifestyle photography style — warm, authentic, real. Ultra-realistic, not AI generated looking. Professional social media marketing photography quality.`;
+      return `A hyper-realistic photograph of an iPhone 15 Pro displaying an Instagram post for "${bn}" - ${b}. Instagram app UI fully visible - profile picture showing brand logo, username "@${bn.replace(/\s+/g, '').toLowerCase()}". Post design: ${postContent}. Design style: ${td}. Brand logo "${bn}" clearly visible. Phone on a stylish surface. Background: ${tm}. No faces. Natural lifestyle photography style. Ultra-realistic. Professional social media marketing quality.${logoTail}${qualityTail}`;
     }
   },
   {
@@ -872,17 +1685,25 @@ const promptTemplates = [
     model: "FLUX.2 [Pro]",
     credits: 182,
     note: "Attach your generated logo (Prompt 1) as Image Reference for logo overlay on the atmosphere poster.",
-    prompt: (n, b, type, colors) => {
-      const scene = getAtmosphereScene(type, b, n);
-      const tagline = getTagline(type, b, n);
-      return `A stunning cinematic brand atmosphere poster for "${b}" by ${n}. Background scene: ${scene}. This is a purely Indian location and environment — authentic, real, deeply atmospheric. Over this breathtaking background, overlay the brand identity: Brand name "${b}" in premium, well-designed typography — bold and prominent but harmonious with the scene. Tagline: "${tagline}" in elegant secondary typography below the brand name. Brand colors ${colors.primary} subtly influence the color grading of the background. The logo mark appears tastefully in one corner. Overall color grade: ${colors.mood}, cinematic and rich. No people anywhere in the image. The text and branding feel naturally integrated into the scene — not just slapped on top. Looks like a real brand campaign photograph shot on location in India. Ultra-photorealistic, high dynamic range, magazine-cover quality. This image should make someone feel: "I want to be part of this brand."`;
+    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
+      const bn = brandName || n;
+      const scene = getAtmosphereScene(type, b, bn);
+      const tagline = getTagline(type, b, bn);
+      const tc = theme ? theme.colorStyle : colors.primary;
+      const tm = theme ? theme.mood : colors.mood;
+      const ta = theme ? theme.atmosphereModifier : colors.mood;
+      const ty = theme ? theme.typographyStyle : 'premium, well-designed typography';
+      const tf = theme ? theme.finishStyle : 'cinematic and rich';
+      const qualityTail = getImageQualityTail();
+      const logoTail = getLogoUsageTail();
+      return `A stunning cinematic brand atmosphere poster for "${bn}" - ${b}. Background scene: ${scene}. Location and mood must align with the ${b} brand - avoid unrelated landmarks. Over this background, overlay: Brand name "${bn}" in ${ty} - bold and prominent. Tagline: "${tagline}" in elegant secondary typography. Brand colors ${tc} influence the color grading. Logo mark tastefully in one corner. Color grade: ${tm}, ${tf}. Atmosphere: ${ta}. No people. Text and branding naturally integrated. Ultra-photorealistic, magazine-cover quality.${logoTail}${qualityTail}`;
     }
   }
 ];
 
-// ─── GENERATION ENGINE ───────────────────────────────────────────────────────
+// â”€â”€â”€ GENERATION ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-// Global store for generated prompt texts — avoids inline string escaping issues
+// Global store for generated prompt texts - avoids inline string escaping issues
 const generatedPrompts = {};
 
 function generate() {
@@ -897,6 +1718,14 @@ function generate() {
   const type = detectBusinessType(biz);
   const colors = getBrandColors(type);
   const firstLetter = name.charAt(0).toUpperCase();
+  const theme = getThemeOverride();
+  const brandData = getSmartBrandName(name, biz, type);
+  const brandName = brandData.brandName;
+
+  // Show a notice if brand name was upgraded
+  if (brandData.useGenerated) {
+    showToast('Brand name upgraded to: ' + brandName);
+  }
 
   const container = document.getElementById('promptsContainer');
   const tableBody = document.getElementById('tableBody');
@@ -909,7 +1738,7 @@ function generate() {
   let totalCredits = 0;
 
   promptTemplates.forEach((pt, i) => {
-    const promptText = pt.prompt(name, biz, type, colors, firstLetter);
+    const promptText = pt.prompt(name, biz, type, colors, firstLetter, theme, brandName);
 
     // Store prompt text by index
     generatedPrompts[i] = promptText;
@@ -917,14 +1746,20 @@ function generate() {
     // Prompt card
     const card = document.createElement('div');
     card.className = 'prompt-card';
+    const runBtnHtml = `<button class="run-btn" id="runbtn-${i}" onclick="runPrompt(${i})" title="Copy prompt and open Gemini"><span class="run-icon">></span> Run</button>`;
+    const leonardoBtnHtml = ''; // Leonardo button removed
     card.innerHTML = `
       <div class="prompt-header">
         <div class="prompt-num">${i+1}</div>
         <div class="prompt-title">${pt.title}</div>
         <button class="copy-btn" id="copybtn-${i}" onclick="copyPrompt(${i})">Copy</button>
+        ${runBtnHtml}
+        ${leonardoBtnHtml}
       </div>
       <div class="prompt-text">${promptText}</div>
-      ${pt.note ? `<div class="prompt-note">💡 ${pt.note}</div>` : ''}
+      ${pt.note ? `<div class="prompt-note">Note: ${pt.note}</div>` : ``}
+      <div class="preview-note" id="previewnote-${i}">Prompt copied to clipboard - paste it in Gemini and hit Enter to generate your image for free.</div>
+      <div class="image-preview-area" id="preview-${i}"></div>
     `;
     container.appendChild(card);
 
@@ -961,7 +1796,7 @@ function copyPrompt(index) {
   function onSuccess() {
     var btn = document.getElementById('copybtn-' + index);
     if (btn) {
-      btn.textContent = '✓ Copied';
+      btn.textContent = 'Copied';
       btn.classList.add('copied');
       setTimeout(function() {
         btn.textContent = 'Copy';
@@ -987,27 +1822,143 @@ function fallbackCopy(text, callback) {
   ta.focus();
   ta.select();
   try { document.execCommand('copy'); if (callback) callback(); }
-  catch(e) { showToast('Copy failed — please copy manually.'); }
+  catch(e) { showToast('Copy failed - please copy manually.'); }
   document.body.removeChild(ta);
 }
 
-function copyAll() {
-  var name = document.getElementById('nameInput').value.trim();
-  var biz = document.getElementById('bizInput').value.trim();
-  if (!name || !biz) return;
-  var all = 'BRAND PROMPT KIT FOR: ' + name + ' | ' + biz + '\n' + '='.repeat(60) + '\n\n';
-  promptTemplates.forEach(function(pt, i) {
+// â”€â”€â”€ RUN ALL - QUEUE SYSTEM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const runAllTitles = [
+  'Business Card Design',
+  'Website Homepage Design',
+  'Mobile App UI Showcase',
+  'Billboard Advertisement',
+  'Brand Merchandise & Stationery Kit',
+  'Instagram Social Media Post',
+  'Brand Atmosphere Poster'
+];
+
+let runAllQueue = [];
+let runAllCurrent = 0;
+
+function runAll() {
+  // Build list of prompts 2-8 (index 1-7)
+  var items = [];
+  for (var i = 1; i < promptTemplates.length; i++) {
     var text = generatedPrompts[i] || '';
-    all += 'PROMPT ' + (i+1) + ': ' + pt.title + '\nRatio: ' + pt.ratio + ' | Model: ' + pt.model + ' | Credits: ~' + pt.credits + '\n';
-    if (pt.note) all += 'NOTE: ' + pt.note + '\n';
-    all += '\n' + text + '\n\n' + '—'.repeat(50) + '\n\n';
-  });
-  function onSuccess() { showToast('All 8 prompts copied to clipboard!'); }
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(all).then(onSuccess).catch(function() { fallbackCopy(all, onSuccess); });
-  } else {
-    fallbackCopy(all, onSuccess);
+    if (text) items.push({ index: i, title: runAllTitles[i - 1], text: text });
   }
+  if (items.length === 0) {
+    showToast('Generate your prompts first!');
+    return;
+  }
+
+  var intro =
+    'TASK: Generate 7 separate images for a brand using the SAME uploaded logo in every image.' +
+    '\nLOGO RULES:' +
+    '\n- Use the uploaded logo image exactly as-is in all 7 images.' +
+    '\n- Do not alter, recolor, or stylize the logo.' +
+    '\n- Logo must be clearly visible in every image.' +
+    '\n- Do NOT recreate the logo using text or the brand name. Use the provided logo image only.' +
+    '\nOUTPUT RULES:' +
+    '\n- Generate 7 separate images in one response, in order.' +
+    '\n- Do NOT merge images. No collage, no grid, no single composite.' +
+    '\n- Do NOT skip any item.' +
+    '\nQUALITY RULES:' +
+    '\n- High-resolution, sharp focus, clean edges, no blur.' +
+    '\n- Avoid random extra text or unrelated signage.' +
+    '\n\n---\nSEVEN IMAGE BRIEFS:\n';
+
+  var combined = intro + items.map(function(item, idx) {
+    return 'IMAGE ' + (idx + 1) + ' of 7 - ' + item.title + '\n' + item.text;
+  }).join('\n\n---\n\n');
+
+  function afterCopy() {
+    window.open('https://gemini.google.com/', '_blank');
+    showToast('All 7 prompts copied. Paste them in Gemini.');
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(combined).then(afterCopy).catch(function() { fallbackCopy(combined, afterCopy); });
+  } else {
+    fallbackCopy(combined, afterCopy);
+  }
+}
+
+function renderRunAllStep() {
+  var item = runAllQueue[runAllCurrent];
+  var total = runAllQueue.length;
+  var num = runAllCurrent + 1;
+
+  // Update pips
+  for (var j = 0; j < total; j++) {
+    var pip = document.getElementById('runall-pip-' + j);
+    if (!pip) continue;
+    pip.className = 'runall-pip';
+    if (j < runAllCurrent) pip.classList.add('done');
+    else if (j === runAllCurrent) pip.classList.add('active');
+  }
+
+  document.getElementById('runallStepLabel').textContent = `Image ${num} of ${total} - Upload the same logo each time`;
+  document.getElementById('runallStepTitle').textContent = item.title;
+  document.getElementById('runallInstruction').innerHTML =
+    `<strong>Step ${num}:</strong> Click the button below - the prompt for <strong>${item.title}</strong> will be copied to your clipboard and Gemini will open in a new tab.<br><br>` +
+    `In Gemini: <strong>upload the same brand logo image</strong> -> paste the prompt -> generate exactly one image. Repeat for all 7 prompts.`;
+  document.getElementById('runallPromptPreview').textContent = item.text;
+
+  var nextBtn = document.getElementById('runallNextBtn');
+  nextBtn.textContent = num < total
+    ? `Copy & Open Gemini -> (${num}/${total})`
+    : `Copy & Open Gemini -> Last one!`;
+}
+
+function runAllNext() {
+  var item = runAllQueue[runAllCurrent];
+
+  // Copy this prompt and open Gemini
+  var logoNote = `\n\n---\nIMPORTANT: Upload the SAME brand logo image in this Gemini chat before generating. The logo must appear visibly in the final image. Generate exactly ONE image for this prompt only: ${item.title}.\nYou will do this 7 times total (Prompts 2-8), one separate image per prompt, using the same logo image each time.`;
+  var textToCopy = item.text + logoNote;
+
+  function afterCopy() {
+    window.open('https://gemini.google.com/', '_blank');
+    showToast(`Prompt ${runAllCurrent + 1} copied! Paste in Gemini.`);
+
+    // Mark pip done
+    var pip = document.getElementById('runall-pip-' + runAllCurrent);
+    if (pip) pip.className = 'runall-pip done';
+
+    runAllCurrent++;
+
+    if (runAllCurrent >= runAllQueue.length) {
+      // All done
+      document.getElementById('runallContent').style.display = 'none';
+      document.getElementById('runallDone').style.display = '';
+    } else {
+      renderRunAllStep();
+    }
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(textToCopy).then(afterCopy).catch(function() { fallbackCopy(textToCopy, afterCopy); });
+  } else {
+    fallbackCopy(textToCopy, afterCopy);
+  }
+}
+
+function runAllSkip() {
+  var pip = document.getElementById('runall-pip-' + runAllCurrent);
+  if (pip) pip.className = 'runall-pip done';
+  runAllCurrent++;
+  if (runAllCurrent >= runAllQueue.length) {
+    document.getElementById('runallContent').style.display = 'none';
+    document.getElementById('runallDone').style.display = '';
+  } else {
+    renderRunAllStep();
+  }
+}
+
+function closeRunAll() {
+  document.getElementById('runallOverlay').classList.remove('visible');
 }
 
 function showToast(msg) {
@@ -1016,6 +1967,38 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+// â”€â”€â”€ RUN BUTTON - COPY PROMPT + OPEN GEMINI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+function runPrompt(index) {
+  const promptText = generatedPrompts[index];
+  if (!promptText) return;
+
+  // Copy prompt to clipboard then open Gemini
+  function openGemini() {
+    window.open('https://gemini.google.com/', '_blank');
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(promptText).then(function() {
+      showToast('Prompt copied! Paste it in Gemini.');
+      openGemini();
+    }).catch(function() {
+      fallbackCopy(promptText, function() {
+        showToast('Prompt copied! Paste it in Gemini.');
+        openGemini();
+      });
+    });
+  } else {
+    fallbackCopy(promptText, function() {
+      showToast('Prompt copied! Paste it in Gemini.');
+      openGemini();
+    });
+  }
+}
+
 </script>
+
 </body>
 </html>
+
