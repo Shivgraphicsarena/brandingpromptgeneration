@@ -987,7 +987,7 @@
     <div class="fields">
       <div class="field">
         <label>Your Name</label>
-        <input type="text" id="nameInput" placeholder="e.g. Shiv, Suhana, Ridham" />
+        <input type="text" id="nameInput" placeholder="e.g. Shiv, Ridham, Suhana, Rishika" />
       </div>
       <div class="field">
         <label>Business / Profession / Hobby</label>
@@ -2131,14 +2131,18 @@ function runPrompt(index) {
   const promptText = generatedPrompts[index];
   if (!promptText) return;
 
-  // Add strong logo + spelling instruction header
-  const logoHeader =
-    '🖼️ I am uploading my brand logo image in this message. You MUST use that exact uploaded logo in this image — do NOT redraw or replace it with text.\n' +
-    '✅ Spelling rule: every word in the image must be spelled 100% correctly.\n' +
-    '✅ Output: single 4K image only — no collage, no grid.\n\n' +
-    '---\n\n';
-
-  const fullPrompt = logoHeader + promptText;
+  // Only add logo header for prompts 2–8 (index 1–7), NOT for prompt 1 (index 0)
+  let fullPrompt;
+  if (index === 0) {
+    fullPrompt = promptText;
+  } else {
+    const logoHeader =
+      '🖼️ I am uploading my brand logo image in this message. You MUST use that exact uploaded logo in this image — do NOT redraw or replace it with text.\n' +
+      '✅ Spelling rule: every word in the image must be spelled 100% correctly.\n' +
+      '✅ Output: single 4K image only — no collage, no grid.\n\n' +
+      '---\n\n';
+    fullPrompt = logoHeader + promptText;
+  }
 
   function openGemini() {
     window.open('https://gemini.google.com/', '_blank');
