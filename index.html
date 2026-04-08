@@ -148,6 +148,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
   }
 
   .theme-btn img {
@@ -156,6 +157,7 @@
     object-fit: cover;
     filter: grayscale(0.4);
     transition: 0.3s;
+    display: block;
   }
 
   .theme-btn .theme-label {
@@ -163,12 +165,14 @@
     font-size: 12px;
     color: var(--muted);
     font-weight: 400;
+    text-align: center;
   }
 
   .theme-btn.selected {
     border-color: var(--gold);
     background: rgba(201,168,76,0.1);
     transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
 
   .theme-btn.selected img { filter: grayscale(0); }
@@ -336,11 +340,11 @@
     <div class="fields">
       <div class="field">
         <label>Your Name</label>
-        <input type="text" id="nameInput" placeholder="e.g. Aria, Julian, Sofia" />
+        <input type="text" id="nameInput" placeholder="e.g. Ridham, Shiv, Suhana, Rishika" />
       </div>
       <div class="field">
         <label>Business / Niche</label>
-        <input type="text" id="bizInput" placeholder="e.g. Organic Skincare, Architectural Studio" />
+        <input type="text" id="bizInput" placeholder="e.g. Coffee Cafe, Luxury Interior, Makeup Artist" />
       </div>
     </div>
 
@@ -348,19 +352,19 @@
       <label>Select Brand Aesthetic</label>
       <div class="theme-options">
         <button class="theme-btn" onclick="selectTheme('quiet-luxury')" id="theme-quiet-luxury">
-          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=200&q=80" alt="Quiet Luxury">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=300&q=80" alt="Quiet Luxury">
           <div class="theme-label">Quiet Luxury</div>
         </button>
         <button class="theme-btn" onclick="selectTheme('organic-modern')" id="theme-organic-modern">
-          <img src="https://images.unsplash.com/photo-1515377905703-c4788e51ed33?auto=format&fit=crop&w=200&q=80" alt="Organic Modern">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=300&q=80" alt="Organic Modern">
           <div class="theme-label">Organic Modern</div>
         </button>
         <button class="theme-btn" onclick="selectTheme('moody-editorial')" id="theme-moody-editorial">
-          <img src="https://images.unsplash.com/photo-1507679799987-c7377958750c?auto=format&fit=crop&w=200&q=80" alt="Moody Editorial">
+          <img src="https://images.unsplash.com/photo-1550684376-ef789777a49b?auto=format&fit=crop&w=300&q=80" alt="Moody Editorial">
           <div class="theme-label">Moody Editorial</div>
         </button>
         <button class="theme-btn" onclick="selectTheme('vibrant-curated')" id="theme-vibrant-curated">
-          <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=200&q=80" alt="Vibrant Curated">
+          <img src="https://images.unsplash.com/photo-1558591710-4oo_m-f_12_x_S_c_P_u?auto=format&fit=crop&w=300&q=80" alt="Vibrant Curated">
           <div class="theme-label">Vibrant Curated</div>
         </button>
       </div>
@@ -398,6 +402,7 @@
 
 <script>
 let selectedTheme = null;
+let currentPrompts = []; // Store prompts for "Run All" functionality
 
 const themeDefinitions = {
   'quiet-luxury': {
@@ -476,6 +481,7 @@ function renderPrompts(name, biz, bn, theme) {
   const tableBody = document.getElementById('tableBody');
   container.innerHTML = '';
   tableBody.innerHTML = '';
+  currentPrompts = []; 
 
   const assets = [
     {
@@ -511,6 +517,7 @@ function renderPrompts(name, biz, bn, theme) {
   ];
 
   assets.forEach((asset, i) => {
+    currentPrompts.push(asset.prompt);
     const card = document.createElement('div');
     card.className = 'prompt-card';
     card.innerHTML = `
@@ -549,15 +556,24 @@ function copyText(btn, text) {
   showToast();
 }
 
-function showToast() {
+function showToast(msg = 'Copied to clipboard!') {
   const t = document.getElementById('toast');
+  t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 function runAll() {
-  window.open('https://gemini.google.com/', '_blank');
-  showToast('Opening Gemini... Copy and paste your favorite prompts!');
+  if (currentPrompts.length === 0) return;
+  
+  const allText = currentPrompts.map((p, i) => `PROMPT ${i+1}:\n${p}`).join('\n\n---\n\n');
+  
+  navigator.clipboard.writeText(allText).then(() => {
+    showToast('All prompts copied! Opening Gemini...');
+    setTimeout(() => {
+      window.open('https://gemini.google.com/', '_blank');
+    }, 1000);
+  });
 }
 </script>
 </body>
