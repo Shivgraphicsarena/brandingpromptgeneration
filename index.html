@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brand Prompt Generator</title>
+<title>Brand Prompt Generator | Pinterest Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -12,13 +12,12 @@
     --dark: #0A0A0F;
     --dark2: #12121A;
     --dark3: #1C1C28;
-    --border: rgba(201,168,76,0.25);
+    --border: rgba(201,168,76,0.2);
     --text: #E8E8F0;
     --muted: #7070A0;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--dark);
     color: var(--text);
@@ -38,17 +37,16 @@
   }
 
   .container {
-    max-width: 880px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 60px 24px 80px;
     position: relative;
     z-index: 1;
   }
 
-  /* Header */
   .header {
     text-align: center;
-    margin-bottom: 56px;
+    margin-bottom: 60px;
   }
 
   .header .eyebrow {
@@ -62,74 +60,48 @@
 
   .header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 6vw, 58px);
+    font-size: clamp(36px, 7vw, 64px);
     font-weight: 900;
-    line-height: 1.05;
-    background: linear-gradient(135deg, #fff 0%, var(--gold-light) 60%, var(--gold) 100%);
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 0%, var(--gold-light) 50%, var(--gold) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   .header p {
     color: var(--muted);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 300;
-    letter-spacing: 0.3px;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
-  /* Input Section */
   .input-card {
     background: var(--dark2);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .input-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .input-card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    color: var(--gold-light);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .input-card h2::before {
-    content: '*';
-    font-size: 12px;
-    color: var(--gold);
+    border-radius: 24px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }
 
   .fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: 20px;
+    margin-bottom: 30px;
   }
 
-  @media (max-width: 540px) { .fields { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .fields { grid-template-columns: 1fr; } }
 
   .field label {
     display: block;
     font-size: 11px;
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 500;
   }
 
@@ -137,2037 +109,456 @@
     width: 100%;
     background: var(--dark3);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-family: 'DM Sans', sans-serif;
+    border-radius: 12px;
+    padding: 16px;
     font-size: 15px;
     color: var(--text);
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.3s;
   }
 
   .field input:focus {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
   }
 
-  .field input::placeholder { color: var(--muted); }
-
-  .btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--gold) 0%, #A07830 100%);
-    color: #0A0A0F;
-    border: none;
-    border-radius: 12px;
-    padding: 16px 32px;
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-  }
-
-  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-  .btn:active { transform: translateY(0); }
-
-  /* Output Section */
-  #output { display: none; }
-
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-    font-weight: 500;
-  }
-
-  .prompt-card {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 30px;
-    margin-bottom: 16px;
-    position: relative;
-    transition: border-color 0.2s;
-  }
-
-  .prompt-card:hover { border-color: rgba(201,168,76,0.5); }
-
-  .prompt-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-
-  .prompt-num {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), #7A5520);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--dark);
-    flex-shrink: 0;
-  }
-
-  .prompt-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    color: var(--gold-light);
-  }
-
-  .copy-btn {
-    margin-left: auto;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    padding: 6px 14px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
-  .copy-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .copy-btn.copied { border-color: #50C878; color: #50C878; }
-
-  .prompt-text {
-    font-size: 14px;
-    line-height: 1.75;
-    color: #C0C0D8;
-    font-weight: 300;
-  }
-
-  .brand-output {
-    margin-top: 14px;
-    padding: 14px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 10px;
-  }
-
-  .brand-output-row {
-    margin-bottom: 8px;
-    font-size: 13px;
-    color: #D6D6EC;
-  }
-
-  .brand-label {
-    color: var(--gold-light);
-    font-weight: 600;
-  }
-
-  .brand-value {
-    color: #FFFFFF;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
-  .brand-tags {
-    color: #B8E6D2;
-  }
-
-  .brand-prompt {
-    margin: 6px 0 10px 0;
-    font-size: 12px;
-    line-height: 1.6;
-    color: #B9B9D4;
-    background: rgba(0,0,0,0.25);
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.06);
-    white-space: pre-wrap;
-  }
-
-  .prompt-note {
-    margin-top: 12px;
-    padding: 10px 14px;
-    background: rgba(201,168,76,0.07);
-    border-left: 2px solid var(--gold);
-    border-radius: 0 8px 8px 0;
-    font-size: 12px;
-    color: var(--gold);
-    letter-spacing: 0.3px;
-  }
-
-  /* Table */
-  .table-card {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 40px;
-    position: relative;
-  }
-
-  .table-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-
-  .table-header {
-    padding: 24px 30px 18px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .table-header h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--gold-light);
-  }
-
-  .table-header p {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead tr {
-    background: rgba(201,168,76,0.08);
-  }
-
-  th {
-    padding: 14px 20px;
-    text-align: left;
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    border-bottom: 1px solid var(--border);
-  }
-
-  td {
-    padding: 14px 20px;
-    font-size: 13.5px;
-    color: var(--text);
-    border-bottom: 1px solid rgba(201,168,76,0.08);
-    font-weight: 300;
-    vertical-align: middle;
-  }
-
-  tr:last-child td { border-bottom: none; }
-
-  .ratio-badge {
-    display: inline-block;
-    background: rgba(201,168,76,0.12);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 6px;
-    padding: 3px 10px;
-    font-size: 12px;
-    color: var(--gold-light);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  .model-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    padding: 3px 10px;
-    font-size: 12px;
-    color: #A0B0D0;
-    letter-spacing: 0.3px;
-  }
-
-  .credits-badge {
-    display: inline-block;
-    font-size: 12px;
-    color: #80D0A0;
-    font-weight: 500;
-  }
-
-  .total-row td {
-    background: rgba(201,168,76,0.06);
-    font-weight: 500;
-    color: var(--gold-light);
-  }
-
-  .copy-all-btn {
-    display: block;
-    width: calc(100% - 48px);
-    margin: 24px auto;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--gold);
-    padding: 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
-  }
-
-  .copy-all-btn:hover {
-    background: rgba(201,168,76,0.08);
-    border-color: var(--gold);
-  }
-
-  /* Instagram Follow Section */
-  .instagram-section {
-    margin-top: 64px;
-    text-align: center;
-    padding: 40px 30px;
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .instagram-section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #E1306C, #F77737, #FCAF45, transparent);
-  }
-
-  .instagram-section .ig-eyebrow {
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #E1306C;
-    margin-bottom: 14px;
-    font-weight: 500;
-  }
-
-  .instagram-section h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 4vw, 28px);
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-
-  .instagram-section p {
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 300;
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
-
-  .ig-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(135deg, #833AB4, #E1306C, #F77737, #FCAF45);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 14px 32px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s, transform 0.15s;
-    letter-spacing: 0.3px;
-  }
-
-  .ig-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-
-  .ig-btn svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-  }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(60px);
-    background: var(--gold);
-    color: var(--dark);
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0;
-    transition: all 0.3s;
-    z-index: 999;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  @media (max-width: 600px) {
-    table { font-size: 12px; }
-    th, td { padding: 10px 12px; }
-  }
-
-  /* â”€â”€ THEME SELECTOR â”€â”€ */
-  .theme-section {
-    margin-bottom: 20px;
-  }
-
+  .theme-section { margin-bottom: 30px; }
   .theme-section label {
     display: block;
     font-size: 11px;
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 12px;
-    font-weight: 500;
+    margin-bottom: 15px;
   }
 
   .theme-options {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 12px;
   }
 
   .theme-btn {
     background: var(--dark3);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--muted);
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+  }
+
+  .theme-btn img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    filter: grayscale(0.4);
+    transition: 0.3s;
+  }
+
+  .theme-btn .theme-label {
+    padding: 12px 8px;
+    font-size: 12px;
+    color: var(--muted);
     font-weight: 400;
-    letter-spacing: 0.2px;
-    overflow: hidden;
-    width: calc(20% - 10px);
-    min-width: 100px;
-  }
-
-  @media (max-width: 600px) {
-    .theme-btn { width: calc(50% - 6px); }
-  }
-
-  .theme-btn:hover {
-    border-color: rgba(201,168,76,0.6);
-    color: var(--text);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(201,168,76,0.1);
   }
 
   .theme-btn.selected {
     border-color: var(--gold);
-    background: rgba(201,168,76,0.08);
-    color: var(--gold-light);
-    font-weight: 500;
-    box-shadow: 0 0 0 2px rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.1);
+    transform: translateY(-4px);
   }
 
-  .theme-preview-img {
+  .theme-btn.selected img { filter: grayscale(0); }
+  .theme-btn.selected .theme-label { color: var(--gold-light); font-weight: 500; }
+
+  .btn {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-    border-radius: 10px 10px 0 0;
-    pointer-events: none;
-  }
-
-  .theme-label {
-    display: block;
-    padding: 8px 6px;
-    font-size: 11px;
-    text-align: center;
-    line-height: 1.3;
-    color: inherit;
-    width: 100%;
-  }
-
-  .theme-btn.selected .theme-label {
-    color: var(--gold-light);
-    background: rgba(201,168,76,0.08);
-  }
-
-  .btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .btn:disabled:hover {
-    opacity: 0.4;
-    transform: none;
-  }
-
-  .theme-hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 10px;
-    letter-spacing: 0.3px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .theme-hint.hidden { display: none; }
-  /* â”€â”€ RUN BUTTON & IMAGE PREVIEW â”€â”€ */
-  .run-btn {
-    margin-left: 8px;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border: 1px solid rgba(201,168,76,0.4);
-    border-radius: 8px;
-    color: var(--gold);
-    padding: 6px 14px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-  }
-
-  .run-btn:hover {
-    background: linear-gradient(135deg, var(--gold), #A07830);
-    color: var(--dark);
-    border-color: var(--gold);
-  }
-
-  .run-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .run-btn .run-icon { font-size: 11px; }
-
-  .image-preview-area {
-    margin-top: 16px;
-    display: none;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--dark3);
-    position: relative;
-  }
-
-  .image-preview-area.visible { display: block; }
-
-  .image-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    gap: 14px;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 300;
-    letter-spacing: 0.3px;
-  }
-
-  .image-loading-spinner {
-    width: 36px;
-    height: 36px;
-    border: 2px solid rgba(201,168,76,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .preview-img {
-    width: 100%;
-    display: block;
-    border-radius: 12px;
-  }
-
-  .preview-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    background: rgba(0,0,0,0.3);
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .preview-label {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-  }
-
-  .preview-label span {
-    color: var(--gold);
-    font-weight: 500;
-  }
-
-  .preview-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  .preview-action-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--muted);
-    padding: 4px 10px;
-    font-size: 11px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .preview-action-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  .preview-error {
-    padding: 20px;
-    text-align: center;
-    color: #ff6b6b;
-    font-size: 13px;
-    font-weight: 300;
-  }
-
-  .preview-note {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: rgba(201,168,76,0.05);
-    border-radius: 8px;
-    border-left: 2px solid rgba(201,168,76,0.3);
-    letter-spacing: 0.2px;
-    line-height: 1.6;
-    display: none;
-  }
-
-  .preview-note.visible { display: block; }
-
-  /* â”€â”€ LOGO LOCK SYSTEM REMOVED â”€â”€ */
-
-  /* Leonardo button CSS removed */
-
-  /* â”€â”€ RUN ALL QUEUE MODAL â”€â”€ */
-  .runall-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.88);
-    z-index: 2000;
-    display: none;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0 0 0 0;
-    backdrop-filter: blur(6px);
-  }
-  .runall-overlay.visible { display: flex; }
-
-  .runall-panel {
-    background: var(--dark2);
-    border: 1px solid var(--border);
-    border-radius: 24px 24px 0 0;
-    padding: 32px 28px 36px;
-    width: 100%;
-    max-width: 600px;
-    position: relative;
-    animation: slideUp 0.3s ease;
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-
-  .runall-panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    border-radius: 24px 24px 0 0;
-  }
-
-  .runall-progress {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 20px;
-  }
-
-  .runall-pip {
-    flex: 1;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(201,168,76,0.15);
-    transition: background 0.3s;
-  }
-
-  .runall-pip.done { background: var(--gold); }
-  .runall-pip.active { background: var(--gold-light); animation: pipPulse 1s ease infinite; }
-
-  @keyframes pipPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  .runall-step-label {
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .runall-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--gold-light);
-    margin-bottom: 6px;
-  }
-
-  .runall-instruction {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 20px;
-    font-weight: 300;
-  }
-
-  .runall-instruction strong { color: var(--text); font-weight: 500; }
-
-  .runall-prompt-preview {
-    background: var(--dark3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 12px;
-    color: #A0A0C0;
-    line-height: 1.6;
-    max-height: 80px;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 20px;
-    font-weight: 300;
-  }
-
-  .runall-prompt-preview::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 30px;
-    background: linear-gradient(transparent, var(--dark3));
-  }
-
-  .runall-actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  .runall-next-btn {
-    flex: 1;
     background: linear-gradient(135deg, var(--gold) 0%, #A07830 100%);
     color: #0A0A0F;
     border: none;
-    border-radius: 12px;
-    padding: 14px;
+    border-radius: 14px;
+    padding: 18px;
     font-family: 'Playfair Display', serif;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-    letter-spacing: 0.5px;
+    transition: 0.3s;
   }
 
-  .runall-next-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
-  .runall-skip-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--muted);
-    padding: 14px 20px;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .runall-skip-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-  .runall-close-btn {
-    position: absolute;
-    top: 16px; right: 16px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--muted);
-    width: 28px; height: 28px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .runall-close-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-  .runall-reminder {
+  #output { display: none; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
     text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    margin: 6px 24px 18px;
-    letter-spacing: 0.2px;
   }
 
-  .runall-done-state {
-    text-align: center;
-    padding: 10px 0;
-  }
-
-  .runall-done-icon {
-    font-size: 40px;
-    margin-bottom: 12px;
-  }
-
-  .runall-done-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--gold-light);
-    margin-bottom: 8px;
-  }
-
-  .runall-done-sub {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 300;
+  .prompt-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
     margin-bottom: 20px;
+    transition: 0.3s;
   }
+
+  .prompt-card:hover { border-color: var(--gold); }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .prompt-num {
+    width: 32px;
+    height: 32px;
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .prompt-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold-light);
+    flex: 1;
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+  }
+
+  .copy-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  .prompt-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #B0B0D0;
+    font-weight: 300;
+  }
+
+  .brand-output {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .brand-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .brand-label { color: var(--gold); }
+  .brand-value { color: #fff; font-weight: 500; }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gold);
+    color: var(--dark);
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TABLE STYLES */
+  .table-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .table-header { padding: 25px; border-bottom: 1px solid var(--border); }
+  .table-header h3 { font-family: 'Playfair Display', serif; color: var(--gold-light); }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 15px; text-align: left; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--border); }
+  td { padding: 15px; font-size: 13px; border-bottom: 1px solid rgba(201,168,76,0.05); color: var(--text); }
+
+  .run-all-btn {
+    display: block;
+    width: calc(100% - 50px);
+    margin: 30px auto;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  .run-all-btn:hover { background: var(--gold); color: var(--dark); }
+
 </style>
 </head>
 <body>
 
 <div class="container">
-
-    <div class="header">
-    <div class="eyebrow">AI Branding Suite &middot; 8 Premium Prompts</div>
-    <h1>Brand Prompt<br>Generator</h1>
-    <p>Enter your name & business - get 8 intelligent branding prompts, tailored to your identity</p>
+  <div class="header">
+    <div class="eyebrow">Aesthetic Identity Suite</div>
+    <h1>Pinterest-Style<br>Brand Generator</h1>
+    <p>Transform your business into a curated visual experience with art-directed prompts for high-end branding.</p>
   </div>
 
   <div class="input-card">
-    <h2>Your Brand Details</h2>
     <div class="fields">
       <div class="field">
         <label>Your Name</label>
-        <input type="text" id="nameInput" placeholder="e.g. Shiv, Ridham, Suhana, Rishika" />
+        <input type="text" id="nameInput" placeholder="e.g. Aria, Julian, Sofia" />
       </div>
       <div class="field">
-        <label>Business / Profession / Hobby</label>
-        <input type="text" id="bizInput" placeholder="e.g. Coffee Cafe, Cricket Coach, Makeup Artist" />
+        <label>Business / Niche</label>
+        <input type="text" id="bizInput" placeholder="e.g. Organic Skincare, Architectural Studio" />
       </div>
     </div>
+
     <div class="theme-section">
-      <label>Select Your Brand Theme</label>
+      <label>Select Brand Aesthetic</label>
       <div class="theme-options">
-        <button class="theme-btn" onclick="selectTheme('professional-classic')" id="theme-professional-classic">
-          <img src="data:image/jpeg;base64,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" alt="Professional Classic" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
-          Professional Classic
+        <button class="theme-btn" onclick="selectTheme('quiet-luxury')" id="theme-quiet-luxury">
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=200&q=80" alt="Quiet Luxury">
+          <div class="theme-label">Quiet Luxury</div>
         </button>
-        <button class="theme-btn" onclick="selectTheme('bold-energetic')" id="theme-bold-energetic">
-          <img src="data:image/jpeg;base64,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" alt="Dark Theme" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
-          Dark Theme
+        <button class="theme-btn" onclick="selectTheme('organic-modern')" id="theme-organic-modern">
+          <img src="https://images.unsplash.com/photo-1515377905703-c4788e51ed33?auto=format&fit=crop&w=200&q=80" alt="Organic Modern">
+          <div class="theme-label">Organic Modern</div>
         </button>
-        <button class="theme-btn" onclick="selectTheme('minimal-modern')" id="theme-minimal-modern">
-          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCABQAFADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC4n+sX/eH867iXVVjJTzXGOCBXDp/rF+o/nXWTmFogyz/vD1UrwK+fUmloe/KMW9SG71YNDJKZCUQbmz6AZrjfEunWi+EtOV9Msp5rgiSXzXaFyWy5O7gE81ravBd3EbQWzCTzwIyiqSeTg4PsM1yfja+vINRgtYpJUEcfCjgZPTjofyrswS5k3I48Z7riomFodlJpXiaGJBJHHLEXaNjuABbC4P519IQyQS6ZbRySYxEh+VsEfKK+b/DBkl1WeaXDMsgiUgBehyScD1Y16X4uXUdS02Ky05ADDbieWVrhYxtKldvPfjOe1b+15a7SMfZ3oJs9Cjms7QELMAP9tice1c7NYaqzu0dhMwYkg7M8V5F4Gvr3SdX+wXm6ZLlPLjkS4Eio2C3brwuPavpPzvLsBJwNsQOW6Z296J03iJcsna2qt5hCoqEeaK3018jzufSdYfH/ABLZ+D2jxWA33j9TXr1rcST2FvLMEErxqZBGcqGx8wB9M5ryJ/vt/vH+dcmIwyoWs73OvD4h1r3VrCKcMD6GtNrxD0nX/vqs2MZlQHpuH869amJju2SIQOqqSYxCDsGOM45JJ7elZ06Htetv+CaVa/sul/8AgHlV2/noAly8cisGSSOXayn1zWDd/wDCRNc+cNQivADgLdxIcgfTBr2eHVHcoXs4thzvKW8nQemV6/Wrp8u/sZfs6tbyMCitJBtZG9cGuuOAcftX+RyPHJv4bfM8A03TLyC7M00MSGSUyOIyAoJOeBmuzkv0ElwcLKklksQUkcsC3HIPrXpWqRRHSbwGKP8A1D/wD+6abZK6afaiOzjZBBHg7V5+Ue9XHDShUun+BE8TGcLNfifP+n2t8mr2JOmLBbxyb2cGMbfkYdgD3Ar2w61oU0UPnXkLOiKBywwcD0960r+4a10i8umsA8kMbOIkVcsAO3X3rwdfijd/8JF5N3bwR6er4It0MjshBwfXPQ44rWSqwlzqz0/Izi6Uo8rutfz+R7Ims6HAzPFdxBiOTuY/zrz1jliR3JNa4voru3ingYPFKodGA6g8ishvvH615tbEyraSWx6NHDxpap7ix/61P94fzr1ea70oXjwypEJSSrl4wAfXJNeUR/61P94fzr1W5u7aO4YPDIzBuoAwf1rrwCvzfI5cc7cvzJjp2nMqj7DbEDlf3S4/CsZ/GNjHqk1lIVHlttV93DfTtVzWNSW001iNyTTxssXH3W29/pms7w5Y6cuhra4iuSx3zCRQcsfUH2HWuqdSftFCPq/8jnp04Km6k1fov8yzc3aXFvfT/bXMTWzLHBtAVTtOST/ET+lWYY1a2tmN0UPkR/L5YOPkHeuL1uP+zp2OnxyRWbEoR5m5cd8KeQPxrq0uLXyYI5bUO3kIN27qQo4rNVUpPmLqUXyrkJtSso7vRr+yDzj7RAyEkFcHB9hj/CvIvFNvYi00/UYSttayoA1rCgRd49cAsSMEckdK9afUozbGNYioZWU5bO04P59K8w1Gxs7jSr2C8vYoELedCMFnz1OFHvn86J16fMkTGhPlbMzwhqiXWmzWqqU+zS/Ih7I3zDHsDuH4VsH7x+tcnpl1aWCrd2mn3ogcGEXcw2rOQQcL2wOTn8BmurPU/WvNrQtNySsmelQleCje7Q6M4lQnpuH869WdIXn80XOCWB4dcV5QgBdQehIFd7JoukptA06NsttJHRBgnccn6D8a3wlRwukr3MMXTUrNsuNNZa/p88UgxD5jIrFgDkdGHpXNxNLaXbW2dksPAdTw4P8AQ1f/ALK0wsf9DjyASFBwWPoCTgfjVOXT9PSfy/JhVdwBbqB6n3xV1MQ3FSa/EVKkotxT07HDeIde1abxjDYxW7RxKoD7lO0qTyQRx0Feqw6fbXEMVx9scb4FwquMK20fMPfiuUvILeOMBbfymIbMbOrFcEgHK8cgA/jVvT9HgvIS32UkABAyLnLkcZz29e9ZKrabi43+ZrOPPBSUrI2L61t7DT5LoXE0wt4mkMaspMjYPP6mvOtYhh0+VW1hjeqpDR2VuCYpB23f3vx49q7rQrDSfs17JqdpHmGYR/MrfKcHjj3FSmLSlmWP+x9PGWVT/pEnfHH3eT/9aumnD2iVSMUv69PI46k+RunKTf8AXqeTeKdRvtdsnUxlbAhPLiCEGFwfkcY9RlSOmQfauir0Gxs/D92wheytUuGJCojOcge5xz149q8/YYZgOgJFZYxSVrr+tDfBOLvZix/6xP8AeH867+W5K7gK4BP9Yv1H863NV1c6aJbidGa0SNnd0XJTHb3z0rjTa0R1yinuF/4v0jTIpHu75ERH2McMcMDgjgetZ6eK9K1OWNbS8SQs21VweTjOOQPSvNPFUd5cwXcr2N4sM9wZI0ZuVBO7BABGetYehap/Yup2893DdmGBzI6Dkj5SBwcZ5NdssJFw0bvbyOCOKansrX8z2m4uDJycZwRkd69CtNB0uTT7d3tQWaJGY72GSVHvXlUE0UlvHJAxaKQB1JJPDcivQ9c1htO0LTreKR45rpEjV0IDIAmSRnjOBWWCUPec1exvjOb3VB2uaF9PpvhDRrvUEt3WJdrOkRLM7E7VAyeuTWRoHjiTULue11rT5NHlC+bbi4fAkjyB1P8AECR+dYuteJtVfTby2ht7S9gihAmEpIlJPIIA4IwM+vNcteXtpNeaHPfwRyWshMTGQkBZMBlU4PHAwDXf7VKygtDj9g2m5vU9rSeO4jWSKRZEP3WVgw/A15A/32/3j/Ouq0S/t9G1K7sYkka3l23JIYeXCMbTjJJOSOnsea5R/vt9TXLjZqSi/U6cHBwckf/Z" alt="Minimal Modern" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
-          Minimal Modern
+        <button class="theme-btn" onclick="selectTheme('moody-editorial')" id="theme-moody-editorial">
+          <img src="https://images.unsplash.com/photo-1507679799987-c7377958750c?auto=format&fit=crop&w=200&q=80" alt="Moody Editorial">
+          <div class="theme-label">Moody Editorial</div>
         </button>
-        <button class="theme-btn" onclick="selectTheme('vintage-cozy')" id="theme-vintage-cozy">
-          <img src="data:image/jpeg;base64,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" alt="Vintage Cozy" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
-          Vintage Cozy
-        </button>
-        <button class="theme-btn" onclick="selectTheme('multicolor-vibrant')" id="theme-multicolor-vibrant">
-          <img src="data:image/jpeg;base64,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" alt="Multi-color Vibrant" style="width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;" />
-          Multi-color Vibrant
+        <button class="theme-btn" onclick="selectTheme('vibrant-curated')" id="theme-vibrant-curated">
+          <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=200&q=80" alt="Vibrant Curated">
+          <div class="theme-label">Vibrant Curated</div>
         </button>
       </div>
-      <div class="theme-hint" id="themeHint">Choose a theme above to personalise your brand prompts</div>
     </div>
-    <button class="btn" id="generateBtn" onclick="generate()">Generate 8 Brand Prompts</button>
-    <button class="btn" id="regenNameBtn" onclick="regenerateBrandName()" style="display:none;margin-top:12px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-size:14px;padding:12px 24px;">↺ Don't like the brand name? Generate a new one</button>
+
+    <button class="btn" onclick="generate()">Generate Aesthetic Suite</button>
   </div>
 
   <div id="output">
-    <div class="section-label">Your 8 Signature Brand Prompts</div>
+    <div class="section-label">Your Art-Directed Brand Suite</div>
     <div id="promptsContainer"></div>
 
     <div class="table-card">
       <div class="table-header">
-        <h3>Prompt Reference Table</h3>
-        <p>Aspect ratios & recommended models for best results</p>
+        <h3>Production Guide</h3>
+        <p>Recommended settings for professional AI output</p>
       </div>
-      <table id="specsTable">
+      <table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Prompt Type</th>
+            <th>Visual Asset</th>
             <th>Aspect Ratio</th>
-            <th>Recommended Model</th>
-            <th>Est. Credits</th>
+            <th>Model Suggestion</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
-      <button class="copy-all-btn" onclick="runAll()">⚡ Run All — Copy 7 Prompts & Open Gemini</button>
-      <div class="runall-reminder">💡 How to use: Click Run All → Gemini opens → Upload your logo image first → Then paste the copied prompt → Gemini generates all 7 images using your logo.</div>
     </div>
-  </div>
-
-  <!-- Instagram Follow Section -->
-  <div class="instagram-section">
-    <div class="ig-eyebrow">Follow for More Content</div>
-    <h3>Want More AI Branding Tips & Tools?</h3>
-    <p>Follow along for daily AI content, prompt guides, branding tutorials<br>and creative tools like this one - all for free.</p>
-    <a href="https://www.instagram.com/shivri005?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="ig-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      @shivri005 - Follow on Instagram
-    </a>
-  </div>
-
-</div>
-
-<!-- Run All Queue Modal -->
-<div class="runall-overlay" id="runallOverlay">
-  <div class="runall-panel">
-    <button class="runall-close-btn" onclick="closeRunAll()">X</button>
-
-    <!-- Progress pips -->
-    <div class="runall-progress" id="runallProgress"></div>
-
-    <!-- Active step content -->
-    <div id="runallContent">
-      <div class="runall-step-label" id="runallStepLabel">Step 1 of 7</div>
-      <div class="runall-title" id="runallStepTitle">Business Card Design</div>
-      <div class="runall-instruction" id="runallInstruction"></div>
-      <div class="runall-prompt-preview" id="runallPromptPreview"></div>
-      <div class="runall-actions">
-        <button class="runall-next-btn" id="runallNextBtn" onclick="runAllNext()">
-          Copy &amp; Open Gemini -&gt;
-        </button>
-        <button class="runall-skip-btn" onclick="runAllSkip()">Skip</button>
-      </div>
-    </div>
-
-    <!-- Done state -->
-    <div class="runall-done-state" id="runallDone" style="display:none;">
-      <div class="runall-done-icon">*</div>
-      <div class="runall-done-title">All 7 Prompts Sent!</div>
-      <div class="runall-done-sub">Each prompt was copied and opened in Gemini separately.<br>Upload your logo in each tab and generate.</div>
-      <button class="runall-next-btn" onclick="closeRunAll()" style="max-width:200px;margin:0 auto;">Done</button>
-    </div>
+    <button class="run-all-btn" onclick="runAll()">⚡ Copy All Prompts & Open Gemini</button>
   </div>
 </div>
 
-<div class="toast" id="toast">Copied!</div>
+<div class="toast" id="toast">Copied to clipboard!</div>
 
 <script>
-
-// â”€â”€â”€ THEME SELECTOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
 let selectedTheme = null;
 
 const themeDefinitions = {
-  'professional-classic': {
-    label: 'Professional Classic',
-    colorStyle: 'deep navy, slate, warm neutral, and crisp white with refined metallic accents',
-    accentStyle: 'soft gold and brushed silver with neutral support tones',
-    mood: 'authoritative, trustworthy, timeless, corporate premium',
-    logoModifier: 'classic serif typography, clean geometric forms, traditional corporate identity',
-    designStyle: 'clean grid layout, conservative typography hierarchy, formal and structured',
-    lightingStyle: 'soft natural window light, clean studio lighting, even and professional',
-    atmosphereModifier: 'polished, refined, establishment-quality, boardroom-worthy',
-    typographyStyle: 'classic serif headings with clean sans-serif body text',
-    finishStyle: 'matte, understated, premium stock feel'
+  'quiet-luxury': {
+    colors: 'Champagne, soft ivory, taupe, and muted gold accents',
+    mood: 'Understated, timeless, affluent, serene',
+    lighting: 'Soft diffused natural window light, ethereal glow, high-key',
+    finish: 'Matte linen textures, brushed gold, high-end paper stock',
+    logoStyle: 'Ultra-minimalist geometric monogram, thin refined lines, expansive negative space'
   },
-  'bold-energetic': {
-    label: 'Dark Theme',
-    colorStyle: 'deep charcoal and matte black with rich warm accents (burnt orange, copper, amber) and subtle off-white highlights',
-    accentStyle: 'controlled luminous accents and metallic glints, not neon-heavy',
-    mood: 'moody, premium, confident, high-end, cinematic',
-    logoModifier: 'minimal geometric symbol, refined negative space, hidden initial integration, luxury-grade precision',
-    designStyle: 'clean grids, bold contrast blocks, balanced spacing, premium editorial layouts',
-    lightingStyle: 'low-key lighting, soft gradients, subtle glow, crisp highlights',
-    atmosphereModifier: 'dramatic yet elegant, understated power, boutique premium vibe',
-    typographyStyle: 'modern sans-serif with sharp kerning or premium serif pairing, confident weight',
-    finishStyle: 'matte black with subtle metallic foil or embossed feel'
+  'organic-modern': {
+    colors: 'Sage green, warm terracotta, oatmeal, and charcoal',
+    mood: 'Earthly, honest, sustainable, breathable',
+    lighting: 'Dappled sunlight through leaves, warm golden hour, soft shadows',
+    finish: 'Raw recycled paper, textured ceramics, organic cotton',
+    logoStyle: 'Hand-crafted minimalist mark, organic fluid shapes, botanical geometric blend'
   },
-  'minimal-modern': {
-    label: 'Minimal Modern',
-    colorStyle: 'pure white, light grey, and soft black',
-    accentStyle: 'single-tone muted accent - dusty sage or warm stone',
-    mood: 'clean, refined, effortless, quietly confident',
-    logoModifier: 'geometric minimalism, negative space usage, single-line mark, ultra-clean letterform',
-    designStyle: 'generous whitespace, sparse layout, no unnecessary elements, every element intentional',
-    lightingStyle: 'diffused soft light, airy and open, clean shadows',
-    atmosphereModifier: 'serene, uncluttered, high-end minimal, Scandinavian-influenced',
-    typographyStyle: 'light-weight geometric sans-serif, wide tracking, minimal hierarchy',
-    finishStyle: 'matte white, clean paper texture, no gloss'
+  'moody-editorial': {
+    colors: 'Deep obsidian, midnight navy, emerald, and sharp silver',
+    mood: 'Cinematic, mysterious, authoritative, bold',
+    lighting: 'Low-key lighting, dramatic chiaroscuro, sharp highlights, studio noir',
+    finish: 'Polished marble, black velvet, high-gloss lacquer',
+    logoStyle: 'Strong architectural lettermark, bold weights, sharp angles, high contrast'
   },
-  'vintage-cozy': {
-    label: 'Vintage Cozy',
-    colorStyle: 'warm caramel, dusty terracotta, and aged cream',
-    accentStyle: 'forest green and burnt sienna',
-    mood: 'nostalgic, warm, handcrafted, soulful, timeless comfort',
-    logoModifier: 'hand-drawn badge, worn distressed texture, artisan stamp aesthetic, vintage woodblock print style',
-    designStyle: 'layered badge layouts, hand-crafted imperfections, textured backgrounds, warm paper grain',
-    lightingStyle: 'warm amber golden hour light, candle-like warmth, soft vignette edges',
-    atmosphereModifier: 'cozy, nostalgic, heritage-inspired, feels like a beloved old brand',
-    typographyStyle: 'slab serif or hand-lettered style, slightly imperfect, warm and characterful',
-    finishStyle: 'aged paper, worn textures, slight grain, weathered and loved'
-  },
-  'multicolor-vibrant': {
-    label: 'Multi-color Vibrant',
-    colorStyle: 'full spectrum rainbow palette - coral red, golden yellow, emerald green, electric blue, and violet',
-    accentStyle: 'bright complementary pops across the full color wheel',
-    mood: 'joyful, celebratory, inclusive, expressive, full of life and energy',
-    logoModifier: 'gradient multi-color fills, playful rounded forms, rainbow spectrum mark',
-    designStyle: 'colour-blocked sections, gradient transitions, maximalist joyful composition',
-    lightingStyle: 'bright, saturated, vibrant natural light, colourful reflections and shadows',
-    atmosphereModifier: 'festive, inclusive, diverse, exuberant - like a celebration brand',
-    typographyStyle: 'bold rounded sans-serif, friendly weight, playful but clear',
-    finishStyle: 'vivid gradient finish, glossy, saturated and joyful'
+  'vibrant-curated': {
+    colors: 'Electric cobalt, sunset orange, soft lilac, and crisp white',
+    mood: 'Playful, energetic, contemporary, expressive',
+    lighting: 'Vivid studio lighting, colorful reflections, high saturation',
+    finish: 'Acrylic glass, satin smooth finishes, vibrant holographic foil',
+    logoStyle: 'Bold rounded geometry, playful abstract symbol, contemporary pop-art influence'
   }
 };
 
-function selectTheme(themeKey) {
-  selectedTheme = themeKey;
-
-  // Mark selected button
-  document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('selected'); });
-  const activeBtn = document.getElementById('theme-' + themeKey);
-  if (activeBtn) activeBtn.classList.add('selected');
-
-  // Hide hint text
-  const hint = document.getElementById('themeHint');
-  if (hint) hint.style.display = 'none';
-
-  showToast('Theme selected: ' + themeDefinitions[themeKey].label);
+function selectTheme(key) {
+  selectedTheme = key;
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('theme-' + key).classList.add('selected');
+  showToast('Aesthetic selected: ' + key.replace('-', ' '));
 }
-
-function getThemeOverride() {
-  if (!selectedTheme) return null;
-  return themeDefinitions[selectedTheme];
-}
-
-// â”€â”€â”€ BUSINESS INTELLIGENCE ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function detectBusinessType(biz) {
-  const b = biz.toLowerCase();
-
-  // Food & Beverage
-  if (/coffee|cafe|chai|tea|bakery|pastry|dessert|cake|sweet|mithai|restaurant|dhaba|food|pizza|burger|biryani|tiffin|catering|juice|smoothie|bar|brewery/.test(b)) return 'food';
-
-  // Fashion & Beauty
-  if (/fashion|clothing|apparel|boutique|wear|outfit|dress|saree|kurta|makeup|beauty|salon|spa|nail|hair|skin|cosmetic|grooming|bridal|mehendi|parlour/.test(b)) return 'beauty';
-
-  // Gaming & Esports
-  if (/gaming|gamer|esports|e-sports|gameplay|game stream|streamer|twitch|youtube gaming|gaming channel/.test(b)) return 'gaming';
-
-  // Sports & Fitness
-  if (/cricket|football|soccer|basketball|tennis|badminton|gym|fitness|yoga|trainer|coach|sports|athlete|boxing|wrestling|kabaddi|swimming|cycling|running|marathon/.test(b)) return 'sports';
-
-  // Tech & Creative
-  if (/tech|software|app|developer|coding|programming|it|digital|web|ui|ux|design|graphic|video|edit|animation|motion|vfx|content|creator|youtube|podcast|media/.test(b)) return 'tech';
-
-  // Education & Coaching
-  if (/education|school|tutor|teach|coaching|academy|course|training|mentor|learning|study|class|institute|college/.test(b)) return 'education';
-
-  // Retail & Products
-  if (/store|shop|mart|mall|retail|book|stationery|toy|gift|hardware|pharmacy|medical|grocery|general|kirana|supermarket|electronics|mobile|gadget/.test(b)) return 'retail';
-
-  // Travel & Hospitality
-  if (/travel|tour|trip|holiday|vacation|hotel|resort|homestay|airbnb|adventure|trek|safari|travel agency/.test(b)) return 'travel';
-
-  // Professional Services
-  if (/lawyer|advocate|legal|ca|accountant|finance|tax|consultant|advisor|real estate|property|insurance|invest|bank|architect|interior|construction/.test(b)) return 'professional';
-
-  // Health & Wellness
-  if (/doctor|clinic|hospital|health|wellness|ayurveda|homeopathy|physio|therapy|mental|diet|nutrition|naturo/.test(b)) return 'health';
-
-  // Photography & Art
-  if (/photo|photograph|studio|art|paint|illustrat|sketch|portrait|wedding photo|event photo/.test(b)) return 'photography';
-
-  return 'general';
-}
-
-function getBrandColors(type) {
-  const palettes = {
-    food:         { primary: 'warm brown and forest green', accent: 'cream and burnt orange', mood: 'warm, appetizing, inviting' },
-    beauty:       { primary: 'rose gold and blush pink', accent: 'ivory and champagne', mood: 'elegant, glamorous, luxurious' },
-    sports:       { primary: 'electric blue and bold black', accent: 'neon yellow and white', mood: 'dynamic, powerful, energetic' },
-    gaming:       { primary: 'deep charcoal and electric cyan', accent: 'vivid magenta and bright white', mood: 'competitive, bold, high-energy' },
-    tech:         { primary: 'deep navy and electric indigo', accent: 'cyan and white', mood: 'modern, innovative, futuristic' },
-    education:    { primary: 'royal blue and deep teal', accent: 'gold and white', mood: 'trustworthy, intellectual, inspiring' },
-    retail:       { primary: 'vibrant coral and warm yellow', accent: 'white and charcoal', mood: 'friendly, energetic, welcoming' },
-    travel:       { primary: 'sky blue and earthy terracotta', accent: 'sandy beige and golden yellow', mood: 'adventurous, free, exciting' },
-    professional: { primary: 'deep navy and slate grey', accent: 'gold and off-white', mood: 'authoritative, trustworthy, premium' },
-    health:       { primary: 'fresh green and pure white', accent: 'light blue and mint', mood: 'clean, healing, calm, trustworthy' },
-    photography:  { primary: 'rich black and warm gold', accent: 'silver and ivory', mood: 'artistic, premium, cinematic' },
-    general:      { primary: 'deep charcoal and warm gold', accent: 'white and bronze', mood: 'professional, versatile, premium' }
-  };
-  return palettes[type] || palettes.general;
-}
-
-function getLogoStyle(type, biz) {
-  const styles = {
-    food:         ['artisan badge emblem with hand-crafted feel', 'circular seal with botanical elements', 'vintage-inspired wordmark with illustrated icon'],
-    beauty:       ['elegant monogram with floral accent', 'minimalist serif wordmark with delicate linework', 'luxurious emblem with decorative frame'],
-    sports:       ['bold dynamic lettermark with motion lines', 'athletic emblem with sharp geometric angles', 'strong shield badge with energetic typography'],
-    gaming:       ['aggressive esports-style lettermark', 'angular mascot emblem with sharp edges', 'tech-inspired shield logo with neon accents'],
-    tech:         ['clean geometric symbol mark', 'modern abstract letterform with digital precision', 'minimal wordmark with tech-inspired icon'],
-    education:    ['classic crest emblem with academic symbols', 'open book icon with clean wordmark', 'institutional badge with serif typography'],
-    retail:       ['friendly rounded wordmark with playful icon', 'bold shopping-inspired emblem', 'colorful badge mark with inviting typography'],
-    travel:       ['compass or map-pin inspired mark', 'adventure emblem with landscape silhouette', 'wanderlust-inspired wordmark with globe element'],
-    professional: ['clean corporate monogram with geometric precision', 'authority emblem with classic serif', 'minimal professional shield or crest'],
-    health:       ['organic leaf or cross symbol with clean sans-serif', 'wellness-inspired circular mark', 'fresh minimal health icon with modern typography'],
-    photography:  ['aperture-inspired circular mark', 'cinematic film-frame emblem', 'artistic monogram with lens element'],
-    general:      ['sophisticated geometric lettermark', 'premium minimal wordmark', 'elegant abstract symbol mark']
-  };
-  const arr = styles[type] || styles.general;
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getMerchandiseItems(type) {
-  const items = {
-    food:         'branded paper cups, kraft paper bags, food packaging boxes, cafe apron, loyalty card, napkin holder, takeaway containers with logo, menu card',
-    beauty:       'makeup pouch, mirror compact, branded cosmetic packaging, tissue box, product bottle, loyalty card, tote bag, branded apron for stylist',
-    sports:       'sports jersey, water bottle, gym bag, wristband, cap, protein shaker, stopwatch, training notebook',
-    gaming:       'gaming mouse pad, headset, controller skin, hoodie, desk mat, sticker pack, energy drink can, stream overlay card',
-    tech:         'laptop sleeve, mouse pad, USB drive, branded notebook, pen, tote bag, coffee mug, ID card lanyard',
-    education:    'notebook, pen set, folder, ID card, tote bag, mug, wall calendar, certificate frame',
-    retail:       'shopping bag, gift box, tissue paper, sticker seal, hang tag, product packaging, thank you card, branded wrapper',
-    travel:       'passport holder, luggage tag, travel pouch, branded cap, notebook, boarding pass sleeve, water bottle, tote bag',
-    professional: 'letterhead, business card stack, pen, notebook, document folder, ID card, mug, desk nameplate',
-    health:       'prescription pad, clinic folder, branded pen, appointment card, tote bag, water bottle, branded t-shirt',
-    photography:  'camera strap, lens bag, USB card, photo print folder, branded notebook, mug, tote bag, SD card case',
-    general:      'branded mug, notebook, pen, tote bag, keychain, ID card, water bottle, sticker pack'
-  };
-  return items[type] || items.general;
-}
-
-function getBillboardSetting(type) {
-  const settings = {
-    food:         { location: 'busy Indian highway roadside billboard near a dhaba junction in Rajasthan, warm dusty atmosphere, golden hour sky, dry trees in background, NH route signage visible nearby', type: '3D creative billboard with product bursting out' },
-    beauty:       { location: 'upscale mall facade in Mumbai or Delhi, glass building exterior, evening city lights, luxury retail environment, cars on road below', type: 'large LED screen on premium building' },
-    sports:       { location: 'stadium outer wall in India, floodlights visible, green field glimpse in background, evening atmosphere, Indian crowd barriers visible', type: 'bold wall-mounted hoarding' },
-    gaming:       { location: 'esports arena exterior or gaming event venue in an Indian metro, LED screens visible, night lighting, energetic crowd atmosphere', type: 'giant LED tournament billboard' },
-    tech:         { location: 'Delhi Metro station indoor corridor, clean tiles, escalators in background, metro branding elements, fluorescent lighting', type: 'indoor metro station billboard' },
-    education:    { location: 'Indian city main road, near a college area, morning light, trees lining the street, auto-rickshaws parked nearby', type: 'standard highway billboard' },
-    retail:       { location: 'busy Indian market street, colourful shop fronts in background, afternoon sun, typical Indian commercial area, two-wheeler parked below', type: 'shop-front hoarding above stores' },
-    travel:       { location: 'Indian airport terminal interior, marble floors, departure board visible in distance, clean modern terminal architecture', type: 'backlit airport corridor billboard' },
-    professional: { location: 'Connaught Place or BKC Mumbai style business district, glass corporate buildings, clean wide road, early morning light', type: 'premium corporate hoarding' },
-    health:       { location: 'Indian residential area main road, pharmacy and clinic shops visible in background, bright daylight, Indian street signage', type: 'standard roadside billboard' },
-    photography:  { location: 'creative arts district of an Indian metro, graffiti walls nearby, indie cafe visible, warm afternoon light, cobblestone street feel', type: 'wall-mounted artistic billboard' },
-    general:      { location: 'busy Indian city junction, typical urban environment, mix of shops and hoardings, warm daylight, Indian street elements', type: 'standard highway billboard' }
-  };
-  return settings[type] || settings.general;
-}
-
-function getWebpageSections(type, biz, name) {
-  const sections = {
-    food:         `Navigation bar with logo, "Menu", "About Us", "Order Online", "Contact". Hero section with stunning food photography of ${biz} dishes, bold headline and "Order Now" CTA button. Featured menu items grid with food photos and prices. "Our Story" section with warm narrative and cafe interior imagery. Location and hours section with map pin. Customer testimonials. Footer with social links and delivery app buttons.`,
-    beauty:       `Navigation with logo, "Services", "Portfolio", "Book Now", "About". Hero with glamorous visuals of beauty work, headline and "Book Appointment" CTA. Services grid with pricing. Before/after portfolio gallery. About ${name} section with credentials. Client testimonials with photos. Instagram feed integration section. Footer with booking link.`,
-    sports:       `Navigation with logo, "About", "Coaching", "Achievements", "Book Session". Hero with dynamic action shot, powerful headline and "Start Training" CTA. Stats section - years of experience, students trained, tournaments won. Coaching programs/packages with details and pricing. Achievements and trophies section. Student success stories. Schedule and batch timings. Contact and booking form.`,
-    gaming:       `Navigation with logo, "Streams", "Team", "Tournaments", "Merch", "Contact". Hero with bold esports visual, headline and "Watch Live" CTA. Upcoming matches and tournament schedule. Team roster with player cards. Highlights and clips grid. Sponsor/partner logos. Community section with Discord callout. Merch section. Contact and booking form.`,
-    tech:         `Navigation with logo, "Services", "Portfolio", "About", "Contact". Hero with modern abstract visual, bold headline and "Get a Quote" CTA. Services offered grid with icons. Portfolio/case studies section. Tech stack or tools section. Client logos trust bar. Team section. Process flow - how we work. Testimonials. Contact section.`,
-    education:    `Navigation with logo, "Courses", "About", "Results", "Enroll". Hero with inspiring visual, headline and "Start Learning" CTA. Courses offered grid with details. Results and achievements section with stats. Faculty/mentor profiles. Student testimonials and success stories. Batch schedule and fee structure. Enrollment form.`,
-    retail:       `Navigation with logo, "Shop", "Categories", "Offers", "Contact". Hero with product showcase and "Shop Now" CTA. Featured products grid with images and prices. Category navigation section. Special offers banner. About the store section. Customer reviews. Store location with map. Footer with social and contact.`,
-    travel:       `Navigation with logo, "Packages", "Destinations", "About", "Book Now". Hero with breathtaking travel photography and "Explore Now" CTA. Featured tour packages with pricing. Popular destinations grid. Why choose us section. Customer travel stories. Travel tips blog section. Contact and custom tour inquiry form.`,
-    professional: `Navigation with logo, "Services", "About", "Case Studies", "Contact". Hero with authoritative imagery and trust-building headline, "Get Consultation" CTA. Services offered with descriptions. About ${name} with credentials and experience. Stats section - clients served, years experience, success rate. Case studies/portfolio. Client testimonials. Contact form.`,
-    health:       `Navigation with logo, "Services", "Doctors", "Book Appointment", "Contact". Hero with clean health imagery and "Book Now" CTA. Services/treatments grid. Doctor/practitioner profile. Why choose us with trust signals. Patient testimonials. Health tips blog section. Appointment booking form. Location and timing.`,
-    photography:  `Navigation with logo, "Portfolio", "Services", "About", "Book". Hero with stunning portfolio image and "View Portfolio" CTA. Full-bleed portfolio gallery grid. Services and packages with pricing. About ${name} with photography style and experience. Client testimonials with wedding/event photos. Behind the scenes section. Booking inquiry form.`,
-    general:      `Navigation with logo, "About", "Services", "Portfolio", "Contact". Hero section with strong visuals and compelling headline, "Get Started" CTA. Services or products section. About section with story. Testimonials. Contact form. Footer.`
-  };
-  return sections[type] || sections.general;
-}
-
-function getAppContent(type, biz, name) {
-  const apps = {
-    food:         { style: 'lifestyle', content: `${biz} app showing menu categories, food item cards with prices, "Order Now" buttons, delivery tracking screen, loyalty points dashboard, user profile` },
-    beauty:       { style: 'lifestyle', content: `${biz} app showing appointment booking calendar, services menu, before/after gallery, stylist profiles, loyalty rewards, booking confirmation screen` },
-    sports:       { style: 'tech', content: `${biz} coaching app showing training schedule, session booking, performance stats dashboard, video lesson library, achievement badges, batch timings` },
-    gaming:       { style: 'tech', content: `${biz} gaming hub showing live streams, tournament brackets, player profiles, match highlights, team chat, achievements, shop and rewards` },
-    tech:         { style: 'tech', content: `${biz} app showing project dashboard, task management, analytics charts, client portal, notification center, dark mode UI` },
-    education:    { style: 'ecosystem', content: `${biz} learning app showing course catalog, video lessons, progress tracker, quiz results, certificates, live class schedule, leaderboard` },
-    retail:       { style: 'lifestyle', content: `${biz} shopping app showing product grid, categories, cart, wishlist, offers banner, order tracking, ratings and reviews` },
-    travel:       { style: 'ecosystem', content: `${biz} travel app showing destination discovery, package listings, booking flow, itinerary planner, travel documents, reviews and ratings` },
-    professional: { style: 'ecosystem', content: `${biz} professional app showing client dashboard, document management, appointment scheduler, invoice generator, consultation booking, analytics` },
-    health:       { style: 'lifestyle', content: `${biz} health app showing appointment booking, doctor profiles, medical records, prescription tracker, health tips feed, consultation history` },
-    photography:  { style: 'tech', content: `${biz} portfolio app showing photo gallery grid, album categories, booking calendar, package pricing, client proofing gallery, contact form` },
-    general:      { style: 'tech', content: `${biz} app showing main dashboard, services list, booking or order flow, user profile, notifications, settings` }
-  };
-  return apps[type] || apps.general;
-}
-
-function getAtmosphereScene(type, biz, name) {
-  const scenes = {
-    food:         [`A hyper-realistic cozy Indian cafe interior at golden hour - worn wooden tables, hanging Edison bulbs, chai cups steaming, brick walls, rain-speckled window with Mumbai street visible outside, warm amber light filling the frame`, `A bustling authentic Indian street food market scene - tandoor glowing, spice sacks, old Delhi lane architecture, marigold garlands, warm smoky atmosphere, sunset light through narrow lanes`],
-    beauty:       [`A luxurious Indian bridal preparation scene - marigold flowers, diyas glowing, rich silk fabric draped, gold jewellery laid out, rose petals, warm golden hour light streaming through carved wooden window`, `A premium Indian vanity setup - marble counter, ornate mirror, fresh flowers, kajal and bindi, warm candlelight, elegant and feminine atmosphere`],
-    sports:       [`A dramatic dawn at a legendary Indian cricket ground - dew on the pitch, empty stands, floodlights still glowing against a violet sky, morning mist on the outfield, Eden Gardens or Wankhede atmosphere`, `Marine Drive Mumbai at 5am - empty promenade, sea waves, orange horizon, a lone pair of running shoes on the railing, golden sunrise reflecting on wet ground`],
-    gaming:       [`A neon-lit esports arena interior - massive LED screens, dramatic stage lighting, gaming rigs glowing, dark ambient atmosphere, cinematic haze, high-energy competitive vibe`, `A premium gaming studio setup - RGB lighting, multiple monitors with game UI, sleek desk, headset and controller details, moody cinematic lighting, modern tech aesthetic`],
-    tech:         [`A sleek modern Indian co-working space interior - glass walls, city skyline of Bangalore or Hyderabad visible, neon accent lights, multiple screens glowing, minimalist desks, evening blue hour light`, `A dark atmospheric developer workspace - multiple monitors glowing with code, city lights through rain-streaked window, coffee cup, Indian tech hub ambiance`],
-    education:    [`A grand cozy novel bookstore interior at golden hour — tall dark wooden shelves lined with hundreds of books, warm Edison bulb lighting, leather armchairs, reading nooks, wooden ladder on rail, dust motes in light beams, smell of old paper implied, no people`, `A sun-drenched independent bookstore corner — arched window flooding warm afternoon light across stacked books, vintage globe, potted plants on shelves, hand-written shelf labels, cosy and intellectual atmosphere`],
-    retail:       [`A vibrant Indian bazaar street - colourful shop fronts, hanging lanterns, warm afternoon sun, old city architecture, fabric and goods displayed, rich textures and colors, Jaipur or Chandni Chowk vibe`, `A clean modern Indian mall interior - marble floors, brand stores, natural skylight from glass ceiling, contemporary retail architecture, Indian shoppers implied by environment`],
-    travel:       [`The Taj Mahal at golden hour - perfect symmetry, reflecting pool, dramatic sky with warm light, no people, mist on the horizon, India's most iconic landmark in cinematic glory`, `Rajasthan desert sand dunes at sunrise - golden sand waves, camel footprints, enormous sun rising on horizon, ancient fort silhouette in distance, pure Indian landscape`],
-    professional: [`Connaught Place New Delhi at blue hour - circular colonial architecture, clean wide road, India Gate visible in distance, professional urban landscape, no people, atmospheric evening light`, `Bandra Kurla Complex Mumbai skyline at dusk - glass corporate towers, city lights beginning to glow, Indian financial district power and authority`],
-    health:       [`Rishikesh Ganges river at sunrise - sacred ghats, marigold floating on water, temple bells implied by atmosphere, Himalayan foothills in morning mist, pure and healing Indian landscape`, `A serene Kerala backwater scene - green palm trees, still water reflections, traditional boat dock, golden morning light, lush tropical Indian nature`],
-    photography:  [`The ghats of Varanasi at dawn - ancient stone steps descending to holy Ganga, morning mist, soft golden light, old temple architecture, deeply atmospheric and cinematic`, `A heritage haveli courtyard in Rajasthan - ornate carved pillars, coloured glass windows casting rainbow light, old stone textures, artistic and architectural beauty`],
-    general:      [`A sleek premium brand studio interior at dusk — polished concrete floors, floor-to-ceiling windows with city lights beyond, a single lit product pedestal, deep shadow and warm spotlight, cinematic editorial atmosphere`, `A minimalist premium outdoor brand space — clean architectural geometry, lush greenery framing a modern branded facade, golden hour sidelight, no people`]
-  };
-  const arr = scenes[type] || scenes.general;
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getTagline(type, biz, name) {
-  const taglines = {
-    food:         [`Where Every Sip Tells a Story`, `Crafted with Love. Served with Soul.`, `Taste the Difference`],
-    beauty:       [`Redefining Beauty, One Look at a Time`, `Your Beauty. Our Art.`, `Glow Different`],
-    sports:       [`Train Hard. Win Harder.`, `Champions Are Made Here`, `Beyond Limits`],
-    gaming:       [`Play Bold. Win Loud.`, `Level Up Every Match`, `Built for the Clutch`],
-    tech:         [`Building Tomorrow, Today`, `Code. Create. Conquer.`, `Innovation Starts Here`],
-    education:    [`Shaping Minds. Building Futures.`, `Knowledge is Your Superpower`, `Learn Today. Lead Tomorrow.`],
-    retail:       [`Find Everything You Love`, `Shop Smart. Live Better.`, `Quality You Can Trust`],
-    travel:       [`Every Journey Begins Here`, `Explore India. Discover Yourself.`, `Your Adventure Awaits`],
-    professional: [`Trusted Expertise. Real Results.`, `Your Success is Our Mission`, `Excellence in Every Detail`],
-    health:       [`Your Health. Our Priority.`, `Wellness Starts Here`, `Heal Naturally. Live Fully.`],
-    photography:  [`Capturing Moments That Last Forever`, `Every Frame Tells Your Story`, `Life Through Our Lens`],
-    general:      [`Built Different. Built Better.`, `Your Vision. Our Craft.`, `Excellence Delivered`]
-  };
-  const arr = taglines[type] || taglines.general;
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getImageQualityTail() {
-  return ' Output: single image only, no collage, no grid. Ultra high-resolution 4K, razor sharp, clean edges, no blur, no noise. Ensure visuals align to the brand and business category. Avoid unrelated landmarks or extra text not specified. CRITICAL: Every word and text element in the image must be spelled correctly — verify spelling before generating. No typos, no garbled letters, no extra or missing characters in any visible text.';
-}
-
-function getLogoStyleDNA() {
-  return ' STYLE DNA (non-negotiable): Flat vector graphic, zero photographic elements, zero gradients unless subtle and purposeful. Clean geometric construction with deliberate negative space. Isolated on pure white background — no shadows, no glow, no texture. Typography: bold modern sans-serif or refined serif, tight kerning, professional weight contrast. Color palette: 2–3 sophisticated tones that reflect the profession vibe — no random or garish colors. Visual quality: Behance / Dribbble / Pinterest portfolio level. Award-winning logo design aesthetic. Print-ready, scalable, works at any size from favicon to billboard. Single logo mark — no variations, no mockups, no device frames. The result must look like it was designed by a senior brand identity designer at a top creative agency.';
-}
-
-function getPinterestBrandingDNA() {
-  return ' VISUAL QUALITY STANDARD (non-negotiable): Pinterest / Behance / Dribbble board level. Every design element must look like it was art-directed by a senior creative at a top branding agency. Clean, intentional composition. Sophisticated color grading — no random or garish tones. Typography must be bold, modern, and well-kerned. Ultra high-resolution, razor-sharp edges, no blur, no noise. No amateur stock photo feel — premium editorial quality only. Single image output, no collage, no grid.';
-}
-
-function getLogoUsageTail() {
-  return ' LOGO INSTRUCTION (strictly mandatory): I have uploaded the brand logo image in this chat. You MUST use that exact uploaded logo image as-is — place it visibly in this image. Do NOT recreate, redraw, or replace it with text. Do NOT generate a new logo. Do NOT use the brand name as a wordmark substitute. Composite the uploaded logo image directly into the scene, unmodified, at full recognisable size. If you cannot embed the uploaded image, show a clearly labelled white logo placeholder box in the correct position — but never invent a different logo. Spellings of all text in the image must be 100% accurate — double-check every word before generating.';
-}
-
-// â”€â”€â”€ BRAND NAME + PROMPT GENERATOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function normalizeWord(str) {
-  return (str || '').toLowerCase().replace(/[^a-z]/g, '');
-}
-
-function toTitleCase(word) {
-  if (!word) return '';
-  return word.charAt(0).toUpperCase() + word.slice(1);
-}
-
-function collapseRepeats(word) {
-  return word.replace(/(.)\1{2,}/g, '$1$1');
-}
-
-function pickBusinessRoot(biz) {
-  const stop = new Set([
-    'business', 'company', 'co', 'co.', 'agency', 'studio', 'services', 'service',
-    'solutions', 'solution', 'enterprise', 'enterprises', 'works', 'work', 'hub',
-    'shop', 'store', 'academy', 'school', 'institute', 'clinic', 'center', 'centre',
-    'group', 'brand', 'online', 'digital', 'marketing'
-  ]);
-  const words = (biz || '').toLowerCase().split(/\s+/).filter(Boolean);
-  const filtered = words.filter(w => !stop.has(w));
-  const pick = (filtered[0] || words[0] || '').replace(/[^a-z]/g, '');
-  return pick || 'brand';
-}
-
-function compactRoot(word) {
-  if (!word) return '';
-  if (word.length <= 4) return word;
-  return word.replace(/(ing|ers|er|es|s|ion|ity|ment|ous|ful|ly)$/i, '').slice(0, 6);
-}
-
-function getBizSuffix(bizLower, type) {
-  const map = [
-    { key: /travel|tour|trip|voyage|trek|journey/, val: 'tra' },
-    { key: /fashion|cloth|apparel|wear|boutique/, val: 'wear' },
-    { key: /photo|photography|studio|lens|camera/, val: 'pix' },
-    { key: /food|cafe|kitchen|restaurant|bistro|bakery/, val: 'bite' },
-    { key: /beauty|salon|spa|makeup|cosmetic/, val: 'glow' },
-    { key: /gaming|esports|game|stream/, val: 'play' },
-    { key: /tech|software|ai|app|digital/, val: 'nex' },
-    { key: /education|learn|academy|coach|tutor/, val: 'wise' },
-    { key: /health|clinic|med|wellness|care/, val: 'care' },
-    { key: /retail|shop|store|mart/, val: 'mart' },
-    { key: /finance|pay|bank|money|capital/, val: 'pay' }
-  ];
-  for (var i = 0; i < map.length; i++) {
-    if (map[i].key.test(bizLower)) return map[i].val;
-  }
-  const fallback = {
-    travel: 'tra',
-    beauty: 'glow',
-    food: 'bite',
-    gaming: 'play',
-    tech: 'nex',
-    education: 'wise',
-    health: 'care',
-    retail: 'mart',
-    photography: 'pix',
-    professional: 'pro',
-    general: 'craft'
-  };
-  return fallback[type] || 'co';
-}
-
-function scoreBrand(word) {
-  var score = 0;
-  if (word.length >= 5 && word.length <= 10) score += 3;
-  if (/[aeiou]/i.test(word)) score += 2;
-  if (!/(.)\1\1/.test(word)) score += 1;
-  if (!/[bcdfghjklmnpqrstvwxyz]{4,}/i.test(word)) score += 1;
-  return score;
-}
-
-function buildBrandCandidates(name, biz, type) {
-  const n = normalizeWord(name);
-  const b = normalizeWord(biz);
-  const bizLower = (biz || '').toLowerCase();
-  const bizRoot = compactRoot(pickBusinessRoot(biz));
-
-  const nRoot = n.length <= 4 ? n : n.slice(0, Math.max(3, Math.min(5, Math.round(n.length * 0.6))));
-  const nTail = n.slice(-3);
-  const suffix = getBizSuffix(bizLower, type);
-  const altSuffix = getBizSuffix(bizLower + 'x', type);
-
-  const candidates = [
-    nRoot + suffix,
-    nRoot + bizRoot,
-    nTail + bizRoot,
-    nRoot + b.slice(0, 3),
-    nRoot + b.slice(-3),
-    nTail + suffix,
-    nRoot + altSuffix,
-    nRoot + bizRoot.slice(0, 3)
-  ].map(c => collapseRepeats(c)).filter(Boolean);
-
-  return candidates;
-}
-
-function blendBrandName(name, biz, type) {
-  const candidates = buildBrandCandidates(name, biz, type);
-  var best = candidates[0] || '';
-  var bestScore = -1;
-  for (var i = 0; i < candidates.length; i++) {
-    var cand = candidates[i] || '';
-    var sc = scoreBrand(cand);
-    if (sc > bestScore) {
-      bestScore = sc;
-      best = cand;
-    }
-  }
-  return toTitleCase(best);
-}
-
-function buildHashtags(brandName, biz) {
-  const base = brandName.replace(/\s+/g, '');
-  const bizWord = pickBusinessRoot(biz);
-  const bizTag = bizWord ? ('#' + toTitleCase(bizWord)) : '';
-  const tags = [
-    '#' + base,
-    '#' + base + 'Studio',
-    '#' + base + 'Atelier',
-    '#' + base + 'Identity',
-    bizTag
-  ].filter(Boolean);
-  return tags;
-}
-
-function buildLogoPrompt(brandName, biz, type, colors, theme) {
-  const tc = theme ? theme.colorStyle : colors.primary;
-  const ta = theme ? theme.accentStyle : colors.accent;
-  const tm = theme ? theme.mood : colors.mood;
-  const tl = theme ? theme.logoModifier : getLogoStyle(type, biz);
-  const styleDNA = getLogoStyleDNA();
-  return `Design a professional brand logo for "${brandName}" — a ${biz} brand. Create a symbol-first mark that instantly communicates the ${biz} category through shape, metaphor, or abstraction. Style direction: ${tl}. Color palette: ${tc} with ${ta} accents — colors must feel intentional and match the ${biz} industry mood (${tm}). Include the brand name "${brandName}" in clean, well-kerned typography below or beside the mark. The logo must feel: ${tm}, premium, timeless.${styleDNA}`;
-}
-
-function buildLifestylePrompt(brandName, biz, type, colors, theme) {
-  const tc = theme ? theme.colorStyle : colors.primary;
-  const ta = theme ? theme.accentStyle : colors.accent;
-  const tm = theme ? theme.mood : colors.mood;
-  const tf = theme ? theme.finishStyle : 'cinematic and rich';
-  const scene = getAtmosphereScene(type, biz, brandName);
-  const qualityTail = getImageQualityTail();
-  return `You are an expert brand strategist and visual director. Create a high-end lifestyle branding image for "${brandName}" - a ${biz} brand. Scene: ${scene}. Integrate the brand subtly in the environment: a tasteful logo placement or signage with "${brandName}" visible but not overpowering. Color grading guided by ${tc} with ${ta} accents. Overall feel: ${tm}, premium, modern, aspirational. No people. Photorealistic, cinematic commercial-quality image.${qualityTail}`;
-}
-
-function buildCombinedPrompt(brandName, biz, type, colors, theme, hashtags, logoPrompt, lifestylePrompt) {
-  const tc = 'deep charcoal and matte black with burnt orange and soft white highlights';
-  const ta = 'burnt orange accents with soft white contrast';
-  const tm = 'moody, premium, refined, understated confidence';
-  const td = 'minimal, grid-aligned, editorial brand system with generous spacing';
-  const ty = 'refined modern sans-serif with tight kerning, subtle weight contrast';
-  const tf = 'matte, premium, no high-gloss or neon glow';
-  const variety = [
-    'symbol-first mark with negative space',
-    'hidden-initial monogram inside a semantic icon',
-    'geometric emblem with a concealed letterform',
-    'abstract icon with a subtle letter cut-out'
-  ][Math.floor(Math.random() * 4)];
-  return [
-    `Act as an expert visual brand strategist and creative director to autonomously generate a cohesive, premium, and dynamically variable visual branding suite for any user-provided ${brandName} and ${biz} context.`,
-    `For every generation request, synthesize a unique, modern, phonetically simple, yet evocative brand name inspired by the core themes of the business (e.g., reading, exploring, knowledge), and avoid repetition even with identical inputs.`,
-    `Brand name (single word): "${brandName}".`,
-
-    `Logo direction: Minimalist, sophisticated mark featuring negative-space symbols that link to both the owner name and business theme (e.g., a stylized letter hidden in an icon). Use ${variety}. Aggressively avoid overly bright, glowing, or 3D effects, and avoid literal buildings/castles.`,
-    `Lifestyle/branding image direction: Diverse, cinematic, professional imagery that captures the brand's premium essence. Keep concepts varied across runs.`,
-    `Primary palette is fixed: ${tc}. Use ${ta} for accents only. Avoid high-glow, neon, or overly saturated styles.`,
-    `Unify all outputs with a sleek, refined, professional aesthetic. Overall art direction: ${td}.`,
-    `Typography style: ${ty}. Mood: ${tm}. Finish: ${tf}.`
-  ].join(' ');
-}
-
-function getBrandPackage(name, biz, type, colors, theme) {
-  const brandName = generateUniqueBrandName(name, biz, type);
-  const hashtags = buildHashtags(brandName, biz);
-  const logoPrompt = buildLogoPrompt(brandName, biz, type, colors, theme);
-  const lifestylePrompt = buildLifestylePrompt(brandName, biz, type, colors, theme);
-  return {
-    brandName: brandName,
-    hashtags: hashtags,
-    logoPrompt: logoPrompt,
-    lifestylePrompt: lifestylePrompt,
-    combinedPrompt: buildCombinedPrompt(brandName, biz, type, colors, theme, hashtags, logoPrompt, lifestylePrompt)
-  };
-}
-
-let lastBrandName = '';
-function generateUniqueBrandName(name, biz, type) {
-  const candidates = buildBrandCandidates(name, biz, type);
-  const shuffled = candidates
-    .map(c => toTitleCase(c))
-    .sort(() => Math.random() - 0.5);
-  for (var i = 0; i < shuffled.length; i++) {
-    if (!lastBrandName || shuffled[i].toLowerCase() !== lastBrandName.toLowerCase()) {
-      lastBrandName = shuffled[i];
-      return shuffled[i];
-    }
-  }
-  const fallback = blendBrandName(name + 'x', biz + 'co', type) || blendBrandName(name + 'y', biz + 'studio', type);
-  const pick = fallback && fallback.toLowerCase() !== lastBrandName.toLowerCase() ? fallback : (toTitleCase(candidates[0] || 'Brand') + 'a');
-  lastBrandName = pick;
-  return pick;
-}
-
-// â”€â”€â”€ PROMPT TEMPLATES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-const promptTemplates = [
-  {
-    title: "Brand Logo & Identity Mark",
-    ratio: "1:1",
-    model: "Nano Banana 2",
-    credits: 333,
-    note: "Use this as your master logo. Upload the generated logo as Image Reference in all subsequent prompts (2-8) for brand consistency.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const logoStyle = getLogoStyle(type, b);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tm = theme ? theme.mood : colors.mood;
-      const tl = theme ? theme.logoModifier : logoStyle;
-      const tf = theme ? theme.finishStyle : 'vector-sharp precision';
-      const qualityTail = getImageQualityTail();
-      const variations = [
-        `Design a professional brand logo for "${bn}" — a ${b} business. Build a symbol-first mark that visually communicates the ${b} category before any letterform. Style direction: ${tl}. Color palette: ${tc} with ${ta} accents — palette must feel industry-appropriate and sophisticated, not random. Brand name "${bn}" in bold modern typography, well-kerned and balanced with the mark. Mood: ${tm}, premium, timeless.${getLogoStyleDNA()}`,
-        `Create a distinctive logo mark for "${bn}" — a ${b} brand. The symbol must represent the business through shape or metaphor, not just initials. Employ the ${tl} approach. Colors: ${tc} with ${ta} — chosen to match the ${b} industry vibe (${tm}). Set the brand name "${bn}" in clean, confident typography that pairs with the mark. The whole identity should feel: ${tm}, refined, portfolio-worthy.${getLogoStyleDNA()}`,
-        `Craft a premium logo identity for "${bn}" — a ${b} brand. Lead with a strong visual symbol that makes the business category immediately recognizable. Style: ${tl}. Color story: ${tc} with ${ta} highlights — intentional and profession-matched, evoking ${tm}. Brand name "${bn}" set in refined typography with strong visual weight. The mark and type should lock together as a cohesive, timeless identity.${getLogoStyleDNA()}`
-      ];
-      return variations[Math.floor(Math.random() * variations.length)];
-    }
-  },
-  {
-    title: "Business Card Design",
-    ratio: "2:3",
-    model: "GPT Image 1.5",
-    credits: 145,
-    note: "Attach your generated logo (Prompt 1) as Image Reference before running this prompt.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const isPersonalBrand = ['beauty', 'sports', 'gaming', 'photography', 'tech', 'education', 'health'].includes(type);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tf = theme ? theme.finishStyle : 'natural photography lighting, depth of field';
-      const tl = theme ? theme.lightingStyle : 'natural photography lighting, depth of field';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      const surfaces = {
-        food: 'rustic wooden cafe table with coffee ring stains and warm ambient light',
-        beauty: 'marble vanity surface with soft studio lighting and a dried rose petal nearby',
-        sports: 'synthetic turf surface with natural outdoor lighting',
-        tech: 'clean minimalist white desk with soft LED lighting',
-        education: 'wooden study desk with a few books visible in soft focus background',
-        retail: 'clean retail counter surface with warm commercial lighting',
-        travel: 'vintage map paper surface with warm adventure-inspired lighting',
-        professional: 'premium leather desk mat surface in a corporate office setting with soft window light',
-        health: 'clean white clinical surface with soft natural light',
-        photography: 'dark slate surface with dramatic side lighting',
-        general: 'clean wooden office desk surface with soft natural light'
-      };
-      const surface = surfaces[type] || surfaces.general;
-
-      if (isPersonalBrand) {
-        return `A hyper-realistic photograph of a premium luxury business card for "${bn}" — a ${b} brand, styled as a modern Instagram profile card. Front: circular profile area at top center, brand name "${bn}" in bold editorial typography, services listed as clean typographic highlights, a 3×3 grid of branded content thumbnails showing curated ${b} imagery, refined bio copy. Back: oversized QR code, social handle @${bn.replace(/\s+/g, '').toLowerCase()}, contact info. Color palette: ${tc} with ${ta} — sophisticated, not random. Finish: ${tf}. Both sides visible, slightly angled and overlapping. Surface: ${surface}. Lighting: ${tl}. No people.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-      } else {
-        return `A hyper-realistic product photograph of a premium business card for "${bn}" — ${b}. Front: brand name "${bn}" in bold modern type, owner name "${n}", phone and email. Back: QR code, tagline, social handle. Color scheme: ${tc} with ${ta}. Finish: ${tf}. Multiple cards — front and back visible, slight stack with clean shadow. Surface: ${surface}. Lighting: ${tl}. No people.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-      }
-    }
-  },
-  {
-    title: "Website Homepage Design",
-    ratio: "9:16",
-    model: "Seedream 4.5",
-    credits: 243,
-    note: "Attach your generated logo (Prompt 1) as Image Reference. This generates a full-page website mockup.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const isProduct = ['food', 'retail', 'travel'].includes(type);
-      const sections = getWebpageSections(type, b, bn);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tm = theme ? theme.mood : colors.mood;
-      const td = theme ? theme.designStyle : 'modern, professional, visually rich';
-      const ty = theme ? theme.typographyStyle : 'professional typography hierarchy';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      if (isProduct) {
-        return `A full-length product-business website homepage mockup for "${bn}" — a ${b} brand. Single vertical image showing the complete scrollable page top to bottom. Design language: ${td}. Color palette: ${tc} with ${ta} accents, ${tm} feel. Typography: ${ty} — bold hierarchy, clean and modern. Sections: ${sections}. Logo "${bn}" in the navigation bar. High-fidelity UI — real typography, styled buttons, clean image placeholders. No device frame — pure webpage design.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-      } else {
-        return `A full-length service website homepage for "${bn}" — ${b} brand. Complete vertical page from hero to footer. Color theme: ${tc} and ${ta}, conveying ${tm}. Design: ${td}. Typography: ${ty}. Sections: ${sections}. Logo "${bn}" in nav. Bold hero headline, clear service sections, conversion-focused layout. Modern UI components. No device frame — pure web design.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-      }
-    }
-  },
-  {
-    title: "Mobile App UI Showcase",
-    ratio: "4:5",
-    model: "Gen-4 Image",
-    credits: 248,
-    note: "Attach your generated logo (Prompt 1) as Image Reference for brand integration in the app UI.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const appData = getAppContent(type, b, bn);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tm = theme ? theme.atmosphereModifier : colors.mood;
-      const tl = theme ? theme.lightingStyle : 'warm natural light from large windows';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      const styleTemplates = {
-        lifestyle: `A stunning lifestyle app marketing visual for "${bn}" — a ${b} brand. An oversized iPhone 15 Pro mockup on an elevated wooden pedestal. Screen shows: ${appData.content}. App UI: ${tc} and ${ta}. Logo "${bn}" in app header. Environment: bright airy modern interior, indoor plants, ${tl}, clean architectural backdrop. Brand name "${bn}" and tagline above the phone. No people. Atmosphere: ${tm}.`,
-        tech: `A sleek app product showcase for "${bn}" — ${b} brand. Premium iPhone 15 Pro on a modern dark desk. Screen shows: ${appData.content}. Floating 3D UI elements. App design: ${tc} with ${ta}. Logo "${bn}" in app UI. Background: moody setup — laptop, ambient lamp, city lights at night. Atmosphere: ${tm}. Brand name "${bn}" at bottom. No people.`,
-        ecosystem: `A powerful multi-device ecosystem visual for "${bn}" — ${b}. iPhone and iPad both displaying the app. Screens: ${appData.content}. UI in ${tc} with ${ta}. Logo "${bn}" in app header. Floating UI cards. Dark gradient background. Atmosphere: ${tm}. Brand name "${bn}" prominently at top. No people.`
-      };
-      return (styleTemplates[appData.style] || styleTemplates.tech) + getLogoUsageTail() + getPinterestBrandingDNA();
-    }
-  },
-  {
-    title: "Billboard Advertisement",
-    ratio: "4:5",
-    model: "FLUX.2 [Pro]",
-    credits: 182,
-    note: "Attach your generated logo (Prompt 1) as Image Reference to maintain brand identity on the billboard.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const setting = getBillboardSetting(type, b);
-      const tagline = getTagline(type, b, bn);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tm = theme ? theme.atmosphereModifier : colors.mood;
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      return `A hyper-realistic DSLR photograph of a ${setting.type} for "${bn}" — ${b}. Location: ${setting.location}. Billboard face displays: brand name "${bn}" in bold, well-designed typography — dominant and readable from distance. Tagline: "${tagline}". Brand colors: ${tc} and ${ta}. Visual style: ${tm}. A compelling graphic relevant to ${b} integrated into the billboard design. Surrounding Indian environment fully realistic — authentic atmosphere, real road infrastructure, local signage and architecture visible. Natural outdoor lighting, eye-level perspective looking up. No people.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-    }
-  },
-  {
-    title: "Brand Merchandise & Stationery Kit",
-    ratio: "4:5",
-    model: "Seedream 5 Lite",
-    credits: 213,
-    note: "Attach your generated logo (Prompt 1) as Image Reference to place the logo correctly on all merchandise items.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const items = getMerchandiseItems(type, b);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const ta = theme ? theme.accentStyle : colors.accent;
-      const tm = theme ? theme.mood : colors.mood;
-      const tl = theme ? theme.lightingStyle : 'soft natural light with gentle shadows';
-      const tf = theme ? theme.finishStyle : 'ultra-realistic product photography';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      const surfaces = {
-        food: 'warm wooden cafe counter surface, scattered coffee beans and cinnamon sticks as props',
-        beauty: 'white marble surface with soft pink rose petals and golden light',
-        sports: 'gym floor with subtle sports equipment visible in soft focus background',
-        tech: 'clean white minimalist desk surface with subtle tech props',
-        education: 'wooden study desk with books and stationery props',
-        retail: 'clean white retail display surface with wooden accents',
-        travel: 'weathered world map as background surface, adventure props',
-        professional: 'premium dark leather desk surface in corporate office setting',
-        health: 'clean white clinical surface with green plant prop',
-        photography: 'dark slate surface with dramatic Rembrandt lighting',
-        general: 'clean wooden surface with soft natural window light'
-      };
-      const surface = surfaces[type] || surfaces.general;
-      return `A premium brand merchandise flatlay for "${bn}" — ${b} brand. Items: ${items}. Every item prominently displays the brand logo and name "${bn}". Colors: ${tc} with ${ta} accents. Surface: ${surface}. Lighting: ${tl} — soft, directional, editorial. Items arranged with intentional negative space. Mood: ${tm}. Top-down or slight angle view. No people. Looks like a luxury brand's launch campaign flatlay.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-    }
-  },
-  {
-    title: "Instagram Social Media Post",
-    ratio: "9:16",
-    model: "GPT Image 1.5",
-    credits: 145,
-    note: "Attach your generated logo (Prompt 1) as Image Reference for accurate logo placement in the post design.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const tm = theme ? theme.mood : colors.mood;
-      const td = theme ? theme.designStyle : 'warm, authentic, real';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      const postStyles = {
-        food: `A mouthwatering product showcase post — hero ${b} item center-framed and beautifully lit, "Order Now" CTA in bold type, brand colors ${tc}, logo "${bn}" at top`,
-        beauty: `A glamorous service highlight post — stunning visual, "Book Now" CTA, ${tc} palette, logo "${bn}", luxurious and editorial`,
-        sports: `A high-energy motivational post — bold power quote, dynamic graphic background, strong modern typography, ${tc} scheme, "Join Now" CTA, logo "${bn}"`,
-        gaming: `A competitive esports-style post — bold headline, dynamic gaming visuals, ${tc} palette, "Watch Live" CTA, logo "${bn}"`,
-        tech: `A clean modern service showcase post — feature highlights with icons, ${tc} palette, "Get Started" CTA, logo "${bn}", minimal and premium`,
-        education: `An inspiring knowledge-share post — key learning point, ${tc} colors, "Enroll Now" CTA, logo "${bn}", trustworthy and bold`,
-        retail: `A vibrant product offer post — featured product hero, sale callout, ${tc} colors, "Shop Now" CTA, logo "${bn}"`,
-        travel: `A wanderlust-inspiring destination post — breathtaking visual, ${tc} color grade overlay, "Book Now" CTA, logo "${bn}"`,
-        professional: `A credibility-building post — expertise quote in bold type, ${tc} colors, "Consult Now" CTA, logo "${bn}", authoritative`,
-        health: `A wellness-focused post — health tip, clean layout, ${tc} colors, "Book Now" CTA, logo "${bn}", fresh and trustworthy`,
-        photography: `A portfolio showcase post — dramatic sample image, ${tc} grade, "Book Your Session" CTA, logo "${bn}"`,
-        general: `A professional brand announcement post — service highlight, bold headline, ${tc} colors, CTA, logo "${bn}"`
-      };
-      const postContent = postStyles[type] || postStyles.general;
-      return `A hyper-realistic photograph of an iPhone 15 Pro displaying an Instagram post for "${bn}" — ${b}. Instagram UI visible: profile picture showing brand logo, username @${bn.replace(/\s+/g, '').toLowerCase()}. Post content: ${postContent}. Post design style: ${td}. Brand logo "${bn}" clearly visible in the post. Phone resting on a stylish lifestyle surface. Overall mood: ${tm}. No faces. Natural lifestyle photography.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-    }
-  },
-  {
-    title: "Brand Atmosphere Poster",
-    ratio: "4:5",
-    model: "FLUX.2 [Pro]",
-    credits: 182,
-    note: "Attach your generated logo (Prompt 1) as Image Reference for logo overlay on the atmosphere poster.",
-    prompt: (n, b, type, colors, firstLetter, theme, brandName) => {
-      const bn = brandName || n;
-      const scene = getAtmosphereScene(type, b, bn);
-      const tagline = getTagline(type, b, bn);
-      const tc = theme ? theme.colorStyle : colors.primary;
-      const tm = theme ? theme.mood : colors.mood;
-      const ta = theme ? theme.atmosphereModifier : colors.mood;
-      const ty = theme ? theme.typographyStyle : 'premium, well-designed typography';
-      const tf = theme ? theme.finishStyle : 'cinematic and rich';
-      const qualityTail = getImageQualityTail();
-      const logoTail = getLogoUsageTail();
-      return `A stunning cinematic brand atmosphere poster for "${bn}" — ${b}. Background: ${scene}. Scene and mood must align with the ${b} brand — no unrelated landmarks. Overlaid on this background: brand name "${bn}" in ${ty} — bold and prominent. Tagline: "${tagline}" in elegant secondary type. Color grading influenced by ${tc}. Logo mark tastefully placed in a corner. Overall grade: ${tm}, ${tf}. Atmosphere: ${ta}. No people. Typography and branding naturally integrated into the scene. Magazine-cover quality, cinematic aspect.${getLogoUsageTail()}${getPinterestBrandingDNA()}`;
-    }
-  }
-];
-
-// â”€â”€â”€ GENERATION ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-// Global store for generated prompt texts - avoids inline string escaping issues
-const generatedPrompts = {};
-
-function escapeHtml(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-// Session state for re-generation
-let _sessionName = '', _sessionBiz = '', _sessionType = null, _sessionColors = null, _sessionTheme = null;
 
 function generate() {
   const name = document.getElementById('nameInput').value.trim();
   const biz = document.getElementById('bizInput').value.trim();
 
   if (!name || !biz) {
-    alert('Please enter both your name and your business / profession.');
+    alert('Please enter your name and business.');
     return;
   }
 
-  const type = detectBusinessType(biz);
-  const colors = getBrandColors(type);
-  const firstLetter = name.charAt(0).toUpperCase();
-  const theme = getThemeOverride();
+  if (!selectedTheme) {
+    alert('Please select a brand aesthetic.');
+    return;
+  }
 
-  // Save session for re-generation
-  _sessionName = name; _sessionBiz = biz; _sessionType = type; _sessionColors = colors; _sessionTheme = theme;
-
-  _buildAndRenderPrompts(name, biz, type, colors, firstLetter, theme);
+  const theme = themeDefinitions[selectedTheme];
+  const brandName = blendName(name, biz);
+  
+  renderPrompts(name, biz, brandName, theme);
 }
 
-function regenerateBrandName() {
-  if (!_sessionName || !_sessionBiz) { showToast('Please generate first!'); return; }
-  const firstLetter = _sessionName.charAt(0).toUpperCase();
-  _buildAndRenderPrompts(_sessionName, _sessionBiz, _sessionType, _sessionColors, firstLetter, _sessionTheme);
-  showToast('New brand name generated!');
+function blendName(n, b) {
+  const rootN = n.substring(0, 3).toLowerCase();
+  const rootB = b.split(' ')[0].substring(0, 3).toLowerCase();
+  const options = [
+    rootN + rootB + 'ia',
+    rootN + 'ora',
+    rootB + 'ly',
+    n.substring(0, 4) + 'o',
+    b.split(' ')[0].substring(0, 5)
+  ];
+  const pick = options[Math.floor(Math.random() * options.length)];
+  return pick.charAt(0).toUpperCase() + pick.slice(1);
 }
 
-function _buildAndRenderPrompts(name, biz, type, colors, firstLetter, theme) {
-  const brandData = getBrandPackage(name, biz, type, colors, theme);
-  const brandName = brandData.brandName;
-
-  showToast('Brand name generated: ' + brandName);
-
+function renderPrompts(name, biz, bn, theme) {
   const container = document.getElementById('promptsContainer');
   const tableBody = document.getElementById('tableBody');
   container.innerHTML = '';
   tableBody.innerHTML = '';
 
-  // Clear previous stored prompts
-  Object.keys(generatedPrompts).forEach(k => delete generatedPrompts[k]);
+  const assets = [
+    {
+      title: "The Master Logo",
+      ratio: "1:1",
+      model: "Midjourney v6 / DALL-E 3",
+      prompt: `A high-end minimalist brand logo for "${bn}", a ${biz} brand. Art Direction: ${theme.logoStyle}. Color Palette: ${theme.colors}. The mark must be a flat vector, isolated on a pure white background. Zero gradients, zero 3D effects. Typography: refined, well-kerned, professional weight. Aesthetic: Pinterest-curated, Behance-level brand identity. Pure geometric precision.`
+    },
+    {
+      title: "Editorial Business Card",
+      ratio: "3:2",
+      model: "FLUX.1 / Midjourney",
+      prompt: `Luxury product photography of a business card for "${bn}". The card is made of ${theme.finish}. Layout: minimalist editorial, expansive negative space, centered typography. Colors: ${theme.colors}. Scene: resting on a ${theme.mood === 'Understated' ? 'white marble' : 'dark slate'} surface. Lighting: ${theme.lighting}. Shot on 35mm lens, f/2.8, soft depth of field. Ultra-high resolution, 8k, Pinterest aesthetic.`
+    },
+    {
+      title: "Brand Atmosphere Poster",
+      ratio: "4:5",
+      model: "FLUX.1 / Midjourney",
+      prompt: `A cinematic brand mood poster for "${bn}". Background: an abstract high-end interior reflecting ${biz} values. Atmosphere: ${theme.mood}. Color grade: ${theme.colors}. The image features a single, tastefully placed logo of "${bn}" in the corner. Lighting: ${theme.lighting}. Feel: Vogue magazine editorial, high-fashion branding, minimal yet powerful. No people. 8k resolution.`
+    },
+    {
+      title: "Product Packaging Mockup",
+      ratio: "4:5",
+      model: "Midjourney v6",
+      prompt: `A premium packaging mockup for ${biz} under the brand "${bn}". Materials: ${theme.finish}. Colors: ${theme.colors}. Scene: Studio setup with architectural shadows and organic shapes. Lighting: ${theme.lighting}. Art Direction: Minimalist, high-end boutique feel, curated for Dribbble. Sharp focus, razor-sharp edges, professional product photography.`
+    },
+    {
+      title: "Social Media Grid Visual",
+      ratio: "1:1",
+      model: "DALL-E 3 / FLUX",
+      prompt: `A curated Instagram lifestyle image for "${bn}". The image captures the essence of ${biz} through a "still life" composition. Palette: ${theme.colors}. Elements: a mix of organic textures and modern luxury items. Lighting: ${theme.lighting}. Overall mood: ${theme.mood}. High-end aesthetic, airy, sophisticated, Pinterest-worthy composition.`
+    }
+  ];
 
-  let totalCredits = 0;
-
-  promptTemplates.forEach((pt, i) => {
-    const promptText = (i === 0) ? brandData.logoPrompt : pt.prompt(name, biz, type, colors, firstLetter, theme, brandName);
-
-    // Store prompt text by index
-    generatedPrompts[i] = promptText;
-
-    // Prompt card
+  assets.forEach((asset, i) => {
     const card = document.createElement('div');
     card.className = 'prompt-card';
-    const runBtnHtml = `<button class="run-btn" id="runbtn-${i}" onclick="runPrompt(${i})" title="Copy prompt and open Gemini"><span class="run-icon">></span> Run</button>`;
-    const leonardoBtnHtml = ''; // Leonardo button removed
-    const brandExtras = i === 0 ? `
-      <div class="brand-output">
-        <div class="brand-output-row"><span class="brand-label">Generated Brand Name:</span> <span class="brand-value">${escapeHtml(brandName)}</span></div>
-        <div class="brand-output-row"><span class="brand-label">Hashtags:</span> <span class="brand-tags">${escapeHtml(brandData.hashtags.join(' '))}</span></div>
-      </div>
-    ` : '';
     card.innerHTML = `
       <div class="prompt-header">
         <div class="prompt-num">${i+1}</div>
-        <div class="prompt-title">${pt.title}</div>
-        <button class="copy-btn" id="copybtn-${i}" onclick="copyPrompt(${i})">Copy</button>
-        ${runBtnHtml}
-        ${leonardoBtnHtml}
+        <div class="prompt-title">${asset.title}</div>
+        <button class="copy-btn" onclick="copyText(this, \`${asset.prompt}\`)">Copy</button>
       </div>
-      <div class="prompt-text">${promptText}</div>
-      ${brandExtras}
-      ${pt.note ? `<div class="prompt-note">Note: ${pt.note}</div>` : ``}
-      <div class="preview-note" id="previewnote-${i}">Prompt copied — go to Gemini, upload your logo image first, then paste the prompt and generate.</div>
-      <div class="image-preview-area" id="preview-${i}"></div>
+      <div class="prompt-text">${asset.prompt}</div>
+      ${i === 0 ? `
+        <div class="brand-output">
+          <div class="brand-row"><span class="brand-label">Curated Brand Name:</span> <span class="brand-value">${bn}</span></div>
+          <div class="brand-row"><span class="brand-label">Aesthetic:</span> <span class="brand-value">${selectedTheme.replace('-', ' ')}</span></div>
+        </div>
+      ` : ''}
     `;
     container.appendChild(card);
 
-    // Table row
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong style="color:var(--gold)">${i+1}</strong></td>
-      <td>${pt.title}</td>
-      <td><span class="ratio-badge">${pt.ratio}</span></td>
-      <td><span class="model-badge">${pt.model}</span></td>
-      <td><span class="credits-badge">~${pt.credits}</span></td>
-    `;
+    tr.innerHTML = `<td>${i+1}</td><td>${asset.title}</td><td>${asset.ratio}</td><td>${asset.model}</td>`;
     tableBody.appendChild(tr);
-
-    totalCredits += pt.credits;
   });
 
-  // Total row
-  const totalTr = document.createElement('tr');
-  totalTr.className = 'total-row';
-  totalTr.innerHTML = `
-    <td colspan="4" style="text-align:right;font-weight:600;color:var(--gold-light)">Total Estimated Credits</td>
-    <td><span class="credits-badge" style="color:var(--gold-light);font-size:14px">~${totalCredits.toLocaleString()}</span></td>
-  `;
-  tableBody.appendChild(totalTr);
-
   document.getElementById('output').style.display = 'block';
-  document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  document.getElementById('regenNameBtn').style.display = 'block';
+  window.scrollTo({ top: document.getElementById('output').offsetTop - 50, behavior: 'smooth' });
 }
 
-function copyPrompt(index) {
-  var text = generatedPrompts[index];
-  if (!text) return;
-  function onSuccess() {
-    var btn = document.getElementById('copybtn-' + index);
-    if (btn) {
-      btn.textContent = 'Copied';
-      btn.classList.add('copied');
-      setTimeout(function() {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2500);
-    }
-    showToast('Prompt copied to clipboard!');
-  }
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(onSuccess).catch(function() { fallbackCopy(text, onSuccess); });
-  } else {
-    fallbackCopy(text, onSuccess);
-  }
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text);
+  btn.textContent = 'Copied!';
+  btn.style.color = 'var(--gold)';
+  setTimeout(() => {
+    btn.textContent = 'Copy';
+    btn.style.color = 'var(--muted)';
+  }, 2000);
+  showToast();
 }
 
-function fallbackCopy(text, callback) {
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.left = '-9999px';
-  ta.style.top = '-9999px';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try { document.execCommand('copy'); if (callback) callback(); }
-  catch(e) { showToast('Copy failed - please copy manually.'); }
-  document.body.removeChild(ta);
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
-
-// â”€â”€â”€ RUN ALL - QUEUE SYSTEM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-const runAllTitles = [
-  'Business Card Design',
-  'Website Homepage Design',
-  'Mobile App UI Showcase',
-  'Billboard Advertisement',
-  'Brand Merchandise & Stationery Kit',
-  'Instagram Social Media Post',
-  'Brand Atmosphere Poster'
-];
-
-let runAllQueue = [];
-let runAllCurrent = 0;
 
 function runAll() {
-  // Build list of prompts 2-8 (index 1-7)
-  var items = [];
-  for (var i = 1; i < promptTemplates.length; i++) {
-    var text = generatedPrompts[i] || '';
-    if (text) items.push({ index: i, title: runAllTitles[i - 1], text: text });
-  }
-  if (items.length === 0) {
-    showToast('Generate your prompts first!');
-    return;
-  }
-
-  var intro =
-    '🖼️ I am uploading my brand logo image in this message. Please use it in ALL 7 images below.\n\n' +
-    '═══════════════════════════════════════════\n' +
-    'TASK: Generate exactly 7 separate, individual images — one for each brief below.\n' +
-    '═══════════════════════════════════════════\n\n' +
-    '✅ LOGO RULES (non-negotiable for every image):\n' +
-    '• Use the uploaded logo image EXACTLY as-is in all 7 images.\n' +
-    '• Do NOT redraw, recolor, stylize, or replace the logo with text.\n' +
-    '• Logo must be clearly visible and recognisable in every single image.\n' +
-    '• Place the logo naturally in each scene (on signage, screen, card, mockup, etc.).\n\n' +
-    '✅ TEXT & SPELLING RULES (non-negotiable):\n' +
-    '• Every word visible in any of the 7 images must be spelled 100% correctly.\n' +
-    '• Double-check every text element — brand name, taglines, CTAs, UI labels — before generating.\n' +
-    '• No typos, no garbled letters, no extra or missing characters anywhere.\n\n' +
-    '✅ OUTPUT RULES:\n' +
-    '• Generate 7 completely separate images — one per brief, in order (Image 1 through Image 7).\n' +
-    '• DO NOT merge them into a collage or grid. Each image must be individual and full-resolution.\n' +
-    '• Resolution: 4K ultra-high-resolution, razor sharp, clean edges, no blur.\n' +
-    '• Do NOT skip any image. Do NOT combine two briefs into one image.\n\n' +
-    '═══════════════════════════════════════════\n' +
-    'THE 7 IMAGE BRIEFS:\n' +
-    '═══════════════════════════════════════════\n\n';
-
-  var combined = intro + items.map(function(item, idx) {
-    return (
-      '┌─────────────────────────────────────┐\n' +
-      '  IMAGE ' + (idx + 1) + ' of 7 — ' + item.title.toUpperCase() + '\n' +
-      '└─────────────────────────────────────┘\n' +
-      item.text + '\n'
-    );
-  }).join('\n---\n\n') +
-    '\n\n═══════════════════════════════════════════\n' +
-    'REMINDER: Use the uploaded logo in ALL 7 images. Correct spelling on all text. Generate each image separately.\n' +
-    '═══════════════════════════════════════════';
-
-  function afterCopy() {
-    window.open('https://gemini.google.com/', '_blank');
-    showToast('All 7 prompts copied! Upload your logo in Gemini, then paste.');
-  }
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(combined).then(afterCopy).catch(function() { fallbackCopy(combined, afterCopy); });
-  } else {
-    fallbackCopy(combined, afterCopy);
-  }
+  window.open('https://gemini.google.com/', '_blank');
+  showToast('Opening Gemini... Copy and paste your favorite prompts!');
 }
-
-function renderRunAllStep() {
-  var item = runAllQueue[runAllCurrent];
-  var total = runAllQueue.length;
-  var num = runAllCurrent + 1;
-
-  // Update pips
-  for (var j = 0; j < total; j++) {
-    var pip = document.getElementById('runall-pip-' + j);
-    if (!pip) continue;
-    pip.className = 'runall-pip';
-    if (j < runAllCurrent) pip.classList.add('done');
-    else if (j === runAllCurrent) pip.classList.add('active');
-  }
-
-  document.getElementById('runallStepLabel').textContent = `Image ${num} of ${total} - Upload the same logo each time`;
-  document.getElementById('runallStepTitle').textContent = item.title;
-  document.getElementById('runallInstruction').innerHTML =
-    `<strong>Step ${num}:</strong> Click the button below - the prompt for <strong>${item.title}</strong> will be copied to your clipboard and Gemini will open in a new tab.<br><br>` +
-    `In Gemini: <strong>upload the same brand logo image</strong> -> paste the prompt -> generate exactly one image. Repeat for all 7 prompts.`;
-  document.getElementById('runallPromptPreview').textContent = item.text;
-
-  var nextBtn = document.getElementById('runallNextBtn');
-  nextBtn.textContent = num < total
-    ? `Copy & Open Gemini -> (${num}/${total})`
-    : `Copy & Open Gemini -> Last one!`;
-}
-
-function runAllNext() {
-  var item = runAllQueue[runAllCurrent];
-
-  // Copy this prompt and open Gemini
-  var logoNote = `\n\n---\n🖼️ IMPORTANT: Upload your brand logo image in this Gemini chat BEFORE generating. The exact uploaded logo must appear visibly in the final image — do not redraw or replace it with text. ✅ Correct spelling on all visible text. Generate exactly ONE image for this brief: ${item.title}.`;
-  var textToCopy = item.text + logoNote;
-
-  function afterCopy() {
-    window.open('https://gemini.google.com/', '_blank');
-    showToast(`Prompt ${runAllCurrent + 1} copied! Paste in Gemini.`);
-
-    // Mark pip done
-    var pip = document.getElementById('runall-pip-' + runAllCurrent);
-    if (pip) pip.className = 'runall-pip done';
-
-    runAllCurrent++;
-
-    if (runAllCurrent >= runAllQueue.length) {
-      // All done
-      document.getElementById('runallContent').style.display = 'none';
-      document.getElementById('runallDone').style.display = '';
-    } else {
-      renderRunAllStep();
-    }
-  }
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(textToCopy).then(afterCopy).catch(function() { fallbackCopy(textToCopy, afterCopy); });
-  } else {
-    fallbackCopy(textToCopy, afterCopy);
-  }
-}
-
-function runAllSkip() {
-  var pip = document.getElementById('runall-pip-' + runAllCurrent);
-  if (pip) pip.className = 'runall-pip done';
-  runAllCurrent++;
-  if (runAllCurrent >= runAllQueue.length) {
-    document.getElementById('runallContent').style.display = 'none';
-    document.getElementById('runallDone').style.display = '';
-  } else {
-    renderRunAllStep();
-  }
-}
-
-function closeRunAll() {
-  document.getElementById('runallOverlay').classList.remove('visible');
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// â”€â”€â”€ RUN BUTTON - COPY PROMPT + OPEN GEMINI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-function runPrompt(index) {
-  const promptText = generatedPrompts[index];
-  if (!promptText) return;
-
-  // Only add logo header for prompts 2–8 (index 1–7), NOT for prompt 1 (index 0)
-  let fullPrompt;
-  if (index === 0) {
-    fullPrompt = promptText;
-  } else {
-    const logoHeader =
-      '🖼️ I am uploading my brand logo image in this message. You MUST use that exact uploaded logo in this image — do NOT redraw or replace it with text.\n' +
-      '✅ Spelling rule: every word in the image must be spelled 100% correctly.\n' +
-      '✅ Output: single 4K image only — no collage, no grid.\n\n' +
-      '---\n\n';
-    fullPrompt = logoHeader + promptText;
-  }
-
-  function openGemini() {
-    window.open('https://gemini.google.com/', '_blank');
-  }
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(fullPrompt).then(function() {
-      showToast('Prompt copied! Upload logo in Gemini first, then paste.');
-      openGemini();
-    }).catch(function() {
-      fallbackCopy(fullPrompt, function() {
-        showToast('Prompt copied! Upload logo in Gemini first, then paste.');
-        openGemini();
-      });
-    });
-  } else {
-    fallbackCopy(fullPrompt, function() {
-      showToast('Prompt copied! Upload logo in Gemini first, then paste.');
-      openGemini();
-    });
-  }
-}
-
 </script>
-
 </body>
 </html>
-
