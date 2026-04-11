@@ -2811,14 +2811,15 @@ function stopLoadingSteps() {
   });
 }
 
-// ── PROXY URL — filled in after Google Apps Script deploy ──
-const PROXY_URL = 'https://script.google.com/macros/s/AKfycbw1Id64OrtewogOt-ertQPWczQGflm7_2TOsxhw2r63uVvApen0gKdoWR3eTuMRKbhv/exec';
+const GEMINI_KEY = 'AIzaSyChakoCNl_HYCb_RmGHg0OHbUs3pB6ZHbI';
 
 async function analyzeBrand() {
   const urlInput = document.getElementById('pom-url').value.trim();
   if (!urlInput) { showToast('Please enter your website URL'); return; }
 
   const urlVal = urlInput.startsWith('http') ? urlInput : 'https://' + urlInput;
+  let domain = urlVal;
+  try { domain = new URL(urlVal).hostname.replace('www.', ''); } catch(e) {}
 
   document.getElementById('pom-analyze-btn').disabled = true;
   document.getElementById('pom-loading').classList.add('visible');
@@ -2826,41 +2827,132 @@ async function analyzeBrand() {
   document.getElementById('pom-output').classList.remove('visible');
   startLoadingSteps();
 
-  // Use JSONP to avoid CORS issues with Google Apps Script
-  const callbackName = 'pom_cb_' + Date.now();
-  const script = document.createElement('script');
-  
-  window[callbackName] = function(result) {
-    delete window[callbackName];
-    document.body.removeChild(script);
+  const prompt = `You are an expert brand strategist and creative director. Analyse this website domain: "${domain}" (full URL: ${urlVal}).
+
+Based on the domain name, infer the brand industry, identity and create a complete marketing package.
+
+IMPORTANT: Respond ONLY in valid JSON. No markdown. No backticks. No explanation. Start directly with { and end with }.
+
+{
+  "brand_name": "clean brand name from domain",
+  "industry": "specific industry e.g. Food and Beverage, Fashion, Tech",
+  "tagline": "punchy memorable tagline max 8 words",
+  "tone_of_voice": "e.g. Bold and Energetic or Warm and Authentic",
+  "target_audience": "specific audience with age lifestyle and interests in 2 sentences",
+  "brand_personality": ["Trait1", "Trait2", "Trait3"],
+  "primary_colors": [
+    {"name": "color name", "hex": "#XXXXXX"},
+    {"name": "color name", "hex": "#XXXXXX"},
+    {"name": "color name", "hex": "#XXXXXX"}
+  ],
+  "typography_style": "typography description",
+  "visual_style": "detailed visual aesthetic and photography style",
+  "campaigns": [
+    {
+      "platform": "Instagram",
+      "title": "campaign concept name",
+      "caption": "Full Instagram caption minimum 120 words. Include emojis, storytelling, strong hook, call to action, and 10 relevant hashtags. Make it genuinely engaging and on-brand."
+    },
+    {
+      "platform": "Facebook",
+      "title": "campaign concept name",
+      "caption": "Full Facebook caption minimum 120 words. Conversational, emojis, different angle from Instagram, call to action, hashtags."
+    },
+    {
+      "platform": "LinkedIn",
+      "title": "campaign concept name",
+      "caption": "Full LinkedIn caption minimum 120 words. Professional brand storytelling, industry insight, hashtags."
+    },
+    {
+      "platform": "Twitter/X",
+      "title": "campaign concept name",
+      "caption": "Punchy tweet under 260 chars with 2-3 hashtags."
+    }
+  ],
+  "image_prompts": [
+    {
+      "title": "Hero Product Shot",
+      "prompt": "Photorealistic 4K ultra-high-resolution commercial product hero image for a [industry] brand. Professional studio lighting with soft shadows. Brand colours prominently visible. Razor sharp detail. Premium aspirational mood. Commercial photography quality. No text in image."
+    },
+    {
+      "title": "Lifestyle Campaign",
+      "prompt": "Photorealistic lifestyle campaign photo showing young aspirational Indian people aged 22-35 enjoying this brand in a premium real-world setting. Warm golden-hour natural lighting. Candid authentic feel. High-end editorial style. Cinematic depth of field. No text in image."
+    },
+    {
+      "title": "Instagram Story Visual",
+      "prompt": "Vertical 9:16 photorealistic brand visual. Bold colour-blocked background using brand colours. Central product or service showcase. Modern clean premium composition. Space at top and bottom for text overlay. Ultra high resolution. No text in image."
+    }
+  ]
+}`;
+
+  try {
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.8, maxOutputTokens: 4000 }
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!data.candidates || !data.candidates[0]) {
+      throw new Error(JSON.stringify(data).substring(0, 200));
+    }
+
+    const raw = data.candidates[0].content.parts[0].text;
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    // Now generate images one by one
+    await generateImages(result);
+
     stopLoadingSteps();
     document.getElementById('pom-loading').classList.remove('visible');
-    if (result.error) {
-      document.getElementById('pom-analyze-btn').disabled = false;
-      showToast('Analysis failed: ' + result.error);
-      return;
-    }
     renderPomOutput(result);
-  };
 
-  script.onerror = function() {
-    delete window[callbackName];
-    document.body.removeChild(script);
+  } catch(err) {
     stopLoadingSteps();
     document.getElementById('pom-loading').classList.remove('visible');
     document.getElementById('pom-analyze-btn').disabled = false;
-    showToast('Analysis failed — please try again');
-  };
+    showToast('Analysis failed: ' + err.message);
+    console.error(err);
+  }
+}
 
-  script.src = PROXY_URL + '?url=' + encodeURIComponent(urlVal) + '&callback=' + callbackName;
-  document.body.appendChild(script);
+async function generateImages(brandData) {
+  const imgApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=' + GEMINI_KEY;
 
-  // Timeout after 60 seconds
-  setTimeout(function() {
-    if (window[callbackName]) {
-      window[callbackName]({ error: 'Request timed out — please try again' });
+  for (let i = 0; i < (brandData.image_prompts || []).length; i++) {
+    try {
+      const res = await fetch(imgApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: brandData.image_prompts[i].prompt }] }],
+          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+        })
+      });
+
+      const imgData = await res.json();
+
+      if (imgData.candidates && imgData.candidates[0]) {
+        const parts = imgData.candidates[0].content.parts;
+        for (let j = 0; j < parts.length; j++) {
+          if (parts[j].inlineData && parts[j].inlineData.mimeType.startsWith('image/')) {
+            brandData.image_prompts[i].image_url = 'data:' + parts[j].inlineData.mimeType + ';base64,' + parts[j].inlineData.data;
+            break;
+          }
+        }
+      }
+    } catch(e) {
+      console.log('Image ' + i + ' skipped:', e.message);
     }
-  }, 60000);
+  }
 }
 
 function renderPomOutput(d) {
