@@ -2826,21 +2826,41 @@ async function analyzeBrand() {
   document.getElementById('pom-output').classList.remove('visible');
   startLoadingSteps();
 
-  try {
-    const res = await fetch(PROXY_URL + '?url=' + encodeURIComponent(urlVal));
-    if (!res.ok) throw new Error('Server error: ' + res.status);
-    const result = await res.json();
-    if (result.error) throw new Error(result.error);
+  // Use JSONP to avoid CORS issues with Google Apps Script
+  const callbackName = 'pom_cb_' + Date.now();
+  const script = document.createElement('script');
+  
+  window[callbackName] = function(result) {
+    delete window[callbackName];
+    document.body.removeChild(script);
     stopLoadingSteps();
     document.getElementById('pom-loading').classList.remove('visible');
+    if (result.error) {
+      document.getElementById('pom-analyze-btn').disabled = false;
+      showToast('Analysis failed: ' + result.error);
+      return;
+    }
     renderPomOutput(result);
-  } catch(err) {
+  };
+
+  script.onerror = function() {
+    delete window[callbackName];
+    document.body.removeChild(script);
     stopLoadingSteps();
     document.getElementById('pom-loading').classList.remove('visible');
     document.getElementById('pom-analyze-btn').disabled = false;
     showToast('Analysis failed — please try again');
-    console.error(err);
-  }
+  };
+
+  script.src = PROXY_URL + '?url=' + encodeURIComponent(urlVal) + '&callback=' + callbackName;
+  document.body.appendChild(script);
+
+  // Timeout after 60 seconds
+  setTimeout(function() {
+    if (window[callbackName]) {
+      window[callbackName]({ error: 'Request timed out — please try again' });
+    }
+  }, 60000);
 }
 
 function renderPomOutput(d) {
