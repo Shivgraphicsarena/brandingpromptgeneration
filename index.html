@@ -520,6 +520,524 @@
     th, td { padding: 10px 12px; }
   }
 
+  /* ── TAB NAVIGATION ── */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 6px;
+    position: relative;
+  }
+
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab-btn:hover { color: var(--text); }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08));
+    color: var(--gold-light);
+    border: 1px solid rgba(201,168,76,0.35);
+    box-shadow: 0 2px 12px rgba(201,168,76,0.1);
+  }
+
+  .tab-badge {
+    background: linear-gradient(135deg, var(--gold), #A07830);
+    color: var(--dark);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── POMELLI PANEL STYLES ── */
+  .pomelli-input-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pomelli-input-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), #C850C0, transparent);
+  }
+
+  .pomelli-url-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .pomelli-url-row .field { flex: 1; margin: 0; }
+
+  .pomelli-analyze-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, #A07830 100%);
+    color: #0A0A0F;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .pomelli-analyze-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .pomelli-analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .pomelli-subtext {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+    margin-top: 10px;
+  }
+
+  /* Loading state */
+  .pomelli-loading {
+    display: none;
+    text-align: center;
+    padding: 48px 20px;
+  }
+
+  .pomelli-loading.visible { display: block; }
+
+  .pomelli-spinner {
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(201,168,76,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  .pomelli-loading-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .pomelli-loading-sub {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  .pomelli-loading-steps {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pomelli-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    transition: color 0.3s;
+  }
+
+  .pomelli-step.done { color: #50C878; }
+  .pomelli-step.active { color: var(--gold-light); }
+
+  .pomelli-step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .pomelli-step.done .pomelli-step-dot { background: #50C878; }
+  .pomelli-step.active .pomelli-step-dot {
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(201,168,76,0.6);
+    animation: pulse-dot 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+  }
+
+  /* Output area */
+  #pom-output { display: none; }
+  #pom-output.visible { display: block; }
+
+  /* DNA Card */
+  .dna-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .dna-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), #C850C0, transparent);
+  }
+
+  .dna-header {
+    padding: 24px 30px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .dna-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(200,80,192,0.15));
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .dna-header-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold-light);
+    margin-bottom: 2px;
+  }
+
+  .dna-header-text p {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .dna-body {
+    padding: 24px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 580px) { .dna-body { grid-template-columns: 1fr; } }
+
+  .dna-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dna-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .dna-value {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .dna-colors {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .dna-color-swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #C0C0D8;
+  }
+
+  .dna-color-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dna-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: var(--gold-light);
+    margin: 2px 2px 0 0;
+  }
+
+  /* Campaign Cards */
+  .campaigns-section { margin-top: 32px; }
+
+  .campaigns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 640px) { .campaigns-grid { grid-template-columns: 1fr; } }
+
+  .campaign-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+    overflow: hidden;
+  }
+
+  .campaign-card:hover {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-2px);
+  }
+
+  .campaign-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .campaign-card:hover::before { opacity: 1; }
+
+  .campaign-platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .campaign-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .campaign-caption {
+    font-size: 13px;
+    color: #C0C0D8;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 14px;
+    white-space: pre-wrap;
+  }
+
+  .campaign-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cam-copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    padding: 6px 14px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .cam-copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .cam-copy-btn.copied { border-color: #50C878; color: #50C878; }
+
+  .cam-run-btn {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.08));
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 8px;
+    color: var(--gold);
+    padding: 6px 14px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+  }
+
+  .cam-run-btn:hover {
+    background: linear-gradient(135deg, var(--gold), #A07830);
+    color: var(--dark);
+  }
+
+  /* Image prompt section */
+  .img-prompt-section {
+    margin-top: 32px;
+  }
+
+  .img-prompt-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .img-prompt-card:hover { border-color: rgba(201,168,76,0.5); }
+
+  .img-prompt-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #C850C0, transparent);
+  }
+
+  .img-prompt-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .img-prompt-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C850C0, #7B2FBE);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .img-prompt-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--gold-light);
+    flex: 1;
+  }
+
+  .img-prompt-text {
+    font-size: 13px;
+    color: #C0C0D8;
+    line-height: 1.75;
+    font-weight: 300;
+    background: rgba(0,0,0,0.2);
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    white-space: pre-wrap;
+    margin-bottom: 12px;
+  }
+
+  .pomelli-reset-btn {
+    margin-top: 32px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    padding: 11px 24px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pomelli-reset-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .pomelli-url-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  @media (max-width: 540px) {
+    .pomelli-url-row { flex-direction: column; }
+    .pomelli-analyze-btn { width: 100%; }
+    .tab-btn { font-size: 12px; padding: 12px 10px; }
+  }
+
   /* â”€â”€ THEME SELECTOR â”€â”€ */
   .theme-section {
     margin-bottom: 20px;
@@ -976,11 +1494,24 @@
 
 <div class="container">
 
-    <div class="header">
-    <div class="eyebrow">AI Branding Suite &middot; 8 Premium Prompts</div>
+  <div class="header">
+    <div class="eyebrow">AI Branding Suite &middot; by Shiv</div>
     <h1>Brand Prompt<br>Generator</h1>
-    <p>Enter your name & business - get 8 intelligent branding prompts, tailored to your identity</p>
+    <p>Your all-in-one AI branding toolkit — prompts, DNA analysis &amp; campaign ideas</p>
   </div>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('prompts')" id="tab-prompts-btn">
+      ✦ Prompt Generator
+    </button>
+    <button class="tab-btn" onclick="switchTab('pomelli')" id="tab-pomelli-btn">
+      ◈ Brand DNA &amp; Campaigns <span class="tab-badge">New</span>
+    </button>
+  </div>
+
+  <!-- TAB 1: Original Prompt Generator -->
+  <div class="tab-panel active" id="tab-prompts">
 
   <div class="input-card">
     <h2>Your Brand Details</h2>
@@ -1049,6 +1580,80 @@
       <div class="runall-reminder">💡 How to use: Click Run All → Gemini opens → Upload your logo image first → Then paste the copied prompt → Gemini generates all 7 images using your logo.</div>
     </div>
   </div>
+
+  </div><!-- end tab-prompts -->
+
+  <!-- TAB 2: Brand DNA & Campaigns (Pomelli-style) -->
+  <div class="tab-panel" id="tab-pomelli">
+
+    <div class="pomelli-input-card">
+      <h2 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold-light);margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:12px;color:var(--gold)">*</span> Analyse Your Brand
+      </h2>
+      <p style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:24px;">Enter your website URL — AI will extract your Brand DNA and generate campaigns, captions &amp; image prompts instantly.</p>
+
+      <div class="pomelli-url-row">
+        <div class="field" style="margin:0;flex:1;">
+          <label>Your Website URL</label>
+          <input type="url" id="pom-url" placeholder="e.g. https://yourstore.com" />
+        </div>
+        <button class="pomelli-analyze-btn" id="pom-analyze-btn" onclick="analyzeBrand()">Analyse Brand ✦</button>
+      </div>
+      <p class="pomelli-subtext">💡 Works best with live websites. If you don't have one, enter your Instagram handle URL or a competitor's site.</p>
+    </div>
+
+    <!-- Loading -->
+    <div class="pomelli-loading" id="pom-loading">
+      <div class="pomelli-spinner"></div>
+      <div class="pomelli-loading-title">Analysing your brand…</div>
+      <div class="pomelli-loading-sub">Building your Brand DNA profile</div>
+      <div class="pomelli-loading-steps">
+        <div class="pomelli-step" id="pstep-0"><div class="pomelli-step-dot"></div>Fetching website content</div>
+        <div class="pomelli-step" id="pstep-1"><div class="pomelli-step-dot"></div>Identifying brand identity &amp; tone</div>
+        <div class="pomelli-step" id="pstep-2"><div class="pomelli-step-dot"></div>Extracting colours, fonts &amp; style</div>
+        <div class="pomelli-step" id="pstep-3"><div class="pomelli-step-dot"></div>Generating campaign ideas &amp; captions</div>
+        <div class="pomelli-step" id="pstep-4"><div class="pomelli-step-dot"></div>Creating image prompts for your brand</div>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div id="pom-output">
+
+      <!-- Brand DNA Card -->
+      <div class="dna-card" id="pom-dna-card">
+        <div class="dna-header">
+          <div class="dna-icon">🧬</div>
+          <div class="dna-header-text">
+            <h3>Your Brand DNA</h3>
+            <p>AI-extracted identity profile from your website</p>
+          </div>
+        </div>
+        <div class="dna-body" id="pom-dna-body">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- Campaign Ideas -->
+      <div class="campaigns-section">
+        <div class="section-label">Campaign Ideas &amp; Ready-to-Copy Captions</div>
+        <div class="campaigns-grid" id="pom-campaigns-grid">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <!-- Image Prompts -->
+      <div class="img-prompt-section">
+        <div class="section-label">Ready-to-Post Image Prompts</div>
+        <p style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:16px;">Copy these prompts → paste in Gemini or ChatGPT with your product photo → get a stunning on-brand post image.</p>
+        <div id="pom-img-prompts">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <button class="pomelli-reset-btn" onclick="resetPomelli()">↺ Analyse a different brand</button>
+    </div>
+
+  </div><!-- end tab-pomelli -->
 
   <!-- Instagram Follow Section -->
   <div class="instagram-section">
@@ -2166,8 +2771,229 @@ function runPrompt(index) {
   }
 }
 
+// ─── TAB SWITCHING ───────────────────────────────────────────────────────────
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab + '-btn').classList.add('active');
+}
+
+// ─── POMELLI – BRAND DNA & CAMPAIGN GENERATOR ────────────────────────────────
+
+let pomLoading = false;
+let pomStepTimer = null;
+let pomCurrentStep = 0;
+
+function startLoadingSteps() {
+  pomCurrentStep = 0;
+  const steps = document.querySelectorAll('.pomelli-step');
+  steps.forEach(s => s.className = 'pomelli-step');
+  steps[0].classList.add('active');
+
+  pomStepTimer = setInterval(() => {
+    const allSteps = document.querySelectorAll('.pomelli-step');
+    if (pomCurrentStep < allSteps.length - 1) {
+      allSteps[pomCurrentStep].classList.remove('active');
+      allSteps[pomCurrentStep].classList.add('done');
+      pomCurrentStep++;
+      allSteps[pomCurrentStep].classList.add('active');
+    }
+  }, 3200);
+}
+
+function stopLoadingSteps() {
+  if (pomStepTimer) clearInterval(pomStepTimer);
+  document.querySelectorAll('.pomelli-step').forEach(s => {
+    s.classList.remove('active');
+    s.classList.add('done');
+  });
+}
+
+// ── PROXY URL — filled in after Google Apps Script deploy ──
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbw1Id64OrtewogOt-ertQPWczQGflm7_2TOsxhw2r63uVvApen0gKdoWR3eTuMRKbhv/exec';
+
+async function analyzeBrand() {
+  const urlInput = document.getElementById('pom-url').value.trim();
+  if (!urlInput) { showToast('Please enter your website URL'); return; }
+
+  const urlVal = urlInput.startsWith('http') ? urlInput : 'https://' + urlInput;
+
+  document.getElementById('pom-analyze-btn').disabled = true;
+  document.getElementById('pom-loading').classList.add('visible');
+  document.getElementById('pom-output').style.display = 'none';
+  document.getElementById('pom-output').classList.remove('visible');
+  startLoadingSteps();
+
+  try {
+    const res = await fetch(PROXY_URL + '?url=' + encodeURIComponent(urlVal));
+    if (!res.ok) throw new Error('Server error: ' + res.status);
+    const result = await res.json();
+    if (result.error) throw new Error(result.error);
+    stopLoadingSteps();
+    document.getElementById('pom-loading').classList.remove('visible');
+    renderPomOutput(result);
+  } catch(err) {
+    stopLoadingSteps();
+    document.getElementById('pom-loading').classList.remove('visible');
+    document.getElementById('pom-analyze-btn').disabled = false;
+    showToast('Analysis failed — please try again');
+    console.error(err);
+  }
+}
+
+function renderPomOutput(d) {
+  const dnaBody = document.getElementById('pom-dna-body');
+
+  const colorSwatches = (d.primary_colors || []).map(c =>
+    `<span class="dna-color-swatch"><span class="dna-color-dot" style="background:${c.hex}"></span>${c.name} ${c.hex}</span>`
+  ).join('');
+
+  const personalityTags = (d.brand_personality || []).map(t =>
+    `<span class="dna-tag">${t}</span>`
+  ).join('');
+
+  dnaBody.innerHTML = `
+    <div class="dna-row">
+      <div class="dna-label">Brand Name</div>
+      <div class="dna-value" style="font-family:'Playfair Display',serif;font-size:20px;color:var(--gold-light);">${d.brand_name || '—'}</div>
+    </div>
+    <div class="dna-row">
+      <div class="dna-label">Industry</div>
+      <div class="dna-value">${d.industry || '—'}</div>
+    </div>
+    <div class="dna-row" style="grid-column:1/-1;">
+      <div class="dna-label">Tagline</div>
+      <div class="dna-value" style="font-style:italic;color:var(--gold-light);">"${d.tagline || '—'}"</div>
+    </div>
+    <div class="dna-row">
+      <div class="dna-label">Tone of Voice</div>
+      <div class="dna-value">${d.tone_of_voice || '—'}</div>
+    </div>
+    <div class="dna-row">
+      <div class="dna-label">Target Audience</div>
+      <div class="dna-value">${d.target_audience || '—'}</div>
+    </div>
+    <div class="dna-row" style="grid-column:1/-1;">
+      <div class="dna-label">Brand Personality</div>
+      <div class="dna-value">${personalityTags}</div>
+    </div>
+    <div class="dna-row" style="grid-column:1/-1;">
+      <div class="dna-label">Colour Palette</div>
+      <div class="dna-colors">${colorSwatches}</div>
+    </div>
+    <div class="dna-row">
+      <div class="dna-label">Typography Style</div>
+      <div class="dna-value">${d.typography_style || '—'}</div>
+    </div>
+    <div class="dna-row">
+      <div class="dna-label">Visual Aesthetic</div>
+      <div class="dna-value">${d.visual_style || '—'}</div>
+    </div>
+  `;
+
+  // ── Campaigns ──
+  const platformIcons = { Instagram:'📸', Facebook:'📘', LinkedIn:'💼', 'Twitter/X':'🐦', TikTok:'🎵', YouTube:'▶️' };
+  const grid = document.getElementById('pom-campaigns-grid');
+  grid.innerHTML = '';
+  (d.campaigns || []).forEach((cam, i) => {
+    const icon = platformIcons[cam.platform] || '📢';
+    const card = document.createElement('div');
+    card.className = 'campaign-card';
+    card.innerHTML = `
+      <div class="campaign-platform">${icon} ${cam.platform}</div>
+      <div class="campaign-title">${cam.title}</div>
+      <div class="campaign-caption" id="pom-caption-${i}">${cam.caption}</div>
+      <div class="campaign-actions">
+        <button class="cam-copy-btn" id="pom-copy-${i}" onclick="copyCaption(${i})">📋 Copy Caption</button>
+        <button class="cam-run-btn" onclick="openPlatform('${cam.platform}')">Open ${cam.platform} ↗</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  // ── Image Prompts + generated images ──
+  const imgContainer = document.getElementById('pom-img-prompts');
+  imgContainer.innerHTML = '';
+  (d.image_prompts || []).forEach((ip, i) => {
+    const card = document.createElement('div');
+    card.className = 'img-prompt-card';
+    const hasImg = ip.image_url && ip.image_url.length > 100;
+    card.innerHTML = `
+      <div class="img-prompt-header">
+        <div class="img-prompt-num">${i + 1}</div>
+        <div class="img-prompt-title">${ip.title}</div>
+        <button class="cam-copy-btn" id="pom-img-copy-${i}" onclick="copyImgPrompt(${i})" style="margin-left:auto;">📋 Copy Prompt</button>
+        <button class="cam-run-btn" onclick="runImgPrompt(${i})">Open Gemini ↗</button>
+      </div>
+      ${hasImg ? `
+        <div style="margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+          <img src="${ip.image_url}" alt="${ip.title}" style="width:100%;display:block;" />
+          <div style="padding:8px 12px;background:rgba(0,0,0,0.3);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--muted);">✨ AI Generated — powered by Gemini</span>
+            <a href="${ip.image_url}" download="brand-image-${i+1}.png" style="font-size:11px;color:var(--gold);text-decoration:none;border:1px solid var(--border);border-radius:6px;padding:3px 10px;">⬇ Download</a>
+          </div>
+        </div>` : `<div style="padding:10px;background:rgba(201,168,76,0.06);border-radius:8px;border:1px solid rgba(201,168,76,0.15);font-size:12px;color:var(--muted);margin-bottom:12px;">Image generation not available — use the prompt below in Gemini</div>`}
+      <div class="img-prompt-text" id="pom-img-text-${i}">${ip.prompt}</div>
+    `;
+    imgContainer.appendChild(card);
+  });
+
+  document.getElementById('pom-output').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('pom-output').classList.add('visible');
+    document.getElementById('pom-output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+  document.getElementById('pom-analyze-btn').disabled = false;
+}
+
+function copyCaption(i) {
+  const el = document.getElementById('pom-caption-' + i);
+  const text = el ? el.textContent : '';
+  function onCopied() {
+    const btn = document.getElementById('pom-copy-' + i);
+    if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy Caption'; btn.classList.remove('copied'); }, 2500); }
+    showToast('Caption copied!');
+  }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, onCopied));
+  else fallbackCopy(text, onCopied);
+}
+
+function copyImgPrompt(i) {
+  const el = document.getElementById('pom-img-text-' + i);
+  const text = el ? el.textContent : '';
+  function onCopied() {
+    const btn = document.getElementById('pom-img-copy-' + i);
+    if (btn) { btn.textContent = '✓ Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copy Prompt'; btn.classList.remove('copied'); }, 2500); }
+    showToast('Image prompt copied!');
+  }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, onCopied));
+  else fallbackCopy(text, onCopied);
+}
+
+function runImgPrompt(i) {
+  const el = document.getElementById('pom-img-text-' + i);
+  const text = el ? el.textContent : '';
+  const note = '\n\n---\n🖼️ Upload your product/brand image. Use this prompt to generate a stunning branded visual. Correct spelling on all visible text.';
+  const full = text + note;
+  function openGemini() { window.open('https://gemini.google.com/', '_blank'); }
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(full).then(() => { showToast('Prompt copied! Paste in Gemini.'); openGemini(); }).catch(() => fallbackCopy(full, () => { showToast('Prompt copied!'); openGemini(); }));
+  else fallbackCopy(full, () => { showToast('Prompt copied!'); openGemini(); });
+}
+
+function openPlatform(platform) {
+  const urls = { 'Instagram':'https://www.instagram.com/', 'Facebook':'https://www.facebook.com/', 'LinkedIn':'https://www.linkedin.com/', 'Twitter/X':'https://x.com/', 'TikTok':'https://www.tiktok.com/', 'YouTube':'https://studio.youtube.com/' };
+  window.open(urls[platform] || 'https://www.instagram.com/', '_blank');
+}
+
+function resetPomelli() {
+  document.getElementById('pom-url').value = '';
+  document.getElementById('pom-output').style.display = 'none';
+  document.getElementById('pom-output').classList.remove('visible');
+  document.getElementById('pom-loading').classList.remove('visible');
+  document.getElementById('pom-analyze-btn').disabled = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 </script>
-
-</body>
-</html>
-
